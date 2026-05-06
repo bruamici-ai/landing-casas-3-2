@@ -1,0 +1,155 @@
+---
+const { house, reviews = [], wa } = Astro.props;
+
+const selectedReviews = reviews.slice(0, 4);
+---
+
+<section class="section reviews">
+  <div class="shell reviews-layout">
+
+    <div class="reviews-copy">
+      <span class="section-label">Lo que dicen los huéspedes</span>
+      <h2>Las mejores razones para elegirla ya las dijeron quienes se quedaron.</h2>
+
+      <div class="score-card">
+        <strong>4,88</strong>
+        <span>valoración promedio</span>
+        <p>Opiniones reales de huéspedes.</p>
+      </div>
+    </div>
+
+    <div class="reviews-grid">
+      {selectedReviews.map((review) => (
+        <article class="review-card">
+          <p>“{review.text ?? review.quote ?? review.content}”</p>
+          <strong>{review.name ?? review.author ?? 'Huésped'}</strong>
+        </article>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<section class="section final-cta">
+  <div class="shell final-card">
+    <span class="section-label">Consulta directa</span>
+    <h2>Si te imaginás acá, preguntame fechas y te ayudo a resolverlo.</h2>
+
+    <a class="button primary" href={wa}>
+      Consultar por WhatsApp
+    </a>
+  </div>
+</section>
+
+<style>
+.reviews {
+  padding: 72px 0;
+}
+
+.reviews-layout {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 36px;
+  align-items: start;
+}
+
+.section-label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: #9a3f58;
+  font-weight: 700;
+}
+
+.reviews-copy h2,
+.final-card h2 {
+  font-size: clamp(34px, 5vw, 58px);
+  line-height: .95;
+  margin: 0 0 24px;
+}
+
+.score-card {
+  background: #9a4650;
+  color: white;
+  border-radius: 24px;
+  padding: 28px;
+  max-width: 280px;
+}
+
+.score-card strong {
+  display: block;
+  font-size: 54px;
+  line-height: 1;
+}
+
+.score-card span {
+  display: block;
+  margin-top: 8px;
+  font-weight: 700;
+}
+
+.score-card p {
+  opacity: .85;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.review-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 18px 45px rgba(0,0,0,.07);
+}
+
+.review-card p {
+  color: #4f4641;
+  line-height: 1.5;
+}
+
+.review-card strong {
+  display: block;
+  margin-top: 14px;
+}
+
+.final-cta {
+  padding: 56px 0 96px;
+}
+
+.final-card {
+  background: #9a4650;
+  color: white;
+  border-radius: 28px;
+  padding: 42px;
+}
+
+.final-card .section-label {
+  color: #f3d7dc;
+}
+
+.button {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 13px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.button.primary {
+  background: white;
+  color: #9a4650;
+}
+
+@media (max-width: 850px) {
+  .reviews-layout,
+  .reviews-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

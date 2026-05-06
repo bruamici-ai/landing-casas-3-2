@@ -1,0 +1,123 @@
+---
+const { title = 'Experiencias Mendoza', description = 'Casas y servicios en Mendoza', image = '', url = '' } = Astro.props;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {image && <meta property="og:image" content={image} />}
+    {url && <meta property="og:url" content={url} />}
+    <meta property="og:type" content="website" />
+    <style is:global>
+      :root {
+        --bg: #f6f2eb;
+        --surface: #fffdf9;
+        --text: #211d1a;
+        --muted: #6f675f;
+        --line: rgba(33,29,26,.11);
+        --olive: #6d7552;
+        --olive-dark: #576041;
+        --sand: #d8c4ad;
+        --radius-xl: 28px;
+        --radius-lg: 22px;
+        --shadow: 0 18px 44px rgba(30,22,16,.08);
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; }
+      body {
+        font-family: Inter, system-ui, sans-serif;
+        background: linear-gradient(180deg, #fbf9f5 0%, var(--bg) 100%);
+        color: var(--text);
+      }
+      a { color: inherit; }
+      img { max-width: 100%; display: block; }
+      .container { width: min(1180px, calc(100% - 28px)); margin: 0 auto; }
+      .eyebrow {
+        display: inline-block;
+        margin: 0 0 12px;
+        color: var(--olive);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        font-size: 12px;
+      }
+      .section-head {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        align-items: end;
+        margin-bottom: 24px;
+      }
+      .section-head h2 {
+        margin: 0;
+        font-size: clamp(28px, 4vw, 44px);
+        line-height: 1.02;
+        letter-spacing: -0.04em;
+      }
+      .section-head p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        backdrop-filter: blur(12px);
+        background: rgba(248,244,237,.82);
+        border-bottom: 1px solid var(--line);
+      }
+      .topbar-inner {
+        min-height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+      }
+      .brand { text-decoration: none; }
+      .brand strong { display: block; font-size: 18px; letter-spacing: -0.02em; }
+      .brand span { display: block; font-size: 13px; color: var(--muted); }
+      .main-nav { display: flex; gap: 14px; flex-wrap: wrap; }
+      .main-nav a {
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        padding: 0 18px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 700;
+      }
+      .btn-primary { background: linear-gradient(135deg, var(--olive), var(--olive-dark)); color: white; }
+      .btn-secondary { background: rgba(255,255,255,.8); border: 1px solid var(--line); }
+      .hero-basic { padding: 72px 0 34px; }
+      .hero-basic h1 { margin: 0; font-size: clamp(40px, 7vw, 72px); line-height: .98; letter-spacing: -.05em; }
+      .hero-basic p { max-width: 70ch; color: var(--muted); line-height: 1.75; font-size: 17px; }
+      .card {
+        background: rgba(255,255,255,.74);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+      }
+      footer.site-footer { padding: 24px 0 48px; color: var(--muted); font-size: 14px; }
+      @media (max-width: 840px) {
+        .topbar-inner, .section-head { grid-template-columns: 1fr; display: grid; }
+        .main-nav { gap: 10px; }
+        .hero-basic { padding-top: 52px; }
+      }
+    </style>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

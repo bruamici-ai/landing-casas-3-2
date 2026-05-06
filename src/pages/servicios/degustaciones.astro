@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+---
+<BaseLayout
+  title="Degustaciones y experiencias en casa | Experiencias Mendoza"
+  description="Propuestas íntimas para sumar valor a la estadía dentro de la casa."
+>
+  <SiteHeader current="servicios" />
+  <main>
+    <section class="hero-basic">
+      <div class="container">
+        <p class="eyebrow">Servicio</p>
+        <h1>Degustaciones y experiencias en casa</h1>
+        <p>
+          Una capa más íntima, pensada para aprovechar la casa como escenario de la experiencia.
+        </p>
+      </div>
+    </section>
+
+    <section class="service-detail">
+      <div class="container card wrap">
+        <h2>Base de desarrollo</h2>
+        <p>
+          Esta página queda preparada para sumar después formatos, propuestas posibles,
+          alcance del servicio y presentación visual más premium.
+        </p>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
+
+<style>
+  .service-detail { padding: 0 0 56px; }
+  .wrap { padding: 28px; }
+  .wrap h2 { margin: 0 0 10px; }
+  .wrap p { margin: 0; color: var(--muted); line-height: 1.75; }
+</style>

@@ -1,0 +1,263 @@
+{
+  "slug": "la-casa-frente-al-parque",
+  "nombre": "La Casa Frente al Parque",
+  "subtitulo": "Características y servicios de la propiedad",
+  "direccion": "Av. Boulogne Sur Mer 1317, Mendoza",
+  "tipo_propiedad": "casa de dos plantas",
+  "descripcion_corta": "Casa amplia frente al Parque San Martín, preparada para grupos grandes, con piscina de temporada, jacuzzi, churrasquera, espacios de encuentro y capacidad flexible de armado de camas.",
+  "capacidad_publicada": {
+    "huespedes": 14,
+    "observacion": "Capacidad máxima operativa de la propiedad."
+  },
+  "notas_de_normalizacion": [
+    "Se eliminaron datos legales y operativos comunes.",
+    "Se mantuvieron únicamente características físicas, distribución y servicios propios de la propiedad.",
+    "Se corrigieron datos confusos de publicaciones previas según validación operativa."
+  ],
+  "servicios_por_categoria": [
+    {
+      "categoria": "Destacados de la casa",
+      "items": [
+        {
+          "nombre": "Piscina privada",
+          "detalle": "De 4 x 2 metros y 1 metro de profundidad, disponible de noviembre a fines de febrero."
+        },
+        {
+          "nombre": "Jacuzzi",
+          "detalle": "Independiente de la piscina, ubicado en el baño principal."
+        },
+        {
+          "nombre": "Ubicación frente al parque",
+          "detalle": "Frente al Parque San Martín, en una de las zonas más buscadas de Mendoza."
+        },
+        {
+          "nombre": "Churrasquera",
+          "detalle": "Disponible en el exterior de la casa."
+        },
+        {
+          "nombre": "Gran capacidad",
+          "detalle": "Vajilla preparada para recibir hasta 14 huéspedes."
+        }
+      ]
+    },
+    {
+      "categoria": "Distribución y capacidad",
+      "items": [
+        {
+          "nombre": "Capacidad total",
+          "detalle": "Hasta 14 huéspedes."
+        },
+        {
+          "nombre": "Habitaciones",
+          "detalle": "4 habitaciones en total."
+        },
+        {
+          "nombre": "Habitación principal",
+          "detalle": "Con vestidor, baño en suite y capacidad para 2 personas, con opción de cama doble o 2 camas simples."
+        },
+        {
+          "nombre": "Habitaciones 2 y 3",
+          "detalle": "Cada una con capacidad para 3 personas, con opción de 3 camas simples o 1 cama doble y 1 simple."
+        },
+        {
+          "nombre": "Habitación 4",
+          "detalle": "Más sencilla, con cajonera y capacidad para 3 personas en camas simples mediante cucheta con carro."
+        },
+        {
+          "nombre": "Sofá cama en living",
+          "detalle": "3 sofá cama completan las 14 plazas."
+        }
+      ]
+    },
+    {
+      "categoria": "Dormitorios y descanso",
+      "items": [
+        {
+          "nombre": "Piso de parquet",
+          "detalle": "Presente en 3 habitaciones."
+        },
+        {
+          "nombre": "Roperos empotrados",
+          "detalle": "Disponibles en 3 habitaciones."
+        },
+        {
+          "nombre": "Vestidor",
+          "detalle": "Disponible en la habitación principal."
+        },
+        {
+          "nombre": "Aire acondicionado",
+          "detalle": "Disponible en dormitorios 1, 2 y 3."
+        },
+        {
+          "nombre": "Ventilador",
+          "detalle": "Disponible en la habitación 4."
+        },
+        {
+          "nombre": "Ropa de cama",
+          "detalle": "Incluida para la estadía."
+        }
+      ]
+    },
+    {
+      "categoria": "Baños",
+      "items": [
+        {
+          "nombre": "Cantidad de baños",
+          "detalle": "3 baños en total."
+        },
+        {
+          "nombre": "Baños con ducha",
+          "detalle": "2 baños tienen ducha."
+        },
+        {
+          "nombre": "Baño en suite",
+          "detalle": "La habitación principal cuenta con baño completo en suite."
+        },
+        {
+          "nombre": "Bañera",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Bidé",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Toallas y básicos",
+          "detalle": "Incluye toallas, jabón y papel higiénico."
+        }
+      ]
+    },
+    {
+      "categoria": "Cocina y comedor",
+      "items": [
+        {
+          "nombre": "Cocina completa",
+          "detalle": "Preparada para estadías de grupos grandes."
+        },
+        {
+          "nombre": "Horno a gas",
+          "detalle": "Disponible en la cocina."
+        },
+        {
+          "nombre": "Heladera con freezer",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Microondas",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Lavavajillas",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Lavarropas",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Cafetera",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Pava eléctrica",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Tostadora",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Vajilla completa",
+          "detalle": "Disponible para la capacidad total de la casa."
+        },
+        {
+          "nombre": "Mesa principal",
+          "detalle": "Mesa interior principal para 14 personas."
+        },
+        {
+          "nombre": "Mesa de diario",
+          "detalle": "Mesa interior secundaria para 8 personas."
+        }
+      ]
+    },
+    {
+      "categoria": "Climatización y confort",
+      "items": [
+        {
+          "nombre": "Estufa a gas",
+          "detalle": "Disponible para calefaccionar la casa."
+        },
+        {
+          "nombre": "Aire frío/calor",
+          "detalle": "Disponible en parte de la propiedad."
+        },
+        {
+          "nombre": "Jacuzzi",
+          "detalle": "Suma confort y uso recreativo independiente de la piscina."
+        }
+      ]
+    },
+    {
+      "categoria": "Exterior y experiencia",
+      "items": [
+        {
+          "nombre": "Patio",
+          "detalle": "Con espacio exterior de uso exclusivo."
+        },
+        {
+          "nombre": "Mesa exterior",
+          "detalle": "Mesa con 10 sillas plásticas."
+        },
+        {
+          "nombre": "Churrasquera",
+          "detalle": "Disponible para asados."
+        },
+        {
+          "nombre": "Metegol",
+          "detalle": "Disponible como parte de la experiencia de la casa."
+        },
+        {
+          "nombre": "Espacio de encuentro exterior",
+          "detalle": "Pensado para compartir comidas y tiempo al aire libre."
+        }
+      ]
+    },
+    {
+      "categoria": "Entretenimiento y conectividad",
+      "items": [
+        {
+          "nombre": "TV",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Sistema de sonido",
+          "detalle": "Home theater disponible."
+        },
+        {
+          "nombre": "Wifi",
+          "detalle": "Disponible en la propiedad."
+        }
+      ]
+    },
+    {
+      "categoria": "Acceso y estacionamiento",
+      "items": [
+        {
+          "nombre": "Estacionamiento exclusivo",
+          "detalle": "Retiro frontal exclusivo de la casa con espacio para 3 autos."
+        },
+        {
+          "nombre": "Estacionamiento no techado",
+          "detalle": "El espacio no es cochera cubierta."
+        },
+        {
+          "nombre": "Cámara de seguridad",
+          "detalle": "Vigilancia exterior 24/7 en el sector de estacionamiento."
+        }
+      ]
+    }
+  ],
+  "fuentes": {
+    "servicios": "servicios.txt"
+  }
+}

@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+---
+<BaseLayout
+  title="Compras previas | Experiencias Mendoza"
+  description="Organización de compras básicas y pedidos puntuales antes de la llegada."
+>
+  <SiteHeader current="servicios" />
+  <main>
+    <section class="hero-basic">
+      <div class="container">
+        <p class="eyebrow">Servicio</p>
+        <h1>Compras previas</h1>
+        <p>
+          Una capa de apoyo para llegar con lo importante ya resuelto: básicos, bebidas o pedidos puntuales.
+        </p>
+      </div>
+    </section>
+
+    <section class="service-detail">
+      <div class="container card wrap">
+        <h2>Base de desarrollo</h2>
+        <p>
+          Más adelante esta página puede incluir ejemplos de compras, tiempos de pedido,
+          límites del servicio y forma de coordinación.
+        </p>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
+
+<style>
+  .service-detail { padding: 0 0 56px; }
+  .wrap { padding: 28px; }
+  .wrap h2 { margin: 0 0 10px; }
+  .wrap p { margin: 0; color: var(--muted); line-height: 1.75; }
+</style>

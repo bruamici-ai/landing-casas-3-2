@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { commonRules, commonPenalties } from '../data/site';
+---
+<BaseLayout title="Normas y penalidades | Experiencias Mendoza" description="Reglamento unificado para las propiedades del sistema.">
+  <SiteHeader />
+  <main>
+    <section class="hero-basic">
+      <div class="container">
+        <p class="eyebrow">Archivo común</p>
+        <h1>Normas y penalidades unificadas.</h1>
+        <p>Archivo único para usar como referencia transversal entre casas, operación y futuras integraciones.</p>
+      </div>
+    </section>
+    <section class="rules-wrap">
+      <div class="container layout">
+        <article class="card panel">
+          <h2>Normas generales</h2>
+          <ul>{commonRules.map((rule) => <li>{rule}</li>)}</ul>
+        </article>
+        <article class="card panel">
+          <h2>Penalidades</h2>
+          <div class="penalties">
+            {commonPenalties.map((item) => (
+              <div class="row"><strong>{item.reason}</strong><span>{item.amount}</span></div>
+            ))}
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
+<style>
+  .rules-wrap { padding: 0 0 56px; }
+  .layout { display:grid; grid-template-columns: 1fr 1fr; gap:22px; }
+  .panel { padding:24px; }
+  .panel h2 { margin:0 0 14px; font-size:32px; }
+  ul { margin:0; padding-left:18px; color:var(--muted); line-height:1.8; }
+  .penalties { display:grid; gap:12px; }
+  .row { display:flex; justify-content:space-between; gap:12px; padding:14px 16px; border:1px solid var(--line); border-radius:16px; background:#fff; }
+  .row span { color:var(--olive-dark); font-weight:700; }
+  @media (max-width: 900px) { .layout { grid-template-columns:1fr; } }
+</style>

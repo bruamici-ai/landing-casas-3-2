@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { site } from '../data/site';
+const wa = site.whatsappUrl('Hola Bruno, quiero consultar por una estadía en Experiencias Mendoza');
+---
+<BaseLayout title="Contacto | Experiencias Mendoza" description="Formulario base de contacto para comenzar a pulir la experiencia de consulta.">
+  <SiteHeader current="contacto" />
+  <main>
+    <section class="hero-basic">
+      <div class="container">
+        <p class="eyebrow">Contacto</p>
+        <h1>Una forma simple de empezar la conversación.</h1>
+        <p>
+          Esta página deja montada la estructura del formulario que veníamos trabajando. Hoy funciona como base premium para pulir luego mensajes, validaciones y estilo final.
+        </p>
+      </div>
+    </section>
+    <section class="form-wrap">
+      <div class="container layout">
+        <form class="card form">
+          <div class="grid">
+            <label><span>Nombre</span><input type="text" placeholder="Tu nombre" /></label>
+            <label><span>Email</span><input type="email" placeholder="tu@email.com" /></label>
+            <label><span>Casa de interés</span><select><option>La Casa Frente al Parque</option><option>Casa Avellaneda</option><option>No estoy seguro todavía</option></select></label>
+            <label><span>Fechas tentativas</span><input type="text" placeholder="Ej: 10 al 14 de mayo" /></label>
+            <label><span>Cantidad de huéspedes</span><input type="number" min="1" placeholder="Ej: 8" /></label>
+            <label><span>Tipo de viaje</span><input type="text" placeholder="Familia, amigos, trabajo, etc." /></label>
+          </div>
+          <label class="full"><span>Mensaje</span><textarea rows="6" placeholder="Contanos qué estás buscando para la estadía"></textarea></label>
+          <div class="actions">
+            <button type="button" class="btn btn-primary">Enviar consulta</button>
+            <a href={wa} class="btn btn-secondary">Ir directo a WhatsApp</a>
+          </div>
+        </form>
+        <aside class="card side">
+          <h2>Qué vamos a pulir después</h2>
+          <ul>
+            <li>Validaciones reales</li>
+            <li>Mensajes de éxito / error</li>
+            <li>Integración con mail o backend</li>
+            <li>Versión final del microcopy</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
+<style>
+  .form-wrap { padding: 0 0 56px; }
+  .layout { display:grid; grid-template-columns: 1.2fr .8fr; gap:22px; }
+  .form, .side { padding:24px; }
+  .grid { display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
+  label { display:grid; gap:8px; font-weight:700; }
+  label span { font-size:14px; }
+  input, select, textarea { width:100%; border:1px solid var(--line); border-radius:16px; padding:14px 16px; font:inherit; background:#fff; }
+  .full { margin-top:16px; }
+  .actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:18px; }
+  .side h2 { margin:0 0 10px; font-size:28px; }
+  .side ul { margin:0; padding-left:18px; color:var(--muted); line-height:1.8; }
+  @media (max-width: 900px) { .layout, .grid { grid-template-columns:1fr; } }
+</style>

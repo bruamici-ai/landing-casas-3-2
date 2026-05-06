@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import HouseLanding from '../components/HouseLanding.astro';
+import { avellanedaHouse } from '../data/avellaneda/house';
+import { avellanedaReviews } from '../data/avellaneda/reviews';
+---
+<BaseLayout title="Casa Avellaneda | Experiencias Mendoza" description={avellanedaHouse.summary} image={avellanedaHouse.heroImage}>
+  <SiteHeader current="avellaneda" />
+  <HouseLanding house={avellanedaHouse} reviews={avellanedaReviews} internalBase="avellaneda" />
+  <SiteFooter />
+</BaseLayout>

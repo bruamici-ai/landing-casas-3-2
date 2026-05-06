@@ -1,0 +1,11 @@
+---
+const { base } = Astro.props;
+---
+<nav class="internal-nav card">
+  <a href={`/${base}/ficha`}>Ficha</a>
+  <a href={`/${base}/resenas`}>Reseñas</a>
+</nav>
+<style>
+  .internal-nav { padding: 14px; display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px; }
+  .internal-nav a { text-decoration:none; padding:10px 14px; border-radius:999px; background:#fff; border:1px solid var(--line); }
+</style>

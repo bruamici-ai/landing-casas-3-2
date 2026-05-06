@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+---
+<BaseLayout
+  title="Detalles regionales | Experiencias Mendoza"
+  description="Pequeños complementos con identidad local para sumar valor a la llegada o estadía."
+>
+  <SiteHeader current="servicios" />
+  <main>
+    <section class="hero-basic">
+      <div class="container">
+        <p class="eyebrow">Servicio</p>
+        <h1>Detalles regionales</h1>
+        <p>
+          Productos y gestos simples con identidad local para completar una llegada o acompañar una estadía especial.
+        </p>
+      </div>
+    </section>
+
+    <section class="service-detail">
+      <div class="container card wrap">
+        <h2>Base de desarrollo</h2>
+        <p>
+          Esta página queda creada para sumar luego ejemplos, formatos, combinaciones
+          y una presentación más comercial y cuidada.
+        </p>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
+
+<style>
+  .service-detail { padding: 0 0 56px; }
+  .wrap { padding: 28px; }
+  .wrap h2 { margin: 0 0 10px; }
+  .wrap p { margin: 0; color: var(--muted); line-height: 1.75; }
+</style>

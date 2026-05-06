@@ -1,0 +1,195 @@
+---
+const { house } = Astro.props;
+
+const img = (i) => house.images?.[i] || house.images?.[0];
+
+const amenities = house.amenities ?? house.features ?? [];
+const moments = house.moments ?? [];
+---
+
+<section class="section details">
+  <div class="shell">
+
+    <div class="details-head">
+      <span class="section-label">Espacios y servicios</span>
+      <h2>Todo lo necesario para que el grupo funcione bien.</h2>
+      <p>{house.summary}</p>
+    </div>
+
+    <div class="photo-grid">
+      <article class="photo-card large">
+        <img src={img(0)} alt="Living de la casa" />
+        <div>
+          <strong>Living con presencia</strong>
+          <span>Un espacio cómodo para reunirse, descansar y compartir.</span>
+        </div>
+      </article>
+
+      <article class="photo-card">
+        <img src={img(1)} alt="Dormitorio" />
+        <div>
+          <strong>Descanso cómodo</strong>
+          <span>Habitaciones preparadas para estadías largas o cortas.</span>
+        </div>
+      </article>
+
+      <article class="photo-card">
+        <img src={img(2)} alt="Exterior" />
+        <div>
+          <strong>Exterior disfrutable</strong>
+          <span>Patio, aire libre y espacios para bajar el ritmo.</span>
+        </div>
+      </article>
+    </div>
+
+    {amenities.length > 0 && (
+      <div class="amenities-block">
+        <div>
+          <span class="section-label">Incluido</span>
+          <h3>Servicios principales</h3>
+        </div>
+
+        <div class="amenities-grid">
+          {amenities.slice(0, 12).map((item) => (
+            <span>{item}</span>
+          ))}
+        </div>
+      </div>
+    )}
+
+  </div>
+</section>
+
+<style>
+.details {
+  padding: 72px 0;
+}
+
+.details-head {
+  max-width: 760px;
+  margin-bottom: 32px;
+}
+
+.section-label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: #9a3f58;
+  font-weight: 700;
+}
+
+.details-head h2 {
+  font-size: clamp(34px, 5vw, 58px);
+  line-height: .95;
+  margin: 0 0 16px;
+}
+
+.details-head p {
+  color: #5f5651;
+  line-height: 1.6;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 16px;
+}
+
+.photo-card {
+  position: relative;
+  min-height: 260px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #ddd;
+  box-shadow: 0 20px 50px rgba(0,0,0,.08);
+}
+
+.photo-card.large {
+  min-height: 360px;
+}
+
+.photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+}
+
+.photo-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.65), rgba(0,0,0,.05));
+}
+
+.photo-card div {
+  position: absolute;
+  z-index: 1;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  color: white;
+}
+
+.photo-card strong {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.photo-card span {
+  font-size: 13px;
+  line-height: 1.4;
+  opacity: .9;
+}
+
+.amenities-block {
+  margin-top: 56px;
+  background: #fff;
+  border-radius: 28px;
+  padding: 36px;
+  box-shadow: 0 24px 70px rgba(0,0,0,.08);
+  display: grid;
+  grid-template-columns: .8fr 1.4fr;
+  gap: 28px;
+}
+
+.amenities-block h3 {
+  font-size: 36px;
+  line-height: 1;
+  margin: 0;
+}
+
+.amenities-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.amenities-grid span {
+  background: #f8f3ef;
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-size: 13px;
+}
+
+@media (max-width: 850px) {
+  .photo-grid,
+  .amenities-block {
+    grid-template-columns: 1fr;
+  }
+
+  .photo-card,
+  .photo-card.large {
+    min-height: 260px;
+  }
+
+  .amenities-block {
+    padding: 28px;
+  }
+}
+</style>

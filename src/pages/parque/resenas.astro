@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import InternalNav from '../../components/InternalNav.astro';
+import reviews from '../../data/parque/la-casa-frente-al-parque-reviews.json';
+const uniques = reviews.filter((r) => !r.is_duplicate);
+const featured = uniques.slice(0, 12);
+---
+<BaseLayout title="Reseñas internas | La Casa Frente al Parque" description="Base interna de reseñas normalizadas de Parque.">
+  <SiteHeader current="parque" />
+  <main>
+    <section class="hero-basic">
+      <div class="container">
+        <p class="eyebrow">Interno · Parque</p>
+        <h1>Reseñas normalizadas</h1>
+        <p>Base real integrada desde el JSON disponible. Esta vista queda más simple que la versión analítica original, pero lista para seguir creciendo dentro de la repo nueva.</p>
+      </div>
+    </section>
+    <section class="content-wrap">
+      <div class="container">
+        <InternalNav base="parque" />
+        <div class="stats">
+          <article class="card stat"><span>Total útiles</span><strong>{uniques.length}</strong></article>
+          <article class="card stat"><span>Airbnb + Booking</span><strong>Base integrada</strong></article>
+        </div>
+        <div class="reviews">
+          {featured.map((review) => (
+            <article class="card review-card">
+              <div class="top"><span>{review.platform}</span><strong>{review.guest_name ?? 'Huésped'}</strong></div>
+              <p>“{review.comment_public || review.comment_positive || review.title || 'Sin texto'}”</p>
+              {review.tags?.length > 0 && <div class="tags">{review.tags.slice(0,5).map((tag) => <span>{tag}</span>)}</div>}
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
+<style>
+  .content-wrap { padding: 0 0 56px; }
+  .stats, .reviews { display:grid; gap:22px; }
+  .stats { grid-template-columns: repeat(2, minmax(0,1fr)); margin-bottom:22px; }
+  .stat, .review-card { padding:22px; }
+  .stat span { color:var(--muted); }
+  .stat strong { display:block; margin-top:8px; font-size:28px; }
+  .reviews { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .top { display:flex; justify-content:space-between; gap:12px; margin-bottom:12px; }
+  .top span { text-transform:uppercase; color:var(--olive); font-weight:700; font-size:12px; }
+  .review-card p { margin:0; color:var(--muted); line-height:1.75; }
+  .tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+  .tags span { padding:6px 10px; border-radius:999px; background:#fff; border:1px solid var(--line); font-size:12px; font-weight:700; }
+  @media (max-width: 900px) { .stats, .reviews { grid-template-columns:1fr; } }
+</style>

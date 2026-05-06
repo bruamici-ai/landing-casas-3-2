@@ -1,0 +1,108 @@
+---
+const { house } = Astro.props;
+
+const capacity = house.capacity ?? house.capacidad ?? '14';
+const bedrooms = house.bedrooms ?? house.habitaciones ?? 'varios';
+const bathrooms = house.bathrooms ?? house.banos ?? house.baños ?? 'varios';
+---
+
+<section class="section overview" id="experiencia">
+  <div class="shell overview-card">
+    <div>
+      <span class="section-label">La experiencia</span>
+      <h2>Una casa pensada para vivir Mendoza con comodidad.</h2>
+      <p>
+        {house.summary}
+      </p>
+    </div>
+
+    <div class="overview-grid">
+      <article>
+        <strong>{capacity}</strong>
+        <span>huéspedes</span>
+      </article>
+
+      <article>
+        <strong>{bedrooms}</strong>
+        <span>dormitorios</span>
+      </article>
+
+      <article>
+        <strong>{bathrooms}</strong>
+        <span>baños</span>
+      </article>
+
+      <article>
+        <strong>{house.location ?? 'Mendoza'}</strong>
+        <span>ubicación</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+.overview {
+  padding: 72px 0;
+}
+
+.overview-card {
+  background: #fff;
+  border-radius: 28px;
+  padding: 40px;
+  box-shadow: 0 24px 70px rgba(0,0,0,.08);
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 32px;
+}
+
+.section-label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: #9a3f58;
+  font-weight: 700;
+}
+
+.overview-card h2 {
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: .95;
+  margin: 0 0 16px;
+}
+
+.overview-card p {
+  color: #5f5651;
+  line-height: 1.6;
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.overview-grid article {
+  background: #f8f3ef;
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 18px;
+  padding: 22px;
+}
+
+.overview-grid strong {
+  display: block;
+  font-size: 26px;
+}
+
+.overview-grid span {
+  color: #6d625c;
+  font-size: 14px;
+}
+
+@media (max-width: 850px) {
+  .overview-card {
+    grid-template-columns: 1fr;
+    padding: 28px;
+  }
+}
+</style>

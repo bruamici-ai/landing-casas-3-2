@@ -1,0 +1,345 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import HouseCard from '../components/HouseCard.astro';
+import { parqueHouse } from '../data/parque/house';
+import { avellanedaHouse } from '../data/avellaneda/house';
+import { services } from '../data/site';
+---
+<BaseLayout
+  title="Experiencias Mendoza | Casas y servicios"
+  description="Dos propiedades de alquiler temporario en Mendoza y una selección de servicios pensados para acompañar la estadía."
+>
+  <SiteHeader current="home" />
+
+  <main>
+    <section class="hero-basic">
+      <div class="container hero-grid">
+        <div class="hero-main">
+          <p class="eyebrow">Experiencias en Mendoza</p>
+          <h1>Dos casas, una misma forma de vivir Mendoza.</h1>
+          <p class="hero-copy">
+            Ambas en la zona de Quinta Sección. Una frente al famoso parque San Martín y otra a pocas calles de los populares bares de Av. Arístides.
+          </p>
+        </div>
+
+        <div class="hero-note card hosts-pro">
+          <p class="eyebrow">Tus anfitriones</p>
+
+          <div class="hosts-pro-list">
+            <article class="host-pro">
+              <img src="/hosts/bruno.jpg" alt="Bruno anfitrión" />
+
+              <div class="host-pro-info">
+                <div class="host-pro-head">
+                  <h3>Bruno</h3>
+                  <span class="badge">Super Anfitrión</span>
+                </div>
+
+                <p>
+                  Enfocado en la experiencia general, la comunicación previa y la coordinación.
+                  Su rol es que todo fluya claro desde antes de la llegada.
+                </p>
+              </div>
+            </article>
+
+            <article class="host-pro">
+              <img src="/hosts/heliana.jpg" alt="Heliana anfitriona" />
+
+              <div class="host-pro-info">
+                <div class="host-pro-head">
+                  <h3>Heliana</h3>
+                  <span class="badge">Super Anfitriona</span>
+                </div>
+
+                <p>
+                  Aporta calidez en la atención y foco en el confort.
+                  Está en los detalles que hacen que la casa se sienta bien durante toda la estadía.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="houses">
+      <div class="container">
+        <div class="section-head section-head-tight">
+          <div>
+            <p class="eyebrow">Alojamiento</p>
+            <h2>Elegí tu lugar</h2>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <HouseCard house={parqueHouse} />
+          <HouseCard house={avellanedaHouse} />
+        </div>
+      </div>
+    </section>
+
+    <section class="services">
+      <div class="container">
+        <div class="section-head section-head-tight">
+          <div>
+            <p class="eyebrow">Servicios</p>
+            <h2>Complementos que pueden sumar al viaje</h2>
+          </div>
+        </div>
+
+        <div class="grid-3 services-pro">
+          {services.map((service) => (
+            <a class="service-pro" href={`/servicios/${service.slug}`}>
+              <img src={`/services/${service.slug}.jpg`} alt={service.title} />
+
+              <div class="overlay">
+                <h3>{service.title}</h3>
+                <p class="service-desc">{service.short}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>
+
+<style>
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    align-items: stretch;
+  }
+
+  .hero-main,
+  .hero-note {
+    width: 100%;
+  }
+
+  .hero-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100%;
+  }
+
+  .hero-main h1 {
+    max-width: none;
+  }
+
+  .hero-copy {
+    max-width: 60ch;
+  }
+
+  .hero-note {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hero-note h2 {
+    margin: 0 0 10px;
+    font-size: clamp(24px, 3vw, 34px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  .hero-note p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.75;
+    max-width: 46ch;
+  }
+
+  .houses,
+  .services {
+    padding: 14px 0 54px;
+  }
+
+  .section-head-tight {
+    margin-bottom: 18px;
+  }
+
+  .section-head-tight p {
+    max-width: none;
+  }
+
+  .grid-2,
+  .grid-3 {
+    display: grid;
+    gap: 22px;
+  }
+
+  .grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .hosts-pro {
+    padding: 22px;
+  }
+
+  .hosts-pro-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .host-pro {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px;
+    border-radius: 16px;
+    transition: all 0.2s ease;
+  }
+
+  .host-pro:hover {
+    background: rgba(0,0,0,0.03);
+  }
+
+  .host-pro img {
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .host-pro-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .host-pro-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .host-pro h3 {
+    margin: 0;
+    font-size: 16px;
+    letter-spacing: -0.01em;
+  }
+
+  .badge {
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: #e8f0ea;
+    color: #3f5f4a;
+    font-weight: 600;
+  }
+
+  .host-pro p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .services-pro {
+    gap: 20px;
+  }
+
+  .service-pro {
+    position: relative;
+    display: block;
+    border-radius: 20px;
+    overflow: hidden;
+    height: 240px;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 16px 34px rgba(30,22,16,.08);
+  }
+
+  .service-pro img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .4s ease;
+  }
+
+  .service-pro:hover img {
+    transform: scale(1.05);
+  }
+
+  .service-pro::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0);
+    transition: all .3s ease;
+    pointer-events: none;
+  }
+
+  .service-pro:hover::after {
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.74), rgba(0,0,0,0.14) 62%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+    color: white;
+  }
+
+  .overlay h3 {
+    margin: 0;
+    font-size: 24px;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+
+  .service-desc {
+    margin: 7px 0 0;
+    font-size: 13px;
+    line-height: 1.4;
+    opacity: 0.9;
+    max-width: 34ch;
+  }
+
+  @media (max-width: 900px) {
+    .hero-grid,
+    .grid-2,
+    .grid-3 {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-note p,
+    .hero-copy {
+      max-width: none;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .host-pro {
+      align-items: flex-start;
+    }
+
+    .host-pro img {
+      width: 70px;
+      height: 70px;
+    }
+
+    .service-pro {
+      height: 220px;
+    }
+  }
+</style>

@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { services } from '../data/site';
+---
+<BaseLayout
+  title="Servicios | Experiencias Mendoza"
+  description="Servicios complementarios pensados para acompañar la estadía en nuestras casas en Mendoza."
+>
+  <SiteHeader current="servicios" />
+
+  <main>
+    <section class="hero-basic">
+      <div class="container">
+        <p class="eyebrow">Servicios</p>
+        <h1>Servicios complementarios para una estadía más simple.</h1>
+        <p>
+          Esta sección funciona como base de desarrollo. Cada servicio ya cuenta con una página propia
+          para que después podamos expandirlo con mejor contenido, imágenes y condiciones.
+        </p>
+      </div>
+    </section>
+
+    <section class="cards">
+      <div class="container grid">
+        {services.map((service) => (
+          <a class="card item" href={`/servicios/${service.slug}`}>
+            <span class="kicker">Abrir página</span>
+            <h2>{service.title}</h2>
+            <p class="short">{service.short}</p>
+            <p>{service.body}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>
+
+<style>
+  .cards { padding: 0 0 56px; }
+
+  .grid {
+    display:grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap:22px;
+  }
+
+  .item {
+    display: block;
+    padding:24px;
+    text-decoration:none;
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+
+  .item:hover {
+    transform: translateY(-3px);
+    border-color: rgba(109,117,82,.24);
+    box-shadow: 0 22px 48px rgba(30,22,16,.10);
+  }
+
+  .kicker {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: var(--olive);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+
+  .item h2 {
+    margin:0 0 6px;
+    font-size:30px;
+    line-height: 1.05;
+  }
+
+  .item .short {
+    margin:0 0 10px;
+    color:var(--olive);
+    font-weight:700;
+  }
+
+  .item p {
+    margin:0;
+    line-height:1.75;
+    color:var(--muted);
+  }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns:1fr; }
+  }
+</style>

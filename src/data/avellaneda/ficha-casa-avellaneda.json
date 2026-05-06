@@ -1,0 +1,259 @@
+{
+  "slug": "casa-avellaneda",
+  "nombre": "Casa Avellaneda",
+  "subtitulo": "Características y servicios de la propiedad",
+  "direccion": "Nicolás Avellaneda 40, Mendoza",
+  "tipo_propiedad": "casa de dos plantas",
+  "descripcion_corta": "Casa amplia en la Quinta Sección, cerca de Arístides, con cochera cubierta, piscina infantil, fogonero, churrasquera y gran capacidad para grupos.",
+  "capacidad_publicada": {
+    "huespedes": 14,
+    "observacion": "Capacidad máxima operativa de la propiedad."
+  },
+  "notas_de_normalizacion": [
+    "Se eliminó toda referencia a normas y condiciones legales comunes.",
+    "Se corrigió la capacidad operativa total a 14 huéspedes.",
+    "Se mantuvieron únicamente características físicas, distribución y servicios propios de la propiedad."
+  ],
+  "servicios_por_categoria": [
+    {
+      "categoria": "Destacados de la casa",
+      "items": [
+        {
+          "nombre": "Cochera cubierta",
+          "detalle": "Con portón automático y espacio para 2 vehículos grandes."
+        },
+        {
+          "nombre": "Piscina infantil",
+          "detalle": "Muy poco profunda, pensada principalmente para niños."
+        },
+        {
+          "nombre": "Ubicación en Quinta Sección",
+          "detalle": "Muy cerca de la zona de bares de Arístides."
+        },
+        {
+          "nombre": "Fogonero",
+          "detalle": "Ubicado en el patio delantero."
+        },
+        {
+          "nombre": "Gran capacidad",
+          "detalle": "Preparada para recibir hasta 14 huéspedes."
+        }
+      ]
+    },
+    {
+      "categoria": "Distribución y capacidad",
+      "items": [
+        {
+          "nombre": "Capacidad total",
+          "detalle": "Hasta 14 huéspedes."
+        },
+        {
+          "nombre": "Habitaciones",
+          "detalle": "3 habitaciones en total."
+        },
+        {
+          "nombre": "Habitación principal",
+          "detalle": "Con vestidor, baño en suite y capacidad para 3 personas, con opción de 3 camas simples o 1 doble y 1 simple."
+        },
+        {
+          "nombre": "Habitación 2",
+          "detalle": "Con capacidad para 2 personas, con opción de 2 camas simples o 1 cama doble."
+        },
+        {
+          "nombre": "Habitación 3",
+          "detalle": "Con capacidad para 7 personas en camas simples y con vestidor."
+        },
+        {
+          "nombre": "Sofá cama en living",
+          "detalle": "2 sofá cama complementan la capacidad total."
+        }
+      ]
+    },
+    {
+      "categoria": "Dormitorios y descanso",
+      "items": [
+        {
+          "nombre": "Piso de parquet",
+          "detalle": "Presente en las habitaciones."
+        },
+        {
+          "nombre": "Roperos empotrados",
+          "detalle": "Disponibles en los dormitorios."
+        },
+        {
+          "nombre": "Vestidor",
+          "detalle": "Disponible en la habitación principal y en la habitación de mayor capacidad."
+        },
+        {
+          "nombre": "Aire acondicionado",
+          "detalle": "Disponible en los 3 dormitorios."
+        },
+        {
+          "nombre": "Ropa de cama",
+          "detalle": "Incluida para la estadía."
+        }
+      ]
+    },
+    {
+      "categoria": "Baños",
+      "items": [
+        {
+          "nombre": "Cantidad de baños",
+          "detalle": "4 baños en total."
+        },
+        {
+          "nombre": "Baños con ducha",
+          "detalle": "3 baños tienen ducha."
+        },
+        {
+          "nombre": "Baño en suite",
+          "detalle": "La habitación principal cuenta con baño completo en suite."
+        },
+        {
+          "nombre": "Bañera",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Bidé",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Toallas y básicos",
+          "detalle": "Incluye toallas, jabón y papel higiénico."
+        }
+      ]
+    },
+    {
+      "categoria": "Cocina y comedor",
+      "items": [
+        {
+          "nombre": "Cocina completa",
+          "detalle": "Preparada para grupos y estadías familiares."
+        },
+        {
+          "nombre": "Horno a gas",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Heladera",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Microondas",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Lavarropas",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Pava eléctrica",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Tostadora",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Vajilla y cubiertos",
+          "detalle": "Disponibles para la capacidad de la casa."
+        },
+        {
+          "nombre": "Mesa bajo pérgola",
+          "detalle": "Mesa exterior para 10 personas bajo pérgola con parral."
+        }
+      ]
+    },
+    {
+      "categoria": "Climatización y confort",
+      "items": [
+        {
+          "nombre": "Aire acondicionado en living",
+          "detalle": "Disponible en el área social principal."
+        },
+        {
+          "nombre": "Calefacción central",
+          "detalle": "Con caldera italiana y radiadores de agua."
+        },
+        {
+          "nombre": "Automatización térmica",
+          "detalle": "Configurada para funcionar automáticamente a 20 °C."
+        },
+        {
+          "nombre": "Chimenea interior",
+          "detalle": "Disponible."
+        }
+      ]
+    },
+    {
+      "categoria": "Exterior y experiencia",
+      "items": [
+        {
+          "nombre": "Patio delantero grande",
+          "detalle": "Con jardín, piscina infantil, fogonero y banco para sentarse."
+        },
+        {
+          "nombre": "Pérgola con parral",
+          "detalle": "Genera sombra sobre el sector de mesa exterior."
+        },
+        {
+          "nombre": "Mesa exterior",
+          "detalle": "Mesa para 10 personas bajo pérgola."
+        },
+        {
+          "nombre": "Patio interno",
+          "detalle": "Conectado con el living y la cocina."
+        },
+        {
+          "nombre": "Churrasquera",
+          "detalle": "Ubicada en el patio interno."
+        }
+      ]
+    },
+    {
+      "categoria": "Entretenimiento y conectividad",
+      "items": [
+        {
+          "nombre": "TV",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Sistema de sonido",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Radio",
+          "detalle": "Disponible."
+        },
+        {
+          "nombre": "Wifi",
+          "detalle": "Disponible en toda la propiedad."
+        }
+      ]
+    },
+    {
+      "categoria": "Acceso y estacionamiento",
+      "items": [
+        {
+          "nombre": "Cochera cubierta",
+          "detalle": "Con espacio para 2 vehículos grandes."
+        },
+        {
+          "nombre": "Portón automático",
+          "detalle": "Acceso vehicular automatizado."
+        },
+        {
+          "nombre": "Cámara de seguridad",
+          "detalle": "Vigilancia 24/7 en el sector de acceso y estacionamiento."
+        },
+        {
+          "nombre": "Entrada privada",
+          "detalle": "Acceso independiente a la propiedad."
+        }
+      ]
+    }
+  ],
+  "fuentes": {
+    "servicios": "servicios-casa-avellaneda.txt"
+  }
+}

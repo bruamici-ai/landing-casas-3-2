@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import HouseLanding from '../components/HouseLanding.astro';
+import { parqueHouse } from '../data/parque/house';
+import { parqueReviews } from '../data/parque/reviews';
+---
+<BaseLayout title="La Casa Frente al Parque | Experiencias Mendoza" description={parqueHouse.summary} image={parqueHouse.heroImage}>
+  <SiteHeader current="parque" />
+  <HouseLanding house={parqueHouse} reviews={parqueReviews} internalBase="parque" />
+  <SiteFooter />
+</BaseLayout>

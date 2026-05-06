@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+---
+<BaseLayout
+  title="Traslados | Experiencias Mendoza"
+  description="Coordinación de traslados para aeropuerto, bodegas, montaña y salidas puntuales."
+>
+  <SiteHeader current="servicios" />
+  <main>
+    <section class="hero-basic">
+      <div class="container">
+        <p class="eyebrow">Servicio</p>
+        <h1>Traslados</h1>
+        <p>
+          Coordinación de traslados tercerizados para aeropuerto, bodegas, montaña, cenas o salidas puntuales.
+        </p>
+      </div>
+    </section>
+
+    <section class="service-detail">
+      <div class="container card wrap">
+        <h2>Base de desarrollo</h2>
+        <p>
+          Esta página queda creada para desarrollar después el servicio con mayor profundidad:
+          tipos de traslado, radios, condiciones, tiempos de coordinación e imágenes.
+        </p>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
+
+<style>
+  .service-detail { padding: 0 0 56px; }
+  .wrap { padding: 28px; }
+  .wrap h2 { margin: 0 0 10px; }
+  .wrap p { margin: 0; color: var(--muted); line-height: 1.75; }
+</style>

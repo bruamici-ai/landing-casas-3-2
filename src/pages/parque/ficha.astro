@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import InternalNav from '../../components/InternalNav.astro';
+import ficha from '../../data/parque/ficha-casa-parque.json';
+const totalServicios = ficha.servicios_por_categoria.reduce((acc, cat) => acc + cat.items.length, 0);
+---
+<BaseLayout title="Ficha interna | La Casa Frente al Parque" description="Ficha interna normalizada de servicios, normas y penalizaciones.">
+  <SiteHeader current="parque" />
+  <main>
+    <section class="hero-basic">
+      <div class="container">
+        <p class="eyebrow">Interno · Parque</p>
+        <h1>{ficha.nombre}</h1>
+        <p>{ficha.subtitulo}. Esta versión ya queda integrada dentro de la nueva repo para que puedas usarla como base operativa real.</p>
+      </div>
+    </section>
+    <section class="content-wrap">
+      <div class="container">
+        <InternalNav base="parque" />
+        <div class="top-grid">
+          <article class="card box"><span>Dirección</span><strong>{ficha.direccion}</strong></article>
+          <article class="card box"><span>Capacidad</span><strong>{ficha.capacidad_publicada.huespedes} huéspedes</strong></article>
+          <article class="card box"><span>Servicios</span><strong>{totalServicios}</strong></article>
+          <article class="card box"><span>Penalizaciones</span><strong>{ficha.penalizaciones.length}</strong></article>
+        </div>
+        <div class="section-block">
+          <div class="section-head"><div><p class="eyebrow">Servicios</p><h2>Servicios por categoría</h2></div><p>La ficha completa ya quedó agrupada para facilitar web, operación o ventas.</p></div>
+          <div class="grid-2">
+            {ficha.servicios_por_categoria.map((grupo) => (
+              <article class="card panel"><h3>{grupo.categoria}</h3><ul>{grupo.items.map((item) => <li><strong>{item.nombre}:</strong> {item.detalle}</li>)}</ul></article>
+            ))}
+          </div>
+        </div>
+        <div class="section-block">
+          <div class="section-head"><div><p class="eyebrow">Normas</p><h2>Reglas normalizadas</h2></div><p>Se preserva la lógica del archivo fuente pero ya ordenada para consulta rápida.</p></div>
+          <div class="grid-2">
+            {ficha.normas_normalizadas.map((bloque) => (
+              <article class="card panel"><h3>{bloque.titulo}</h3><ul>{bloque.reglas.map((regla) => <li>{regla}</li>)}</ul></article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
+<style>
+  .content-wrap { padding: 0 0 56px; }
+  .top-grid, .grid-2 { display:grid; gap:22px; }
+  .top-grid { grid-template-columns: repeat(4, minmax(0,1fr)); margin-bottom:22px; }
+  .grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .box, .panel { padding:22px; }
+  .box span { display:block; color:var(--muted); font-size:14px; }
+  .box strong { display:block; margin-top:6px; font-size:24px; letter-spacing:-.03em; }
+  .panel h3 { margin:0 0 10px; font-size:24px; }
+  .panel ul { margin:0; padding-left:18px; color:var(--muted); line-height:1.7; }
+  .section-block { padding: 0 0 42px; }
+  @media (max-width: 900px) { .top-grid, .grid-2 { grid-template-columns:1fr; } }
+</style>

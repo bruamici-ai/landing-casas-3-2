@@ -1,0 +1,356 @@
+---
+import { site } from '../data/site';
+
+const { house, internalBase = '' } = Astro.props;
+const isParque = house?.slug?.includes('parque');
+const wa = site.whatsappUrl(`Hola Bruno, quiero consultar disponibilidad para ${house?.name ?? 'la casa'}`);
+const updatedAt = '24 de abril de 2026';
+
+const parqueImages = [
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873954/BRU_1444_dywtrx.jpg',
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873958/_BRU1492_yuclbe.jpg',
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873945/_BRU1602_a7hpbb.jpg',
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775888578/IMG_7668_qj1zdm.jpg',
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873941/_BRU1510_kupufv.jpg',
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873954/_BRU1843_nawict.jpg',
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873943/_BRU1556_ov7ers.jpg',
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775888576/IMG_0278_ab7kiw.jpg',
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873947/_BRU1685_ib5yow.jpg',
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873949/_BRU1718_roagq1.jpg'
+];
+
+const avellanedaImages = [
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775883741/IMG_4631_rmcvwh.jpg',
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775883738/IMG_4587_aaqvhd.jpg',
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775883738/IMG_4590_gmib4r.jpg',
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775883741/IMG_4629_ykk1dl.jpg',
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775883739/IMG_4598_cwncxw.jpg',
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775883741/IMG_4627_yhj2sl.jpg',
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775883739/IMG_4613_u1gdxu.jpg',
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775883740/IMG_4621_puxhxl.jpg',
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775883740/IMG_4619_m68loq.jpg',
+  'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775883738/IMG_4591_w9tsck.jpg'
+];
+
+const data = isParque
+  ? {
+      eyebrow: 'Casa completa frente al Parque General San Martín',
+      title: 'Viví Mendoza desde una casa con parque, patio y espacio para todos.',
+      lead: 'Una casa amplia y luminosa para familias o grupos que quieren combinar ciudad, bodegas y montaña con una base cómoda para descansar, cocinar, compartir y bajar un cambio.',
+      images: parqueImages,
+      rating: '4,88',
+      reviews: '92',
+      location: 'Frente al Parque San Martín',
+      quick: [['Hasta 14', 'huéspedes'], ['4', 'dormitorios'], ['12', 'camas'], ['2,5', 'baños'], ['Patio', 'pileta y jacuzzi']],
+      trust: [['92', 'opiniones verificadas', `Relevadas al ${updatedAt}`], ['4,88/5', 'valoración promedio', 'Airbnb y Booking'], ['75 + 17', 'Airbnb + Booking', 'comentarios útiles'], ['2026', 'reseñas recientes', 'actividad actualizada']],
+      promiseTitle: 'No alquilás metros cuadrados. Elegís cómo se va a sentir el viaje.',
+      promiseText: 'Acá el grupo puede vivir la casa: desayunar sin apuro, volver de una excursión y seguir disfrutando, cocinar juntos, usar el patio o simplemente descansar después de recorrer Mendoza.',
+      qualities: [
+        ['Ubicación que cambia el ritmo', 'El parque enfrente suma verde, caminatas y una sensación de pausa que se nota desde la llegada.'],
+        ['Casa para convivir cómodos', 'Living, comedor, cocina, dormitorios y patio permiten compartir sin estar todos encima.'],
+        ['Exterior con plan propio', 'Pileta, jacuzzi y parrilla hacen que quedarse en casa también sea una buena decisión.'],
+        ['Anfitrión presente', 'Las reseñas repiten atención, respuesta rápida y predisposición durante la estadía.']
+      ],
+      spaces: [
+        ['Living con presencia', 'El centro de la casa: amplio, luminoso y cómodo para reunirse después de cada salida.', parqueImages[0]],
+        ['Descanso real', 'Dormitorios preparados para grupos, con armado flexible y ropa blanca incluida.', parqueImages[2]],
+        ['Patio, pileta y jacuzzi', 'Un exterior pensado para tardes largas, asado, agua y sobremesa.', parqueImages[3]],
+        ['Mesa para compartir', 'Comedor y cocina para desayunos, cenas grupales y noches sin apuro.', parqueImages[6]]
+      ],
+      moments: [
+        ['Mañana', 'Parque, café y salida tranquila', 'La ubicación permite empezar el día caminando, desayunar cómodo y salir fácil hacia cualquier plan.', parqueImages[1]],
+        ['Tarde', 'Volver y seguir disfrutando', 'Después de bodegas, ciudad o montaña, la casa ofrece patio, agua y espacios para descansar.', parqueImages[7]],
+        ['Noche', 'Parrilla y sobremesa', 'Cuando el plan es quedarse, la casa funciona: cocinar, brindar y cerrar el día juntos.', parqueImages[4]]
+      ],
+      amenitiesTitle: 'Todo lo importante, resuelto antes de llegar.',
+      amenities: ['Pileta privada', 'Jacuzzi', 'Churrasquera', 'Cocina equipada', 'Wifi', 'Home theater', 'Aire acondicionado en dormitorios', 'Ropa blanca incluida', 'Estacionamiento exclusivo', 'Cámara exterior 24/7'],
+      testimonials: [
+        ['Jose Eugenio', 'familia · 8 noches · febrero 2026', 'La ubicación es inmejorable: estar justo frente al Parque General San Martín nos permitió disfrutar de un entorno verde y tranquilo. La casa es un sueño: limpia, cómoda y súper bien equipada.'],
+        ['Ignacio', 'grupo · 3 noches · marzo 2026', 'Muy buena ubicación, la casa súper amplia y bien equipada. Bruno respondió rápidamente y se preocupa por generar un ambiente muy acogedor.'],
+        ['Chris', 'estadía larga · 12 noches · enero 2026', 'Está configurada para estadías cortas o largas. El patio trasero con piscina y parrilla hacen que este hogar sea muy especial.'],
+        ['Ariel', 'con niños · 2 noches · febrero 2026', 'Desde el minuto de la reserva Bruno estuvo atento a absolutamente todo. La casa es espectacular y muy cómoda.']
+      ]
+    }
+  : {
+      eyebrow: 'Casa completa en Quinta Sección, cerca de Arístides',
+      title: 'Disfrutá Mendoza con una casa amplia, ciudad cerca y espacio para compartir.',
+      lead: 'Casa Avellaneda es una base cómoda para grupos y familias: cerca de bares, restaurantes, Parque San Martín y comercios, con cochera cubierta, patios y ambientes amplios para vivir la estadía con fluidez.',
+      images: avellanedaImages,
+      rating: '4,47',
+      reviews: '50',
+      location: 'Quinta Sección · cerca de Arístides',
+      quick: [['Hasta 14', 'huéspedes'], ['3', 'dormitorios'], ['4', 'baños'], ['2 autos', 'cochera cubierta'], ['Patio', 'churrasquera y fogonero']],
+      trust: [['50', 'opiniones verificadas', `Relevadas al ${updatedAt}`], ['4,47/5', 'valoración promedio', 'Airbnb y Booking'], ['14 + 36', 'Airbnb + Booking', 'comentarios útiles'], ['2026', 'reseñas recientes', 'actividad actualizada']],
+      promiseTitle: 'Una casa práctica para moverse fácil y volver a estar cómodos.',
+      promiseText: 'Ideal cuando el viaje tiene varios planes: salir a comer, recorrer bodegas, caminar por el parque o descansar en casa. La distribución ayuda a que el grupo se organice sin perder comodidad.',
+      qualities: [
+        ['Ubicación urbana muy cómoda', 'Cerca de Arístides, Parque San Martín, supermercados, comercios y puntos de salida.'],
+        ['Cochera cubierta', 'Portón automático y espacio para dos vehículos grandes: un diferencial real para viajar en grupo.'],
+        ['Patios para usar la casa', 'Churrasquera, fogonero, jardín y piscina infantil para compartir sin depender siempre de salir.'],
+        ['Amplitud para grupos', 'Los huéspedes destacan ubicación, espacios grandes, comodidad y buena atención.']
+      ],
+      spaces: [
+        ['Fachada y llegada', 'Una casa con presencia, jardín y acceso privado para recibir al grupo con comodidad.', avellanedaImages[0]],
+        ['Living para reunirse', 'Ambiente social amplio para planear salidas, descansar y compartir.', avellanedaImages[1]],
+        ['Patio de uso real', 'Exterior con verde, churrasquera, fogonero y piscina infantil.', avellanedaImages[3]],
+        ['Dormitorios flexibles', 'Habitaciones pensadas para grupos, con distintas opciones de armado.', avellanedaImages[4]]
+      ],
+      moments: [
+        ['Mañana', 'Arrancar cerca de todo', 'Compras rápidas, café, caminata por la zona y salida simple hacia cualquier plan.', avellanedaImages[2]],
+        ['Tarde', 'Patio, descanso y pausa', 'Después de recorrer Mendoza, la casa permite bajar un cambio y compartir.', avellanedaImages[5]],
+        ['Noche', 'Arístides y regreso fácil', 'Salir a comer o tomar algo cerca, con la tranquilidad de volver a una casa grande.', avellanedaImages[1]]
+      ],
+      amenitiesTitle: 'Servicios que simplifican la estadía.',
+      amenities: ['Cochera cubierta', 'Portón automático', 'Piscina infantil', 'Churrasquera', 'Fogonero', 'Calefacción central', 'Aire acondicionado', 'Wifi', 'Cocina equipada', 'Cámara exterior 24/7'],
+      testimonials: [
+        ['Christian', '7 amigos · octubre 2025', 'A pocas cuadras caminando del Parque San Martín y la calle Arístides. Es ideal para grupos grandes; viajamos 7 amigos y estuvimos muy cómodos.'],
+        ['Laura', 'familia · 4 noches · agosto 2025', 'La distribución, la amplitud, la cantidad de baños, la limpieza, los detalles en cada espacio y la amabilidad de la anfitriona: absolutamente todo es para un 1000.'],
+        ['Luis', 'grupo · septiembre 2024', 'Muy buena casa, con muchos espacios y una arquitectura hermosa. Perfecto para pasar vacaciones con familiares y amigos.'],
+        ['Beatriz', 'varias noches · octubre 2024', 'La casa estaba impecable. Todo extremadamente limpio y organizado. Buena ubicación y una casa muy espaciosa y acogedora.']
+      ]
+    };
+
+const reviewUrl = internalBase ? `/${internalBase}/resenas` : '#opiniones';
+const img = (index) => data.images[index] || data.images[0] || house?.heroImage;
+---
+
+<main class="landing-premium">
+  <section class="hero" id="inicio">
+    <div class="shell hero-layout">
+      <div class="hero-copy card-soft">
+        <p class="eyebrow">{data.eyebrow}</p>
+        <h1>{data.title}</h1>
+        <p>{data.lead}</p>
+        <div class="hero-actions">
+          <a class="button primary" href={wa}>Consultar disponibilidad</a>
+          <a class="button quiet" href="#experiencia">Ver la casa</a>
+        </div>
+        <div class="mini-proof">
+          <span>★ {data.rating}/5</span>
+          <span>{data.reviews} opiniones</span>
+          <span>{data.location}</span>
+        </div>
+      </div>
+
+      <div class="hero-gallery">
+        <figure class="photo tall"><img src={img(0)} alt={`${house.name} exterior o ambiente principal`} /><figcaption>{data.location}</figcaption></figure>
+        <figure class="photo"><img src={img(1)} alt={`${house.name} living`} /><figcaption>Ambientes amplios</figcaption></figure>
+        <figure class="photo"><img src={img(2)} alt={`${house.name} dormitorio`} /><figcaption>Descanso cómodo</figcaption></figure>
+        <figure class="photo wide"><img src={img(3)} alt={`${house.name} patio o exterior`} /><figcaption>Casa para compartir</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="shell facts">
+      {data.quick.map(([big, small]) => <article><strong>{big}</strong><span>{small}</span></article>)}
+    </div>
+  </section>
+
+  <section class="section compact">
+    <div class="shell trust card-strong">
+      <div>
+        <span class="section-label">Opiniones reales</span>
+        <h2>Elegida por huéspedes que ya vivieron la experiencia.</h2>
+        <p>Estos datos muestran actividad real de la casa y se actualizan cuando se revisan nuevas reseñas.</p>
+      </div>
+      <div class="trust-grid">
+        {data.trust.map(([number, label, note]) => <article><strong>{number}</strong><span>{label}</span><small>{note}</small></article>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="experiencia">
+    <div class="shell headline right">
+      <span class="section-label">La experiencia</span>
+      <h2>{data.promiseTitle}</h2>
+      <p>{data.promiseText}</p>
+    </div>
+    <div class="shell quality-grid">
+      {data.qualities.map(([title, text], i) => <article class="quality-card"><span>{String(i + 1).padStart(2, '0')}</span><h3>{title}</h3><p>{text}</p></article>)}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell headline">
+      <span class="section-label">Ambientes</span>
+      <h2>Espacios pensados para que el grupo funcione bien.</h2>
+      <p>No se trata solo de dormir: la casa tiene lugares para reunirse, descansar, cocinar, salir y volver sin perder comodidad.</p>
+    </div>
+    <div class="shell spaces-grid">
+      {data.spaces.map(([title, text, photo], i) => <figure class={`space-card s${i}`}><img src={photo} alt={title} loading="lazy" /><figcaption><strong>{title}</strong><span>{text}</span></figcaption></figure>)}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell headline right">
+      <span class="section-label">Ritmo del viaje</span>
+      <h2>Una casa que acompaña mañana, tarde y noche.</h2>
+      <p>La estadía funciona mejor cuando la casa también es parte del plan, no solo el lugar al que se vuelve a dormir.</p>
+    </div>
+    <div class="shell moments-grid">
+      {data.moments.map(([moment, title, text, photo]) => <article class="moment-card"><img src={photo} alt={title} loading="lazy" /><div><span>{moment}</span><h3>{title}</h3><p>{text}</p></div></article>)}
+    </div>
+  </section>
+
+  <section class="section compact">
+    <div class="shell amenity-panel card-soft">
+      <div>
+        <span class="section-label">Comodidades</span>
+        <h2>{data.amenitiesTitle}</h2>
+        <p>Lo esencial está previsto para que el viaje sea simple desde el primer día.</p>
+      </div>
+      <div class="amenities">
+        {data.amenities.map((item) => <span>{item}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="opiniones">
+    <div class="shell headline">
+      <span class="section-label">Lo que cuentan los huéspedes</span>
+      <h2>Las mejores razones para elegirla ya las dijeron quienes se quedaron.</h2>
+      <p>Selección de comentarios reales de huéspedes. Cada cita conserva nombre, tipo de estadía y fecha.</p>
+    </div>
+    <div class="shell reviews-layout">
+      <aside class="score-card"><strong>{data.rating}</strong><span>valoración promedio</span><p>{data.reviews} opiniones relevadas al {updatedAt}.</p><a href={reviewUrl}>Ver más opiniones</a></aside>
+      <div class="reviews-grid">
+        {data.testimonials.map(([name, meta, quote]) => <blockquote><p>“{quote}”</p><footer><strong>{name}</strong><span>{meta}</span></footer></blockquote>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section final">
+    <div class="shell final-card">
+      <span class="section-label">Consulta directa</span>
+      <h2>Si te imaginás acá, preguntame fechas y te ayudo a resolverlo.</h2>
+      <p>Contame cantidad de huéspedes, fechas tentativas y tipo de viaje. Te respondo por WhatsApp con disponibilidad y próximos pasos.</p>
+      <div class="hero-actions">
+        <a class="button primary light" href={wa}>Consultar por WhatsApp</a>
+        <a class="button quiet light" href="#inicio">Volver arriba</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<style>
+  :root {
+    --bg: #f6f0ea;
+    --paper: rgba(255,255,255,.82);
+    --paper-solid: #fffdf9;
+    --ink: #211915;
+    --muted: #71665e;
+    --wine: #7a2e49;
+    --wine-2: #a55c4d;
+    --green: #1f5f4a;
+    --line: rgba(36,28,22,.11);
+    --shadow: 0 24px 70px rgba(48,35,28,.12);
+    --soft-shadow: 0 14px 42px rgba(48,35,28,.08);
+    --radius: 28px;
+  }
+
+  .landing-premium { background: radial-gradient(circle at 12% 0%, rgba(122,46,73,.15), transparent 32%), linear-gradient(180deg, #fbf8f4 0%, var(--bg) 100%); color: var(--ink); overflow: hidden; }
+  .shell { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+  .section { padding: clamp(42px, 7vw, 86px) 0; }
+  .compact { padding-top: 24px; padding-bottom: 38px; }
+  .card-soft, .card-strong { border: 1px solid var(--line); background: var(--paper); box-shadow: var(--shadow); backdrop-filter: blur(18px); border-radius: var(--radius); }
+
+  .hero { padding: 24px 0 20px; }
+  .hero-layout { display: grid; grid-template-columns: .95fr 1.25fr; gap: 14px; align-items: stretch; }
+  .hero-copy { min-height: 620px; padding: clamp(24px, 4vw, 48px); display: flex; flex-direction: column; justify-content: flex-end; }
+  .eyebrow, .section-label { color: var(--wine); text-transform: uppercase; letter-spacing: .13em; font-weight: 900; font-size: .72rem; }
+  h1, h2, h3, p { margin-top: 0; }
+  h1 { margin-bottom: 18px; max-width: 9.2ch; font-size: clamp(3.3rem, 8.4vw, 7.6rem); line-height: .82; letter-spacing: -.08em; }
+  h2 { margin-bottom: 14px; font-size: clamp(2.25rem, 5.4vw, 5.4rem); line-height: .86; letter-spacing: -.07em; }
+  h3 { font-size: 1.08rem; line-height: 1.08; letter-spacing: -.035em; }
+  p { color: var(--muted); line-height: 1.68; }
+  .hero-copy p { max-width: 54ch; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .button { display: inline-flex; min-height: 42px; align-items: center; justify-content: center; padding: 12px 16px; border-radius: 999px; text-decoration: none; font-weight: 900; font-size: .86rem; border: 1px solid transparent; }
+  .button.primary { background: var(--wine); color: #fff; }
+  .button.quiet { color: var(--ink); background: #fff; border-color: var(--line); }
+  .button.light { background: #fff; color: var(--wine); }
+  .button.quiet.light { background: rgba(255,255,255,.14); color: #fff; border-color: rgba(255,255,255,.26); }
+  .mini-proof { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }
+  .mini-proof span { padding: 8px 10px; border-radius: 999px; background: #f2ece6; font-size: .78rem; font-weight: 850; }
+
+  .hero-gallery { display: grid; grid-template-columns: 1.2fr .85fr; grid-template-rows: repeat(2, 1fr); gap: 14px; min-height: 620px; }
+  .photo { position: relative; overflow: hidden; margin: 0; border-radius: var(--radius); box-shadow: var(--soft-shadow); background: #eee; }
+  .photo.tall { grid-row: span 2; }
+  .photo.wide { grid-column: 2; }
+  .photo img, .space-card img, .moment-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  figcaption { position: absolute; left: 14px; bottom: 14px; max-width: calc(100% - 28px); padding: 9px 11px; border-radius: 999px; background: rgba(255,255,255,.9); color: var(--ink); font-size: .75rem; font-weight: 900; box-shadow: 0 8px 22px rgba(0,0,0,.12); }
+
+  .facts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 14px; }
+  .facts article, .trust-grid article, .quality-card, .moment-card, blockquote { border: 1px solid var(--line); background: #fff; border-radius: 20px; box-shadow: var(--soft-shadow); }
+  .facts article { padding: 15px 16px; }
+  .facts strong, .trust-grid strong { display: block; font-size: 1.18rem; letter-spacing: -.04em; }
+  .facts span, .trust-grid span, .trust-grid small { color: var(--muted); font-size: .82rem; }
+
+  .trust { display: grid; grid-template-columns: .9fr 1.1fr; gap: 24px; padding: clamp(24px, 4vw, 40px); align-items: center; }
+  .trust h2 { font-size: clamp(2rem, 4vw, 4.4rem); }
+  .trust-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .trust-grid article { padding: 18px; }
+
+  .headline { display: grid; grid-template-columns: .9fr .8fr; gap: 42px; align-items: end; margin-bottom: 24px; }
+  .headline.right { grid-template-columns: .8fr .9fr; }
+  .headline.right .section-label, .headline.right h2 { grid-column: 2; }
+  .headline.right p { grid-column: 1; grid-row: 2; }
+  .quality-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .quality-card { padding: 22px; min-height: 210px; }
+  .quality-card span { display: inline-flex; width: 36px; height: 36px; border-radius: 50%; align-items: center; justify-content: center; background: rgba(122,46,73,.1); color: var(--wine); font-weight: 900; margin-bottom: 18px; }
+
+  .spaces-grid { display: grid; grid-template-columns: 1.1fr .9fr .9fr; grid-auto-rows: 260px; gap: 14px; }
+  .space-card { position: relative; overflow: hidden; margin: 0; border-radius: 24px; box-shadow: var(--shadow); background: #ddd; }
+  .space-card.s0 { grid-row: span 2; }
+  .space-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 35%, rgba(18,14,12,.72)); }
+  .space-card figcaption { inset: auto 16px 16px 16px; max-width: none; border-radius: 18px; background: transparent; color: #fff; box-shadow: none; padding: 0; z-index: 2; }
+  .space-card strong { display: block; font-size: 1.55rem; letter-spacing: -.05em; margin-bottom: 6px; }
+  .space-card span { color: rgba(255,255,255,.84); font-weight: 500; line-height: 1.5; }
+
+  .moments-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .moment-card { overflow: hidden; }
+  .moment-card img { height: 245px; }
+  .moment-card div { padding: 20px; }
+  .moment-card span { display: inline-flex; margin-bottom: 10px; padding: 7px 10px; border-radius: 999px; background: #f2ece6; color: var(--wine); font-weight: 900; font-size: .75rem; }
+
+  .amenity-panel { display: grid; grid-template-columns: .65fr 1.35fr; gap: 24px; padding: clamp(24px, 4vw, 38px); align-items: center; }
+  .amenity-panel h2 { font-size: clamp(2rem, 4vw, 4.2rem); }
+  .amenities { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .amenities span { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 13px 12px; font-weight: 850; font-size: .84rem; }
+
+  .reviews-layout { display: grid; grid-template-columns: .56fr 1fr; gap: 16px; align-items: stretch; }
+  .score-card { padding: 28px; border-radius: 24px; background: linear-gradient(135deg, var(--wine), var(--wine-2)); color: #fff; box-shadow: var(--shadow); }
+  .score-card strong { display: block; font-size: 5rem; line-height: .86; letter-spacing: -.08em; }
+  .score-card span, .score-card p { color: rgba(255,255,255,.86); }
+  .score-card a { display: inline-flex; margin-top: 12px; color: #fff; font-weight: 900; }
+  .reviews-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  blockquote { padding: 20px; }
+  blockquote p { color: var(--ink); font-size: .94rem; }
+  blockquote footer { padding-top: 14px; border-top: 1px solid var(--line); }
+  blockquote strong, blockquote span { display: block; }
+  blockquote span { color: var(--muted); font-size: .82rem; margin-top: 3px; }
+
+  .final { padding-bottom: 80px; }
+  .final-card { border-radius: 32px; padding: clamp(30px, 6vw, 58px); background: linear-gradient(135deg, var(--wine), var(--wine-2)); color: #fff; box-shadow: var(--shadow); }
+  .final-card .section-label, .final-card p { color: rgba(255,255,255,.82); }
+  .final-card h2 { max-width: 880px; }
+
+  @media (max-width: 980px) {
+    .hero-layout, .trust, .headline, .headline.right, .amenity-panel, .reviews-layout { grid-template-columns: 1fr; }
+    .headline.right .section-label, .headline.right h2, .headline.right p { grid-column: auto; grid-row: auto; }
+    .hero-copy, .hero-gallery { min-height: auto; }
+    .hero-gallery { grid-template-columns: 1fr 1fr; grid-template-rows: 260px 260px; }
+    .facts, .quality-grid, .amenities { grid-template-columns: repeat(2, 1fr); }
+    .spaces-grid { grid-template-columns: 1fr 1fr; }
+    .space-card.s0 { grid-row: auto; }
+  }
+  @media (max-width: 640px) {
+    .shell { width: min(100% - 20px, 1120px); }
+    h1 { font-size: clamp(3.2rem, 17vw, 5rem); }
+    h2 { font-size: clamp(2.45rem, 13vw, 4.2rem); }
+    .hero-copy { min-height: 560px; }
+    .hero-gallery, .facts, .trust-grid, .quality-grid, .spaces-grid, .moments-grid, .amenities, .reviews-grid { grid-template-columns: 1fr; }
+    .hero-gallery { grid-template-rows: repeat(4, 230px); }
+    .photo.tall, .photo.wide { grid-row: auto; grid-column: auto; }
+    .spaces-grid { grid-auto-rows: 260px; }
+  }
+</style>

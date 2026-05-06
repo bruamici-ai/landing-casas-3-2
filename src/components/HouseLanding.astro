@@ -1,0 +1,20 @@
+---
+import HouseHero from './house/HouseHero.astro';
+import HouseOverview from './house/HouseOverview.astro';
+import HouseDetails from './house/HouseDetails.astro';
+import HouseReviewsCTA from './house/HouseReviewsCTA.astro';
+
+const { house, reviews } = Astro.props;
+
+const wa = `https://wa.me/5492610000000?text=Hola! Quiero consultar por ${house.name}`;
+---
+
+<main>
+  <HouseHero house={house} wa={wa} />
+
+  <HouseOverview house={house} />
+
+  <HouseDetails house={house} />
+
+  <HouseReviewsCTA house={house} reviews={reviews} wa={wa} />
+</main>
