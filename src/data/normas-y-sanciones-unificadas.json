@@ -1,0 +1,208 @@
+{
+  "id": "normas-y-sanciones-unificadas",
+  "editable": true,
+  "version": "1.0",
+  "idioma": "es",
+  "aplica_a": [
+    "Casa Avellaneda",
+    "La Casa Frente al Parque"
+  ],
+  "descripcion": "Base única editable de normas de convivencia, uso y sanciones aplicables en común a las casas del sistema Landing Casas. Debe usarse como fuente única para páginas internas, reglamentos y secciones de normas.",
+  "checkin_checkout_base": {
+    "check_in": "15:00",
+    "check_out": "10:00"
+  },
+  "normas": [
+    {
+      "id": "ingreso-huespedes",
+      "titulo": "Ingreso y registro de huéspedes",
+      "reglas": [
+        "Solo pueden ingresar huéspedes registrados en la reserva.",
+        "Las visitas deben ser avisadas con anticipación y requieren nombre, apellido y foto del DNI o pasaporte.",
+        "Si no se coordina previamente el ingreso de visitas o invitados, puede aplicarse una penalización económica."
+      ]
+    },
+    {
+      "id": "checkin-checkout",
+      "titulo": "Check-in, check-out y llegada",
+      "reglas": [
+        "El check-in es a partir de las 15:00.",
+        "La salida es antes de las 10:00.",
+        "Se debe informar con antelación la hora estimada de llegada.",
+        "Al ingreso se solicita documento de identidad válido con foto."
+      ]
+    },
+    {
+      "id": "convivencia-ruidos",
+      "titulo": "Convivencia y respeto al entorno",
+      "reglas": [
+        "No se permiten fiestas, eventos ni reuniones que molesten a vecinos.",
+        "Se debe mantener un ambiente tranquilo y evitar ruidos fuertes.",
+        "El horario de silencio de referencia es de 23:00 a 07:00."
+      ]
+    },
+    {
+      "id": "limpieza-basica",
+      "titulo": "Limpieza básica obligatoria del huésped",
+      "reglas": [
+        "Los platos, sartenes y utensilios usados deben dejarse limpios.",
+        "La parrilla debe quedar limpia luego de su uso.",
+        "Si el alojamiento queda extremadamente sucio o con basura o alimentos en lugares inusuales, se cobra limpieza adicional."
+      ]
+    },
+    {
+      "id": "cuidado-equipamiento",
+      "titulo": "Cuidado del equipamiento y de los blancos",
+      "reglas": [
+        "Cualquier daño debe ser informado de inmediato.",
+        "Las toallas con manchas difíciles pueden generar cargo por lavandería especial o reposición.",
+        "Se pide no comer sobre las camas para evitar manchas o daños."
+      ]
+    },
+    {
+      "id": "humo-olores-cocina",
+      "titulo": "Humo, olores y cocina",
+      "reglas": [
+        "No se puede fumar dentro del alojamiento; solo en áreas exteriores.",
+        "No cocinar pescado ni hacer frituras por los olores persistentes."
+      ]
+    },
+    {
+      "id": "energia-llaves",
+      "titulo": "Uso responsable de energía y llaves",
+      "reglas": [
+        "Al salir, deben apagarse luces, calefacción y aire acondicionado.",
+        "La pérdida de llaves genera cargo por reemplazo."
+      ]
+    },
+    {
+      "id": "sustancias-ilegales",
+      "titulo": "Sustancias ilegales",
+      "reglas": [
+        "El uso, posesión o almacenamiento de sustancias ilegales está estrictamente prohibido.",
+        "Su incumplimiento puede generar cargos económicos y notificación a las autoridades."
+      ]
+    },
+    {
+      "id": "mascotas",
+      "titulo": "Mascotas",
+      "reglas": [
+        "Se aceptan mascotas únicamente con autorización y registro previo.",
+        "No se aceptan mascotas menores de un año y medio.",
+        "No deben subirse a camas, sofás ni sillas.",
+        "No deben usar toallas, sábanas, colchones, almohadas, platos ni utensilios de cocina.",
+        "La orina y las heces deben ser limpiadas por el huésped.",
+        "No se debe dejar a la mascota sola y sin supervisión dentro de la propiedad.",
+        "Todo daño causado por la mascota corre por cuenta del huésped."
+      ]
+    }
+  ],
+  "penalizaciones": [
+    {
+      "id": "invitados-no-registrados",
+      "motivo": "Invitados o personas no registradas sin coordinación previa",
+      "cargo_usd": "hasta 1000",
+      "tipo": "por invitado"
+    },
+    {
+      "id": "utensilios-sin-lavar",
+      "motivo": "Platos, sartenes y utensilios sin lavar",
+      "cargo_usd": "50",
+      "tipo": "por evento"
+    },
+    {
+      "id": "parrilla-sucia",
+      "motivo": "Parrilla sucia",
+      "cargo_usd": "50",
+      "tipo": "por evento"
+    },
+    {
+      "id": "danos-roturas",
+      "motivo": "Daños o roturas",
+      "cargo_usd": "a costo real",
+      "tipo": "según reposición o reparación"
+    },
+    {
+      "id": "toallas-manchadas",
+      "motivo": "Toallas con manchas difíciles",
+      "cargo_usd": "90 o reposición",
+      "tipo": "por evento"
+    },
+    {
+      "id": "ruidos-eventos",
+      "motivo": "Ruidos molestos o eventos",
+      "cargo_usd": "500",
+      "tipo": "por evento"
+    },
+    {
+      "id": "sustancias-ilegales",
+      "motivo": "Sustancias ilegales",
+      "cargo_usd": "hasta 1000",
+      "tipo": "por evento"
+    },
+    {
+      "id": "fumar-interior",
+      "motivo": "Fumar dentro del alojamiento",
+      "cargo_usd": "50",
+      "tipo": "por evento"
+    },
+    {
+      "id": "comer-en-camas",
+      "motivo": "Comer sobre las camas y generar daño",
+      "cargo_usd": "50",
+      "tipo": "por evento"
+    },
+    {
+      "id": "limpieza-extra",
+      "motivo": "Limpieza extra por suciedad excesiva",
+      "cargo_usd": "variable",
+      "tipo": "según estado"
+    },
+    {
+      "id": "perdida-llaves",
+      "motivo": "Pérdida de llaves",
+      "cargo_usd": "100",
+      "tipo": "por evento"
+    },
+    {
+      "id": "mascota-no-autorizada",
+      "motivo": "Mascota no autorizada",
+      "cargo_usd": "100",
+      "tipo": "por día de infracción"
+    },
+    {
+      "id": "mascota-en-muebles",
+      "motivo": "Mascota en camas, sofás o sillas",
+      "cargo_usd": "50",
+      "tipo": "por día de infracción"
+    },
+    {
+      "id": "mascota-usando-blancos",
+      "motivo": "Mascota usando ropa blanca o utensilios",
+      "cargo_usd": "50",
+      "tipo": "por día de infracción"
+    },
+    {
+      "id": "mascota-heces-orina",
+      "motivo": "Orina o heces de mascota sin limpiar",
+      "cargo_usd": "100",
+      "tipo": "por día de infracción"
+    },
+    {
+      "id": "mascota-sola",
+      "motivo": "Mascota dejada sola sin supervisión",
+      "cargo_usd": "100",
+      "tipo": "por día de infracción"
+    },
+    {
+      "id": "danos-por-mascota",
+      "motivo": "Daños causados por mascota",
+      "cargo_usd": "a costo real",
+      "tipo": "según reparación o reposición"
+    }
+  ],
+  "fuentes": {
+    "casa_avellaneda": "ficha-casa-avellaneda.json",
+    "casa_parque": "ficha-casa-parque.json"
+  }
+}

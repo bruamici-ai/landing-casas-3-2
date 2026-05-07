@@ -4,31 +4,33 @@ import SiteHeader from '../../components/SiteHeader.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import InternalNav from '../../components/InternalNav.astro';
 import reviews from '../../data/parque/la-casa-frente-al-parque-reviews.json';
+
 const uniques = reviews.filter((r) => !r.is_duplicate);
 const featured = uniques.slice(0, 12);
 ---
-<BaseLayout title="Reseñas internas | La Casa Frente al Parque" description="Base interna de reseñas normalizadas de Parque.">
+
+<BaseLayout title="Rese&ntilde;as internas | La Casa Frente al Parque" description="Base interna de rese&ntilde;as normalizadas de Parque." noindex>
   <SiteHeader current="parque" />
   <main>
     <section class="hero-basic">
       <div class="container">
         <p class="eyebrow">Interno · Parque</p>
-        <h1>Reseñas normalizadas</h1>
-        <p>Base real integrada desde el JSON disponible. Esta vista queda más simple que la versión analítica original, pero lista para seguir creciendo dentro de la repo nueva.</p>
+        <h1>Rese&ntilde;as normalizadas</h1>
+        <p>Base real integrada desde el JSON disponible para consulta interna.</p>
       </div>
     </section>
     <section class="content-wrap">
       <div class="container">
         <InternalNav base="parque" />
         <div class="stats">
-          <article class="card stat"><span>Total útiles</span><strong>{uniques.length}</strong></article>
+          <article class="card stat"><span>Total &uacute;tiles</span><strong>{uniques.length}</strong></article>
           <article class="card stat"><span>Airbnb + Booking</span><strong>Base integrada</strong></article>
         </div>
         <div class="reviews">
           {featured.map((review) => (
             <article class="card review-card">
-              <div class="top"><span>{review.platform}</span><strong>{review.guest_name ?? 'Huésped'}</strong></div>
-              <p>“{review.comment_public || review.comment_positive || review.title || 'Sin texto'}”</p>
+              <div class="top"><span>{review.platform}</span><strong>{review.guest_name ?? 'Hu&eacute;sped'}</strong></div>
+              <p>&ldquo;{review.comment_public || review.comment_positive || review.title || 'Sin texto'}&rdquo;</p>
               {review.tags?.length > 0 && <div class="tags">{review.tags.slice(0,5).map((tag) => <span>{tag}</span>)}</div>}
             </article>
           ))}
@@ -38,6 +40,7 @@ const featured = uniques.slice(0, 12);
   </main>
   <SiteFooter />
 </BaseLayout>
+
 <style>
   .content-wrap { padding: 0 0 56px; }
   .stats, .reviews { display:grid; gap:22px; }

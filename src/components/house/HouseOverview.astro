@@ -4,22 +4,24 @@ const { house } = Astro.props;
 const capacity = house.capacity ?? house.capacidad ?? '14';
 const bedrooms = house.bedrooms ?? house.habitaciones ?? 'varios';
 const bathrooms = house.bathrooms ?? house.banos ?? house.baños ?? 'varios';
+const title = house.experienceTitle ?? 'Una casa pensada para vivir Mendoza con comodidad.';
+const summary = house.experienceSummary ?? house.summary;
 ---
 
 <section class="section overview" id="experiencia">
   <div class="shell overview-card">
     <div>
       <span class="section-label">La experiencia</span>
-      <h2>Una casa pensada para vivir Mendoza con comodidad.</h2>
+      <h2>{title}</h2>
       <p>
-        {house.summary}
+        {summary}
       </p>
     </div>
 
     <div class="overview-grid">
       <article>
         <strong>{capacity}</strong>
-        <span>huéspedes</span>
+        <span>hu&eacute;spedes</span>
       </article>
 
       <article>
@@ -29,12 +31,12 @@ const bathrooms = house.bathrooms ?? house.banos ?? house.baños ?? 'varios';
 
       <article>
         <strong>{bathrooms}</strong>
-        <span>baños</span>
+        <span>ba&ntilde;os</span>
       </article>
 
       <article>
         <strong>{house.location ?? 'Mendoza'}</strong>
-        <span>ubicación</span>
+        <span>ubicaci&oacute;n</span>
       </article>
     </div>
   </div>
@@ -42,14 +44,15 @@ const bathrooms = house.bathrooms ?? house.banos ?? house.baños ?? 'varios';
 
 <style>
 .overview {
-  padding: 72px 0;
+  padding: 56px 0;
 }
 
 .overview-card {
-  background: #fff;
-  border-radius: 28px;
-  padding: 40px;
-  box-shadow: 0 24px 70px rgba(0,0,0,.08);
+  background: rgba(255,255,255,.74);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 34px;
+  box-shadow: var(--shadow);
   display: grid;
   grid-template-columns: 1fr 1.2fr;
   gap: 32px;
@@ -61,7 +64,7 @@ const bathrooms = house.bathrooms ?? house.banos ?? house.baños ?? 'varios';
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: .12em;
-  color: #9a3f58;
+  color: var(--olive);
   font-weight: 700;
 }
 
@@ -72,7 +75,7 @@ const bathrooms = house.bathrooms ?? house.banos ?? house.baños ?? 'varios';
 }
 
 .overview-card p {
-  color: #5f5651;
+  color: var(--muted);
   line-height: 1.6;
 }
 
@@ -83,9 +86,9 @@ const bathrooms = house.bathrooms ?? house.banos ?? house.baños ?? 'varios';
 }
 
 .overview-grid article {
-  background: #f8f3ef;
-  border: 1px solid rgba(0,0,0,.06);
-  border-radius: 18px;
+  background: #f6f0ea;
+  border: 1px solid var(--line);
+  border-radius: 16px;
   padding: 22px;
 }
 
@@ -95,7 +98,7 @@ const bathrooms = house.bathrooms ?? house.banos ?? house.baños ?? 'varios';
 }
 
 .overview-grid span {
-  color: #6d625c;
+  color: var(--muted);
   font-size: 14px;
 }
 

@@ -1,52 +1,91 @@
 ---
+import { cloudinaryImage } from '../../utils/cloudinary';
+
 const { house } = Astro.props;
 
-const img = (i) => house.images?.[i] || house.images?.[0];
-
 const amenities = house.amenities ?? house.features ?? [];
-const moments = house.moments ?? [];
+const amenityGroups = house.amenityGroups ?? [];
+const tour = house.virtualTour ?? [];
+const previewTitles = house.previewTourTitles ?? ['Living', 'Descanso premium', 'Patio y pileta'];
+const previewTour = previewTitles
+  .map((title) => tour.find((section) => section.title === title))
+  .filter(Boolean);
+const galleryId = `gallery-${house.slug ?? 'house'}`;
+const imageSrc = (image) => typeof image === 'string' ? image : image.src;
+const imageCaption = (image) => typeof image === 'string' ? '' : image.caption;
+const galleryPayload = tour.map((section) => ({
+  title: section.title,
+  images: section.images,
+}));
 ---
 
 <section class="section details">
   <div class="shell">
+    <div class="visual-layout">
+      <div class="details-head">
+        <span class="section-label">Recorrido visual</span>
+        <h2>Una primera mirada a los espacios donde va a pasar el viaje.</h2>
+        <p>
+          Algunas fotos alcanzan para sentir el tono de la casa: lugares para juntarse, dormitorios para bajar el ritmo y patio para quedarse un rato m&aacute;s.
+        </p>
 
-    <div class="details-head">
-      <span class="section-label">Espacios y servicios</span>
-      <h2>Todo lo necesario para que el grupo funcione bien.</h2>
-      <p>{house.summary}</p>
+        {tour.length > 0 && (
+          <button class="gallery-button" type="button" data-open-gallery={galleryId}>
+            Ver galer&iacute;a completa
+          </button>
+        )}
+      </div>
+
+      <div class="preview-gallery">
+        {previewTour.map((section, index) => (
+          <article class:list={['preview-card', { large: index === 0 }]}>
+            <img src={cloudinaryImage(imageSrc(section.images[0]), index === 0 ? 'q_auto,f_auto,c_limit,w_1100' : 'q_auto,f_auto,c_limit,w_700')} alt={imageCaption(section.images[0]) || `${section.title} de ${house.name}`} loading="lazy" />
+            <div>
+              <span>{section.images.length} fotos</span>
+              <strong>{section.title}</strong>
+            </div>
+          </article>
+        ))}
+      </div>
     </div>
 
-    <div class="photo-grid">
-      <article class="photo-card large">
-        <img src={img(0)} alt="Living de la casa" />
-        <div>
-          <strong>Living con presencia</strong>
-          <span>Un espacio cómodo para reunirse, descansar y compartir.</span>
+    {amenityGroups.length > 0 ? (
+      <div class="amenities-block grouped">
+        <div class="amenities-head">
+          <span class="section-label">Incluido</span>
+          <h3>Comodidades ordenadas para entender la casa de un vistazo.</h3>
+          <p>Descanso, cocina, exterior, conectividad y detalles pr&aacute;cticos para que el grupo pueda instalarse con facilidad.</p>
         </div>
-      </article>
 
-      <article class="photo-card">
-        <img src={img(1)} alt="Dormitorio" />
-        <div>
-          <strong>Descanso cómodo</strong>
-          <span>Habitaciones preparadas para estadías largas o cortas.</span>
+        <div class="amenity-groups">
+          {amenityGroups.map((group) => {
+            const isPriorityGroup = ['Destacados de la casa', 'Cocina y comedor', 'Dormitorios y descanso'].includes(group.title);
+
+            return (
+            <details class="amenity-group" open={isPriorityGroup} data-default-open={isPriorityGroup ? 'true' : 'false'}>
+              <summary class="amenity-group-title">
+                <h4>{group.title}</h4>
+                <span>{group.items.length} detalles</span>
+              </summary>
+
+              <ul>
+                {group.items.slice(0, 5).map((item) => (
+                  <li>
+                    <strong>{item.name}</strong>
+                    <span>{item.detail}</span>
+                  </li>
+                ))}
+              </ul>
+            </details>
+            );
+          })}
         </div>
-      </article>
-
-      <article class="photo-card">
-        <img src={img(2)} alt="Exterior" />
-        <div>
-          <strong>Exterior disfrutable</strong>
-          <span>Patio, aire libre y espacios para bajar el ritmo.</span>
-        </div>
-      </article>
-    </div>
-
-    {amenities.length > 0 && (
+      </div>
+    ) : amenities.length > 0 && (
       <div class="amenities-block">
         <div>
           <span class="section-label">Incluido</span>
-          <h3>Servicios principales</h3>
+          <h3>Lo que acompa&ntilde;a la estad&iacute;a.</h3>
         </div>
 
         <div class="amenities-grid">
@@ -56,18 +95,138 @@ const moments = house.moments ?? [];
         </div>
       </div>
     )}
-
   </div>
 </section>
 
+<dialog class="gallery-dialog" id={galleryId}>
+  <div class="gallery-modal">
+    <div class="gallery-top">
+      <div>
+        <span class="section-label">Galer&iacute;a completa</span>
+        <h2>{house.name}</h2>
+      </div>
+      <button type="button" class="close-button" data-close-gallery={galleryId} aria-label="Cerrar galer&iacute;a">Cerrar</button>
+    </div>
+
+    <div class="modal-tour" data-gallery-content></div>
+  </div>
+</dialog>
+
+<script type="application/json" id={`${galleryId}-data`} set:html={JSON.stringify(galleryPayload)} />
+
+<script define:vars={{ galleryId, houseName: house.name }}>
+  const cloudinaryImage = (src, transform = 'q_auto,f_auto,c_limit,w_1200') => {
+    const marker = '/image/upload/';
+
+    if (!src?.includes('res.cloudinary.com') || !src.includes(marker)) {
+      return src;
+    }
+
+    const [base, rest] = src.split(marker);
+    return `${base}${marker}${transform}/${rest.replace(/^\/+/, '')}`;
+  };
+
+  const buildGallery = (dialog) => {
+    if (dialog.dataset.rendered === 'true') {
+      return;
+    }
+
+    const dataNode = document.getElementById(`${galleryId}-data`);
+    const target = dialog.querySelector('[data-gallery-content]');
+
+    if (!dataNode || !target) {
+      return;
+    }
+
+    const sections = JSON.parse(dataNode.textContent || '[]');
+
+    sections.forEach((section) => {
+      const sectionNode = document.createElement('section');
+      sectionNode.className = 'modal-section';
+
+      const head = document.createElement('div');
+      head.className = 'modal-section-head';
+      head.innerHTML = `<h3>${section.title}</h3><span>${section.images.length} fotos</span>`;
+
+      const grid = document.createElement('div');
+      grid.className = 'modal-grid';
+
+      section.images.forEach((image, index) => {
+        const src = typeof image === 'string' ? image : image.src;
+        const caption = typeof image === 'string' ? '' : image.caption;
+        const figure = document.createElement('figure');
+        figure.className = `modal-photo${index === 0 ? ' wide' : ''}${caption ? ' has-caption' : ''}`;
+
+        const img = document.createElement('img');
+        img.src = cloudinaryImage(src, index === 0 ? 'q_auto,f_auto,c_limit,w_1400' : 'q_auto,f_auto,c_limit,w_800');
+        img.alt = caption || `${section.title} ${index + 1} de ${houseName}`;
+        img.loading = 'lazy';
+
+        figure.append(img);
+
+        if (caption) {
+          const figcaption = document.createElement('figcaption');
+          figcaption.textContent = caption;
+          figure.append(figcaption);
+        }
+
+        grid.append(figure);
+      });
+
+      sectionNode.append(head, grid);
+      target.append(sectionNode);
+    });
+
+    dialog.dataset.rendered = 'true';
+  };
+
+  const desktopAmenities = window.matchMedia('(min-width: 851px)');
+  const syncAmenityGroups = () => {
+    document.querySelectorAll('.amenity-group').forEach((group) => {
+      group.open = desktopAmenities.matches || group.dataset.defaultOpen === 'true';
+    });
+  };
+
+  syncAmenityGroups();
+  desktopAmenities.addEventListener('change', syncAmenityGroups);
+
+  document.querySelectorAll('[data-open-gallery]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const dialog = document.getElementById(button.getAttribute('data-open-gallery'));
+
+      if (dialog instanceof HTMLDialogElement) {
+        buildGallery(dialog);
+        dialog.showModal();
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-close-gallery]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const dialog = document.getElementById(button.getAttribute('data-close-gallery'));
+
+      if (dialog instanceof HTMLDialogElement) {
+        dialog.close();
+      }
+    });
+  });
+</script>
+
 <style>
 .details {
-  padding: 72px 0;
+  padding: 56px 0;
+}
+
+.visual-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, .72fr) minmax(0, 1.28fr);
+  gap: 28px;
+  align-items: center;
 }
 
 .details-head {
-  max-width: 760px;
-  margin-bottom: 32px;
+  max-width: 820px;
+  padding: 24px 0;
 }
 
 .section-label {
@@ -76,91 +235,355 @@ const moments = house.moments ?? [];
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: .12em;
-  color: #9a3f58;
+  color: var(--olive);
   font-weight: 700;
 }
 
-.details-head h2 {
+.details-head h2,
+.gallery-top h2 {
   font-size: clamp(34px, 5vw, 58px);
   line-height: .95;
   margin: 0 0 16px;
 }
 
-.details-head p {
-  color: #5f5651;
+.details-head p,
+.preview-card p {
+  color: var(--muted);
   line-height: 1.6;
 }
 
-.photo-grid {
+.preview-gallery {
   display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr;
-  gap: 16px;
+  grid-template-columns: 1.35fr .72fr;
+  grid-template-rows: repeat(2, minmax(190px, 1fr));
+  gap: 12px;
+  min-height: 500px;
 }
 
-.photo-card {
+.preview-card {
   position: relative;
-  min-height: 260px;
-  border-radius: 24px;
+  min-height: 0;
   overflow: hidden;
+  border-radius: var(--radius-xl);
   background: #ddd;
-  box-shadow: 0 20px 50px rgba(0,0,0,.08);
+  box-shadow: var(--shadow);
 }
 
-.photo-card.large {
-  min-height: 360px;
+.preview-card.large {
+  grid-row: span 2;
 }
 
-.photo-card img {
+.preview-card img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  position: absolute;
-  inset: 0;
 }
 
-.photo-card::after {
+.preview-card::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,.65), rgba(0,0,0,.05));
+  background: linear-gradient(to top, rgba(0,0,0,.58), rgba(0,0,0,0) 58%);
 }
 
-.photo-card div {
+.preview-card div {
   position: absolute;
   z-index: 1;
-  left: 18px;
-  right: 18px;
-  bottom: 18px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
   color: white;
 }
 
-.photo-card strong {
+.preview-card span {
   display: block;
-  font-size: 18px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  opacity: .86;
 }
 
-.photo-card span {
+.preview-card strong {
+  display: block;
+  font-size: clamp(22px, 2.7vw, 34px);
+  line-height: 1;
+}
+
+.gallery-button,
+.close-button {
+  border: 0;
+  cursor: pointer;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+.gallery-button {
+  margin-top: 10px;
+  background: linear-gradient(135deg, var(--olive), var(--olive-dark));
+  color: white;
+  padding: 14px 18px;
+  box-shadow: var(--shadow);
+}
+
+.gallery-dialog {
+  width: min(1040px, calc(100vw - 28px));
+  max-height: min(860px, calc(100vh - 28px));
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xl);
+  background: var(--bg);
+  color: #201916;
+}
+
+.gallery-dialog::backdrop {
+  background: rgba(20, 16, 14, .58);
+}
+
+.gallery-modal {
+  padding: 30px;
+}
+
+.gallery-top {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+  padding-bottom: 16px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 24px;
+}
+
+.close-button {
+  flex: 0 0 auto;
+  background: #fff;
+  color: #201916;
+  padding: 11px 14px;
+  border: 1px solid var(--line);
+}
+
+.modal-tour {
+  display: grid;
+  gap: 38px;
+}
+
+.modal-section {
+  display: grid;
+  grid-template-columns: .28fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.modal-section-head {
+  position: sticky;
+  top: 118px;
+  display: block;
+}
+
+.modal-section-head h3 {
+  margin: 0;
+  font-size: clamp(26px, 3vw, 40px);
+  line-height: 1;
+}
+
+.modal-section-head span {
+  display: block;
+  margin-top: 8px;
+  color: var(--olive);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 130px;
+  gap: 10px;
+}
+
+.modal-photo {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #ddd;
+  box-shadow: var(--shadow);
+}
+
+.modal-photo.wide {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.modal-photo img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.modal-photo.has-caption::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 56%;
+  background: linear-gradient(to top, rgba(0,0,0,.62), rgba(0,0,0,0));
+  pointer-events: none;
+}
+
+.modal-photo figcaption {
+  position: absolute;
+  z-index: 1;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  color: #fff;
   font-size: 13px;
-  line-height: 1.4;
-  opacity: .9;
+  line-height: 1.25;
+  font-weight: 700;
+  text-shadow: 0 1px 8px rgba(0,0,0,.35);
 }
 
 .amenities-block {
   margin-top: 56px;
-  background: #fff;
-  border-radius: 28px;
+  background: rgba(255,255,255,.74);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
   padding: 36px;
-  box-shadow: 0 24px 70px rgba(0,0,0,.08);
+  box-shadow: var(--shadow);
   display: grid;
   grid-template-columns: .8fr 1.4fr;
   gap: 28px;
+}
+
+.amenities-block.grouped {
+  display: block;
+}
+
+.amenities-head {
+  max-width: 760px;
+  margin-bottom: 26px;
 }
 
 .amenities-block h3 {
   font-size: 36px;
   line-height: 1;
   margin: 0;
+}
+
+.amenities-head p {
+  margin: 14px 0 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.amenity-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.amenity-group {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fffdf9;
+  padding: 0;
+  overflow: hidden;
+}
+
+.amenity-group-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+  margin: 0;
+  padding: 16px 18px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.amenity-group-title::-webkit-details-marker {
+  display: none;
+}
+
+.amenity-group-title::after {
+  content: "+";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: #f6f0ea;
+  color: var(--olive);
+  font-weight: 900;
+}
+
+.amenity-group[open] .amenity-group-title {
+  border-bottom: 1px solid var(--line);
+}
+
+.amenity-group[open] .amenity-group-title::after {
+  content: "-";
+}
+
+.amenity-group h4 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.1;
+}
+
+.amenity-group-title span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--olive);
+  font-size: 13px;
+  font-weight: 800;
+  border: 1px solid var(--line);
+  padding: 0 10px;
+  margin-left: auto;
+}
+
+.amenity-group ul {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 16px 18px 18px;
+  list-style: none;
+}
+
+.amenity-group li {
+  min-width: 0;
+}
+
+.amenity-group li strong {
+  display: block;
+  color: #201916;
+  font-size: 14px;
+}
+
+.amenity-group li span {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
 }
 
 .amenities-grid {
@@ -170,26 +593,60 @@ const moments = house.moments ?? [];
 }
 
 .amenities-grid span {
-  background: #f8f3ef;
-  border: 1px solid rgba(0,0,0,.06);
+  background: #f6f0ea;
+  border: 1px solid var(--line);
   border-radius: 999px;
   padding: 10px 14px;
   font-size: 13px;
 }
 
 @media (max-width: 850px) {
-  .photo-grid,
+  .visual-layout,
+  .preview-gallery,
+  .modal-section,
   .amenities-block {
     grid-template-columns: 1fr;
   }
 
-  .photo-card,
-  .photo-card.large {
-    min-height: 260px;
+  .amenity-groups {
+    grid-template-columns: 1fr;
   }
 
-  .amenities-block {
-    padding: 28px;
+  .preview-gallery {
+    grid-template-rows: none;
   }
+
+  .preview-card.large {
+    grid-row: auto;
+  }
+
+  .preview-card {
+    min-height: 250px;
+  }
+
+  .modal-section-head {
+    position: static;
+  }
+
+  .modal-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 116px;
+  }
+}
+
+@media (max-width: 560px) {
+  .details {
+    padding: 56px 0;
+  }
+
+  .preview-card {
+    min-height: 300px;
+  }
+
+  .gallery-modal,
+  .amenities-block {
+    padding: 22px;
+  }
+
 }
 </style>

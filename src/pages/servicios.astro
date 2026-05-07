@@ -4,20 +4,21 @@ import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { services } from '../data/site';
 ---
+
 <BaseLayout
   title="Servicios | Experiencias Mendoza"
-  description="Servicios complementarios pensados para acompañar la estadía en nuestras casas en Mendoza."
+  description="Servicios complementarios para resolver traslados, compras, experiencias, parrilla y detalles regionales durante la estadia en Mendoza."
 >
   <SiteHeader current="servicios" />
 
   <main>
-    <section class="hero-basic">
+    <section class="services-hero">
       <div class="container">
         <p class="eyebrow">Servicios</p>
-        <h1>Servicios complementarios para una estadía más simple.</h1>
+        <h1>Complementos para que la estad&iacute;a fluya mejor.</h1>
         <p>
-          Esta sección funciona como base de desarrollo. Cada servicio ya cuenta con una página propia
-          para que después podamos expandirlo con mejor contenido, imágenes y condiciones.
+          Traslados, compras, experiencias, parrilla y detalles regionales coordinados alrededor de la casa,
+          el grupo y el ritmo real del viaje.
         </p>
       </div>
     </section>
@@ -26,10 +27,13 @@ import { services } from '../data/site';
       <div class="container grid">
         {services.map((service) => (
           <a class="card item" href={`/servicios/${service.slug}`}>
-            <span class="kicker">Abrir página</span>
-            <h2>{service.title}</h2>
-            <p class="short">{service.short}</p>
-            <p>{service.body}</p>
+            <img src={`/services/${service.slug}.jpg`} alt={service.title} loading="lazy" />
+            <div class="item-copy">
+              <span class="kicker">Ver servicio</span>
+              <h2>{service.title}</h2>
+              <p class="short">{service.short}</p>
+              <p>{service.body}</p>
+            </div>
           </a>
         ))}
       </div>
@@ -40,19 +44,50 @@ import { services } from '../data/site';
 </BaseLayout>
 
 <style>
+  .services-hero {
+    padding: 56px 0 34px;
+  }
+
+  .services-hero h1 {
+    max-width: 820px;
+    margin: 0;
+    font-size: clamp(42px, 7vw, 78px);
+    line-height: .95;
+    letter-spacing: -.05em;
+  }
+
+  .services-hero p:not(.eyebrow) {
+    max-width: 68ch;
+    margin: 20px 0 0;
+    color: var(--muted);
+    font-size: clamp(17px, 1.45vw, 21px);
+    line-height: 1.65;
+  }
+
   .cards { padding: 0 0 56px; }
 
   .grid {
     display:grid;
-    grid-template-columns: repeat(2, minmax(0,1fr));
+    grid-template-columns: repeat(3, minmax(0,1fr));
     gap:22px;
   }
 
   .item {
-    display: block;
-    padding:24px;
+    display: grid;
+    grid-template-rows: 220px 1fr;
+    overflow: hidden;
     text-decoration:none;
     transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+
+  .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .item-copy {
+    padding: 20px;
   }
 
   .item:hover {
@@ -73,7 +108,7 @@ import { services } from '../data/site';
 
   .item h2 {
     margin:0 0 6px;
-    font-size:30px;
+    font-size:26px;
     line-height: 1.05;
   }
 
@@ -90,6 +125,18 @@ import { services } from '../data/site';
   }
 
   @media (max-width: 900px) {
-    .grid { grid-template-columns:1fr; }
+    .services-hero {
+      padding-top: 34px;
+    }
+
+    .grid {
+      grid-template-columns:1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .item {
+      grid-template-rows: 190px 1fr;
+    }
   }
 </style>

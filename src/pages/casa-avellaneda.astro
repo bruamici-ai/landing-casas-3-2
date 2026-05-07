@@ -4,10 +4,16 @@ import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import HouseLanding from '../components/HouseLanding.astro';
 import { avellanedaHouse } from '../data/avellaneda/house';
-import { avellanedaReviews } from '../data/avellaneda/reviews';
+import { avellanedaReviewRatings, avellanedaReviews } from '../data/avellaneda/reviews';
+import { site } from '../data/site';
+
+const headerWhatsapp = site.whatsappUrl(
+  `Hola ${avellanedaHouse.contactName}, quiero consultar disponibilidad para ${avellanedaHouse.name}. Mis fechas tentativas son: `,
+  avellanedaHouse.whatsapp
+);
 ---
 <BaseLayout title="Casa Avellaneda | Experiencias Mendoza" description={avellanedaHouse.summary} image={avellanedaHouse.heroImage}>
-  <SiteHeader current="avellaneda" />
-  <HouseLanding house={avellanedaHouse} reviews={avellanedaReviews} internalBase="avellaneda" />
+  <SiteHeader current="avellaneda" whatsappHref={headerWhatsapp} />
+  <HouseLanding house={avellanedaHouse} reviews={avellanedaReviews} reviewRatings={avellanedaReviewRatings} internalBase="avellaneda" />
   <SiteFooter />
 </BaseLayout>

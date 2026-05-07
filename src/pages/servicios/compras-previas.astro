@@ -1,40 +1,296 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import SiteHeader from '../../components/SiteHeader.astro';
-import SiteFooter from '../../components/SiteFooter.astro';
----
-<BaseLayout
-  title="Compras previas | Experiencias Mendoza"
-  description="Organización de compras básicas y pedidos puntuales antes de la llegada."
->
-  <SiteHeader current="servicios" />
-  <main>
-    <section class="hero-basic">
-      <div class="container">
-        <p class="eyebrow">Servicio</p>
-        <h1>Compras previas</h1>
-        <p>
-          Una capa de apoyo para llegar con lo importante ya resuelto: básicos, bebidas o pedidos puntuales.
-        </p>
-      </div>
-    </section>
+import ServicePage from '../../components/ServicePage.astro';
+import { site } from '../../data/site';
 
-    <section class="service-detail">
-      <div class="container card wrap">
-        <h2>Base de desarrollo</h2>
+const whatsappNumber = site.whatsapp;
+
+const items = [
+  { label: 'Lena', value: 'lena' },
+  { label: 'Hielo', value: 'hielo' },
+  { label: 'Bidones de agua', value: 'bidones de agua' },
+  { label: 'Cajas de cerveza', value: 'cajas de cerveza' },
+  { label: 'Vino', value: 'vino' },
+  { label: 'Carbon', value: 'carbon' },
+  { label: 'Gaseosas', value: 'gaseosas' },
+  { label: 'Snacks', value: 'snacks' },
+  { label: 'Desayuno basico', value: 'desayuno basico' },
+  { label: 'Otro pedido', value: 'otro pedido' },
+];
+---
+
+<ServicePage
+  title="Compras previas"
+  description="Servicio de compras previas para dejar lena, hielo, agua, cerveza, vino y basicos listos antes de la llegada."
+  heading="Entrar a la casa y tener lo importante listo."
+  intro="Armamos una compra previa simple para que el grupo llegue con agua, hielo, bebidas, lena o basicos ya preparados en la casa."
+  image="/services/compras-previas.jpg"
+  imageAlt="Compras previas listas para la llegada"
+  service="compras previas"
+  showCta={false}
+>
+  <section class="service-section">
+    <div class="container purchase-intro">
+      <article>
+        <p class="eyebrow">Como funciona</p>
+        <h2>Compramos en Carrefour y dejamos todo en la casa.</h2>
         <p>
-          Más adelante esta página puede incluir ejemplos de compras, tiempos de pedido,
-          límites del servicio y forma de coordinación.
+          El servicio esta pensado para resolver lo practico antes del check-in: bebidas frias, agua,
+          hielo, lena o productos simples para no salir corriendo al supermercado apenas llegan.
+        </p>
+      </article>
+
+      <div class="purchase-rule">
+        <span>Forma de cobro</span>
+        <strong>Ticket + 10%</strong>
+        <p>El ticket queda como referencia clara y se suma un 10% por compra, coordinacion y preparacion.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="service-section">
+    <div class="container purchase-picker" data-purchase-picker>
+      <div>
+        <p class="eyebrow">Armar pedido</p>
+        <h2>Marc&aacute; lo que quer&eacute;s encontrar al llegar.</h2>
+        <p>
+          Eleg&iacute; productos base y agreg&aacute; cantidades o marcas en el detalle. El WhatsApp se arma con el
+          pedido para poder confirmar disponibilidad y coordinar la compra.
         </p>
       </div>
-    </section>
-  </main>
-  <SiteFooter />
-</BaseLayout>
+
+      <form class="picker-box">
+        <fieldset>
+          <legend>Productos</legend>
+          <div class="check-grid">
+            {items.map((item) => (
+              <label class="check-option">
+                <input type="checkbox" name="compra" value={item.value} />
+                <span>{item.label}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <label class="notes">
+          <span>Detalle opcional</span>
+          <textarea name="detalle" rows="4" placeholder="Cantidades, marcas, casa, fecha de llegada o algun pedido especial"></textarea>
+        </label>
+
+        <a class="btn btn-primary picker-button" href={site.whatsappUrl('Hola Bruno, quiero consultar por compras previas.')} target="_blank" rel="noreferrer" data-purchase-whatsapp>
+          Consultar por WhatsApp
+        </a>
+      </form>
+    </div>
+  </section>
+
+  <section class="service-section">
+    <div class="container service-grid">
+      <article class="service-card">
+        <strong>Pedido antes de llegar</strong>
+        <p>Cuanto antes este la lista, mas facil es dejar todo preparado para el check-in.</p>
+      </article>
+
+      <article class="service-card">
+        <strong>Compra verificable</strong>
+        <p>Se compra en Carrefour para mantener precios claros y un ticket de referencia.</p>
+      </article>
+
+      <article class="service-card">
+        <strong>Preparado en casa</strong>
+        <p>Dejamos los productos en el lugar correspondiente: heladera, freezer, deposito o parrilla.</p>
+      </article>
+    </div>
+  </section>
+</ServicePage>
+
+<script define:vars={{ whatsappNumber }}>
+  const picker = document.querySelector('[data-purchase-picker]');
+  const button = picker?.querySelector('[data-purchase-whatsapp]');
+  const checks = [...(picker?.querySelectorAll('input[name="compra"]') ?? [])];
+  const detail = picker?.querySelector('textarea[name="detalle"]');
+
+  const buildMessage = () => {
+    const selected = checks
+      .filter((check) => check.checked)
+      .map((check) => check.value);
+
+    const selectedText = selected.length ? selected.join(', ') : 'compras previas';
+    const extra = detail?.value?.trim();
+    const lines = [
+      `Hola Bruno, quiero consultar por compras previas: ${selectedText}.`,
+      '',
+      'Detalle:',
+      extra || '-'
+    ];
+
+    return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join('\n'))}`;
+  };
+
+  const sync = () => {
+    if (button) {
+      button.href = buildMessage();
+    }
+  };
+
+  checks.forEach((check) => check.addEventListener('change', sync));
+  detail?.addEventListener('input', sync);
+  sync();
+</script>
 
 <style>
-  .service-detail { padding: 0 0 56px; }
-  .wrap { padding: 28px; }
-  .wrap h2 { margin: 0 0 10px; }
-  .wrap p { margin: 0; color: var(--muted); line-height: 1.75; }
+  .purchase-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 360px);
+    gap: 20px;
+    align-items: stretch;
+  }
+
+  .purchase-intro article,
+  .purchase-rule,
+  .purchase-picker {
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    background: rgba(255,255,255,.74);
+    box-shadow: var(--shadow);
+  }
+
+  .purchase-intro h2,
+  .purchase-picker h2 {
+    margin: 0 0 12px;
+    font-size: clamp(30px, 4.6vw, 52px);
+    line-height: 1;
+    letter-spacing: -.04em;
+  }
+
+  .purchase-intro p,
+  .purchase-picker p,
+  .purchase-rule p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  .purchase-rule {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--olive), var(--olive-dark));
+    color: white;
+  }
+
+  .purchase-rule span {
+    margin-bottom: 12px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    opacity: .78;
+  }
+
+  .purchase-rule strong {
+    display: block;
+    margin-bottom: 10px;
+    font-size: clamp(38px, 5vw, 56px);
+    line-height: .9;
+  }
+
+  .purchase-rule p {
+    color: rgba(255,255,255,.82);
+  }
+
+  .purchase-picker {
+    display: grid;
+    grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+    gap: 24px;
+    align-items: start;
+    background: linear-gradient(135deg, rgba(109,117,82,.10), rgba(255,255,255,.96));
+  }
+
+  .picker-box {
+    display: grid;
+    gap: 16px;
+  }
+
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  legend,
+  .notes span {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .check-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .check-option {
+    cursor: pointer;
+  }
+
+  .check-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .check-option span {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: rgba(255,255,255,.78);
+    color: var(--text);
+    font-weight: 800;
+    transition: background .2s ease, border-color .2s ease, color .2s ease;
+  }
+
+  .check-option input:checked + span {
+    border-color: var(--olive);
+    background: var(--olive);
+    color: white;
+  }
+
+  .notes {
+    display: grid;
+  }
+
+  textarea {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 14px 16px;
+    font: inherit;
+    resize: vertical;
+    background: #fff;
+  }
+
+  .picker-button {
+    width: 100%;
+  }
+
+  @media (max-width: 900px) {
+    .purchase-intro,
+    .purchase-picker,
+    .check-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .purchase-intro article,
+    .purchase-rule,
+    .purchase-picker {
+      padding: 20px;
+      border-radius: 22px;
+    }
+  }
 </style>

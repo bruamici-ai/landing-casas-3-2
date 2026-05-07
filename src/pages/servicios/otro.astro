@@ -1,56 +1,33 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import SiteHeader from '../../components/SiteHeader.astro';
-import SiteFooter from '../../components/SiteFooter.astro';
+import ServicePage from '../../components/ServicePage.astro';
 ---
-<BaseLayout
-  title="Otro servicio | Experiencias Mendoza"
-  description="Servicio adicional a medida para huéspedes de Experiencias Mendoza."
+
+<ServicePage
+  title="Otros proyectos"
+  description="Espacio flexible para nuevos servicios, experiencias y proyectos complementarios en Experiencias Mendoza."
+  heading="Un espacio abierto para los proximos proyectos."
+  intro="Algunos pedidos no entran todavia en una categoria fija. Esta pagina queda preparada para sumar nuevas experiencias y servicios cuando esten listos."
+  image="/services/otro.jpg"
+  imageAlt="Servicio adicional para la estadia"
+  service="otro servicio"
+  whatsappMessage="Hola Bruno, quiero consultar por un servicio o pedido especial para mi estadia. La idea es: "
 >
-  <SiteHeader current="servicios" />
+  <section class="service-section">
+    <div class="container service-grid">
+      <article class="service-card">
+        <strong>Pedidos especiales</strong>
+        <p>Solicitudes puntuales vinculadas a la estadia, el grupo o una ocasion particular.</p>
+      </article>
 
-  <main>
-    <section class="hero-basic">
-      <div class="container">
-        <p class="eyebrow">Servicio</p>
-        <h1>Otro servicio</h1>
-        <p>
-          Esta página queda como espacio flexible para propuestas personalizadas según el tipo de estadía,
-          el grupo y la experiencia que quieran armar en Mendoza.
-        </p>
-      </div>
-    </section>
+      <article class="service-card">
+        <strong>Nuevas experiencias</strong>
+        <p>Espacio listo para sumar proyectos gastronomicos, turisticos o regionales.</p>
+      </article>
 
-    <section class="service-detail">
-      <div class="container card wrap">
-        <h2>Base de desarrollo</h2>
-        <p>
-          Más adelante podemos definir acá servicios especiales, pedidos puntuales, experiencias a medida
-          o cualquier complemento que no encaje dentro de las categorías principales.
-        </p>
-      </div>
-    </section>
-  </main>
-
-  <SiteFooter />
-</BaseLayout>
-
-<style>
-  .service-detail {
-    padding: 0 0 56px;
-  }
-
-  .wrap {
-    padding: 28px;
-  }
-
-  .wrap h2 {
-    margin: 0 0 10px;
-  }
-
-  .wrap p {
-    margin: 0;
-    color: var(--muted);
-    line-height: 1.75;
-  }
-</style>
+      <article class="service-card">
+        <strong>Alianzas futuras</strong>
+        <p>Base flexible para integrar nuevos proveedores sin rehacer la estructura del sitio.</p>
+      </article>
+    </div>
+  </section>
+</ServicePage>

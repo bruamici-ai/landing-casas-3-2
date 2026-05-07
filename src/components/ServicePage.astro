@@ -1,0 +1,192 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from './SiteHeader.astro';
+import SiteFooter from './SiteFooter.astro';
+import ServiceCTA from './ServiceCTA.astro';
+
+const {
+  title,
+  description,
+  eyebrow = 'Servicio',
+  heading,
+  intro,
+  image,
+  imageAlt,
+  service,
+  whatsappMessage,
+  showCta = true,
+} = Astro.props;
+---
+
+<BaseLayout title={`${title} | Experiencias Mendoza`} description={description} image={image}>
+  <SiteHeader current="servicios" />
+
+  <main>
+    <section class="service-hero">
+      <div class="container service-hero__grid">
+        <div class="service-hero__copy">
+          <p class="eyebrow">{eyebrow}</p>
+          <h1>{heading ?? title}</h1>
+          <p>{intro}</p>
+        </div>
+
+        <figure class="service-hero__media">
+          <img src={image} alt={imageAlt ?? title} loading="eager" />
+        </figure>
+      </div>
+    </section>
+
+    <slot />
+
+    {showCta && <ServiceCTA service={service ?? title} message={whatsappMessage} />}
+  </main>
+
+  <SiteFooter />
+</BaseLayout>
+
+<style>
+  .service-hero {
+    padding: 44px 0 34px;
+  }
+
+  .service-hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+    gap: 28px;
+    align-items: center;
+  }
+
+  .service-hero__copy h1 {
+    max-width: 760px;
+    margin: 0;
+    font-size: clamp(42px, 6.5vw, 78px);
+    line-height: .94;
+    letter-spacing: -.05em;
+  }
+
+  .service-hero__copy p:not(.eyebrow) {
+    max-width: 62ch;
+    margin: 20px 0 0;
+    color: var(--muted);
+    font-size: clamp(17px, 1.6vw, 21px);
+    line-height: 1.6;
+  }
+
+  .service-hero__media {
+    min-height: 500px;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 28px;
+    background: #ded7cd;
+    box-shadow: var(--shadow);
+  }
+
+  .service-hero__media img {
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+    object-fit: cover;
+  }
+
+  :global(.service-section) {
+    padding: 18px 0 54px;
+  }
+
+  :global(.service-panel) {
+    padding: 28px;
+    background: rgba(255,255,255,.74);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+  }
+
+  :global(.service-panel h2) {
+    margin: 0 0 12px;
+    font-size: clamp(28px, 4vw, 46px);
+    line-height: 1.04;
+    letter-spacing: -.035em;
+  }
+
+  :global(.service-panel h3) {
+    margin: 0 0 8px;
+    font-size: 22px;
+    line-height: 1.12;
+    letter-spacing: -.02em;
+  }
+
+  :global(.service-panel p) {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  :global(.service-grid) {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  :global(.service-card) {
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: rgba(255,255,255,.68);
+  }
+
+  :global(.service-card strong) {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 18px;
+    line-height: 1.2;
+  }
+
+  :global(.service-list) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  :global(.service-list li) {
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: rgba(255,255,255,.64);
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  @media (max-width: 900px) {
+    .service-hero {
+      padding-top: 28px;
+    }
+
+    .service-hero__grid,
+    :global(.service-grid),
+    :global(.service-list) {
+      grid-template-columns: 1fr;
+    }
+
+    .service-hero__media,
+    .service-hero__media img {
+      min-height: 360px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .service-hero__media {
+      border-radius: 22px;
+    }
+
+    .service-hero__media,
+    .service-hero__media img {
+      min-height: 320px;
+    }
+
+    :global(.service-panel) {
+      padding: 20px;
+    }
+  }
+</style>

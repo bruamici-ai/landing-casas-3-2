@@ -1,0 +1,68 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  service: string;
+  message?: string;
+}
+
+const { service, message } = Astro.props;
+const wa = site.whatsappUrl(message ?? `Hola Bruno, quiero consultar por el servicio de ${service}.`);
+---
+
+<section class="service-cta">
+  <div class="container service-cta__inner">
+    <div>
+      <p class="eyebrow">Coordinar servicio</p>
+      <h2>Lo vemos seg&uacute;n la casa, las fechas y el grupo.</h2>
+      <p>
+        Cada estad&iacute;a tiene su ritmo. Contanos qu&eacute; necesit&aacute;s y te respondemos con una propuesta simple,
+        clara y posible de coordinar.
+      </p>
+    </div>
+    <a class="btn btn-primary" href={wa} target="_blank" rel="noreferrer">Consultar por WhatsApp</a>
+  </div>
+</section>
+
+<style>
+  .service-cta {
+    padding: 0 0 64px;
+  }
+
+  .service-cta__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: center;
+    padding: 28px;
+    border: 1px solid rgba(109, 117, 82, .18);
+    border-radius: 28px;
+    background: linear-gradient(135deg, rgba(109, 117, 82, .10), rgba(255, 255, 255, .96));
+    box-shadow: 0 24px 60px rgba(30, 22, 16, .08);
+  }
+
+  .service-cta h2 {
+    margin: 0 0 8px;
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.02;
+  }
+
+  .service-cta p {
+    max-width: 680px;
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  @media (max-width: 820px) {
+    .service-cta__inner {
+      grid-template-columns: 1fr;
+      border-radius: 22px;
+    }
+
+    .service-cta .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

@@ -4,40 +4,45 @@ import SiteHeader from '../../components/SiteHeader.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import InternalNav from '../../components/InternalNav.astro';
 import ficha from '../../data/parque/ficha-casa-parque.json';
-const totalServicios = ficha.servicios_por_categoria.reduce((acc, cat) => acc + cat.items.length, 0);
+
+const serviciosPorCategoria = ficha.servicios_por_categoria ?? [];
+const totalServicios = serviciosPorCategoria.reduce((acc, cat) => acc + (cat.items?.length ?? 0), 0);
+const penalizaciones = ficha.penalizaciones ?? [];
+const normasNormalizadas = ficha.normas_normalizadas ?? [];
 ---
-<BaseLayout title="Ficha interna | La Casa Frente al Parque" description="Ficha interna normalizada de servicios, normas y penalizaciones.">
+
+<BaseLayout title="Ficha interna | La Casa Frente al Parque" description="Ficha interna normalizada de servicios, normas y penalizaciones." noindex>
   <SiteHeader current="parque" />
   <main>
     <section class="hero-basic">
       <div class="container">
         <p class="eyebrow">Interno · Parque</p>
         <h1>{ficha.nombre}</h1>
-        <p>{ficha.subtitulo}. Esta versión ya queda integrada dentro de la nueva repo para que puedas usarla como base operativa real.</p>
+        <p>{ficha.subtitulo}. Vista operativa para consultar servicios, normas y penalizaciones.</p>
       </div>
     </section>
     <section class="content-wrap">
       <div class="container">
         <InternalNav base="parque" />
         <div class="top-grid">
-          <article class="card box"><span>Dirección</span><strong>{ficha.direccion}</strong></article>
-          <article class="card box"><span>Capacidad</span><strong>{ficha.capacidad_publicada.huespedes} huéspedes</strong></article>
+          <article class="card box"><span>Direcci&oacute;n</span><strong>{ficha.direccion}</strong></article>
+          <article class="card box"><span>Capacidad</span><strong>{ficha.capacidad_publicada.huespedes} hu&eacute;spedes</strong></article>
           <article class="card box"><span>Servicios</span><strong>{totalServicios}</strong></article>
-          <article class="card box"><span>Penalizaciones</span><strong>{ficha.penalizaciones.length}</strong></article>
+          <article class="card box"><span>Penalizaciones</span><strong>{penalizaciones.length}</strong></article>
         </div>
         <div class="section-block">
-          <div class="section-head"><div><p class="eyebrow">Servicios</p><h2>Servicios por categoría</h2></div><p>La ficha completa ya quedó agrupada para facilitar web, operación o ventas.</p></div>
+          <div class="section-head"><div><p class="eyebrow">Servicios</p><h2>Servicios por categor&iacute;a</h2></div><p>Ficha agrupada para consulta operativa.</p></div>
           <div class="grid-2">
-            {ficha.servicios_por_categoria.map((grupo) => (
-              <article class="card panel"><h3>{grupo.categoria}</h3><ul>{grupo.items.map((item) => <li><strong>{item.nombre}:</strong> {item.detalle}</li>)}</ul></article>
+            {serviciosPorCategoria.map((grupo) => (
+              <article class="card panel"><h3>{grupo.categoria}</h3><ul>{grupo.items?.map((item) => <li><strong>{item.nombre}:</strong> {item.detalle}</li>)}</ul></article>
             ))}
           </div>
         </div>
         <div class="section-block">
-          <div class="section-head"><div><p class="eyebrow">Normas</p><h2>Reglas normalizadas</h2></div><p>Se preserva la lógica del archivo fuente pero ya ordenada para consulta rápida.</p></div>
+          <div class="section-head"><div><p class="eyebrow">Normas</p><h2>Reglas normalizadas</h2></div><p>Reglas ordenadas para consulta r&aacute;pida.</p></div>
           <div class="grid-2">
-            {ficha.normas_normalizadas.map((bloque) => (
-              <article class="card panel"><h3>{bloque.titulo}</h3><ul>{bloque.reglas.map((regla) => <li>{regla}</li>)}</ul></article>
+            {normasNormalizadas.map((bloque) => (
+              <article class="card panel"><h3>{bloque.titulo}</h3><ul>{bloque.reglas?.map((regla) => <li>{regla}</li>)}</ul></article>
             ))}
           </div>
         </div>
@@ -46,6 +51,7 @@ const totalServicios = ficha.servicios_por_categoria.reduce((acc, cat) => acc + 
   </main>
   <SiteFooter />
 </BaseLayout>
+
 <style>
   .content-wrap { padding: 0 0 56px; }
   .top-grid, .grid-2 { display:grid; gap:22px; }

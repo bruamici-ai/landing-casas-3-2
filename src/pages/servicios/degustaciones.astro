@@ -1,40 +1,354 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import SiteHeader from '../../components/SiteHeader.astro';
-import SiteFooter from '../../components/SiteFooter.astro';
+import ServicePage from '../../components/ServicePage.astro';
 ---
-<BaseLayout
-  title="Degustaciones y experiencias en casa | Experiencias Mendoza"
-  description="Propuestas íntimas para sumar valor a la estadía dentro de la casa."
->
-  <SiteHeader current="servicios" />
-  <main>
-    <section class="hero-basic">
-      <div class="container">
-        <p class="eyebrow">Servicio</p>
-        <h1>Degustaciones y experiencias en casa</h1>
-        <p>
-          Una capa más íntima, pensada para aprovechar la casa como escenario de la experiencia.
-        </p>
-      </div>
-    </section>
 
-    <section class="service-detail">
-      <div class="container card wrap">
-        <h2>Base de desarrollo</h2>
+<ServicePage
+  title="Degustaciones"
+  description="Experiencia gratuita de degustacion en casa con QR, guia digital y opciones de degustacion en bodegas de Mendoza."
+  heading="Una experiencia gratis de vino en casa, y opciones para salir a bodega."
+  intro="La degustacion guiada en casa es gratuita para huespedes: una forma simple, intima y autonoma de vivir el vino mendocino sin moverse del alojamiento."
+  image="/services/degustaciones.jpg"
+  imageAlt="Degustacion de vinos en Mendoza"
+  service="degustaciones"
+  whatsappMessage="Hola Bruno, quiero consultar por degustaciones. Me interesa una opcion en casa o en bodega para estas fechas: "
+>
+  <section class="service-section">
+    <div class="container tasting-split">
+      <article class="tasting-feature">
+        <div class="free-badge">
+          <span class="free-icon">0</span>
+          <span>Experiencia gratis</span>
+        </div>
+        <p class="eyebrow">Degustacion en casa</p>
+        <h2>Una experiencia guiada y gratis, sin salir del alojamiento.</h2>
         <p>
-          Esta página queda preparada para sumar después formatos, propuestas posibles,
-          alcance del servicio y presentación visual más premium.
+          Muchos viajeros quieren vivir algo relacionado al vino, pero no siempre tienen tiempo, ganas o logistica
+          para dedicar medio dia a una bodega. Esta propuesta convierte la casa en un espacio de experiencia:
+          mas relajado, mas privado, sin costo para el huesped y disponible al ritmo del grupo.
+        </p>
+      </article>
+
+      <article class="tasting-feature muted">
+        <p class="eyebrow">Degustacion en bodega</p>
+        <h2>Tambien podemos dejar opciones para salir.</h2>
+        <p>
+          Para quienes si quieren visitar bodegas, este espacio queda preparado para sumar tres o cuatro opciones
+          conocidas con zona, estilo de experiencia, duracion aproximada y valor.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="service-section">
+    <div class="container experience-flow">
+      <div class="flow-copy">
+        <div class="free-badge dark">
+          <span class="free-icon">0</span>
+          <span>Incluido sin costo</span>
+        </div>
+        <p class="eyebrow">Como seria en casa</p>
+        <h2>QR, guia digital y recorrido paso a paso incluido en la estadia.</h2>
+        <p>
+          La idea combina experiencia, contenido y posibilidad de consumo adicional. En la casa queda una propuesta
+          lista para activar desde un QR: videos cortos con sommelier, explicaciones simples y un recorrido guiado
+          para probar, comparar y disfrutar sin hacerlo solemne. La experiencia guiada es gratis; si el grupo quiere,
+          despues puede comprar vino adicional dentro de la casa.
         </p>
       </div>
-    </section>
-  </main>
-  <SiteFooter />
-</BaseLayout>
+
+      <div class="flow-steps">
+        <article>
+          <span class="step-top"><span>01</span><em>Gratis</em></span>
+          <strong>Elegir el momento</strong>
+          <p>El grupo decide cuando hacerlo: tarde tranquila, previa a la cena o noche puertas adentro.</p>
+        </article>
+
+        <article>
+          <span class="step-top"><span>02</span><em>Gratis</em></span>
+          <strong>Abrir el kit</strong>
+          <p>Vinos seleccionados, copas o elementos basicos y una guia simple para empezar.</p>
+        </article>
+
+        <article>
+          <span class="step-top"><span>03</span><em>Gratis</em></span>
+          <strong>Escanear el QR</strong>
+          <p>Videos breves, explicaciones de cada vino y recorrido paso a paso con lenguaje accesible.</p>
+        </article>
+
+        <article>
+          <span class="step-top"><span>04</span><em>Gratis</em></span>
+          <strong>Puntuar y elegir</strong>
+          <p>El grupo puede marcar preferencias, puntuar vinos y consultar compra adicional.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="service-section">
+    <div class="container service-panel">
+      <div class="free-badge dark">
+        <span class="free-icon">0</span>
+        <span>Experiencia gratis en casa</span>
+      </div>
+      <h2>No compite con las bodegas, suma otro contexto.</h2>
+      <p>
+        La visita tradicional a bodega sigue teniendo su lugar. Esta experiencia gratuita aparece cuando el grupo
+        quiere algo mas intimo, menos logistico y mas integrado a la estadia. Tambien abre una linea comercial:
+        vender vino dentro de la casa, medir preferencias y construir futuras alianzas con bodegas, hosts y productos locales.
+      </p>
+
+      <ul class="service-list">
+        <li><span class="mini-free">0</span> Experiencia autonoma gratis</li>
+        <li><span class="mini-free">0</span> Contenido con sommelier</li>
+        <li><span class="mini-free">0</span> QR incluido en la estadia</li>
+        <li><span class="mini-free">0</span> Datos de preferencias</li>
+        <li><span class="mini-free">0</span> Rankings y recomendaciones</li>
+        <li><span class="mini-free">0</span> Compra opcional de vino</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="service-section">
+    <div class="container bodega-block">
+      <div>
+        <p class="eyebrow">Opciones en bodega</p>
+        <h2>Espacio para cargar bodegas recomendadas.</h2>
+        <p>
+          Aca podemos agregar tres o cuatro alternativas concretas cuando definas nombres: bodega, zona,
+          tipo de degustacion, duracion, valor y si requiere traslado.
+        </p>
+      </div>
+
+      <div class="bodega-grid">
+        <article>
+          <strong>Bodega opcion 1</strong>
+          <span>Zona / experiencia / valor</span>
+        </article>
+
+        <article>
+          <strong>Bodega opcion 2</strong>
+          <span>Zona / experiencia / valor</span>
+        </article>
+
+        <article>
+          <strong>Bodega opcion 3</strong>
+          <span>Zona / experiencia / valor</span>
+        </article>
+
+        <article>
+          <strong>Bodega opcion 4</strong>
+          <span>Zona / experiencia / valor</span>
+        </article>
+      </div>
+    </div>
+  </section>
+</ServicePage>
 
 <style>
-  .service-detail { padding: 0 0 56px; }
-  .wrap { padding: 28px; }
-  .wrap h2 { margin: 0 0 10px; }
-  .wrap p { margin: 0; color: var(--muted); line-height: 1.75; }
+  .tasting-split {
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    gap: 18px;
+  }
+
+  .tasting-feature,
+  .experience-flow,
+  .bodega-block {
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    background: rgba(255,255,255,.74);
+    box-shadow: var(--shadow);
+  }
+
+  .tasting-feature:first-child {
+    background:
+      linear-gradient(135deg, rgba(33,29,26,.72), rgba(33,29,26,.34)),
+      url('/services/degustaciones.jpg') center / cover;
+    color: white;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .tasting-feature:first-child .eyebrow,
+  .tasting-feature:first-child p {
+    color: rgba(255,255,255,.86);
+  }
+
+  .free-badge {
+    width: fit-content;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 16px;
+    padding: 8px 12px 8px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.94);
+    color: var(--olive-dark);
+    font-size: 13px;
+    font-weight: 900;
+    box-shadow: 0 14px 30px rgba(0,0,0,.16);
+  }
+
+  .free-badge.dark {
+    margin-bottom: 18px;
+    background: rgba(109,117,82,.11);
+    color: var(--olive-dark);
+    box-shadow: none;
+  }
+
+  .free-icon,
+  .mini-free {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--olive);
+    color: white;
+    font-size: 12px;
+    font-weight: 900;
+    line-height: 1;
+    flex: 0 0 auto;
+  }
+
+  .mini-free {
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+  }
+
+  .tasting-feature.muted {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .tasting-feature h2,
+  .experience-flow h2,
+  .bodega-block h2 {
+    margin: 0 0 12px;
+    font-size: clamp(30px, 4.8vw, 56px);
+    line-height: .98;
+    letter-spacing: -.045em;
+  }
+
+  .tasting-feature p:not(.eyebrow),
+  .experience-flow p,
+  .bodega-block p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  .tasting-feature:first-child p:not(.eyebrow) {
+    color: rgba(255,255,255,.88);
+  }
+
+  .experience-flow {
+    display: grid;
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+    gap: 24px;
+    align-items: start;
+  }
+
+  .flow-steps {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .flow-steps article,
+  .bodega-grid article {
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: rgba(255,255,255,.70);
+  }
+
+  .step-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .step-top span {
+    display: inline-flex;
+    color: var(--olive);
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: .12em;
+  }
+
+  .step-top em {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 0 9px;
+    border-radius: 999px;
+    background: rgba(109,117,82,.11);
+    color: var(--olive-dark);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 900;
+  }
+
+  :global(.service-list li) {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .flow-steps strong,
+  .bodega-grid strong {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 18px;
+  }
+
+  .flow-steps p,
+  .bodega-grid span {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .bodega-block {
+    display: grid;
+    grid-template-columns: minmax(0, .75fr) minmax(0, 1.25fr);
+    gap: 24px;
+    align-items: start;
+  }
+
+  .bodega-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  @media (max-width: 900px) {
+    .tasting-split,
+    .experience-flow,
+    .flow-steps,
+    .bodega-block,
+    .bodega-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .tasting-feature,
+    .experience-flow,
+    .bodega-block {
+      padding: 20px;
+      border-radius: 22px;
+    }
+
+    .tasting-feature:first-child {
+      min-height: 360px;
+    }
+  }
 </style>

@@ -4,10 +4,16 @@ import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import HouseLanding from '../components/HouseLanding.astro';
 import { parqueHouse } from '../data/parque/house';
-import { parqueReviews } from '../data/parque/reviews';
+import { parqueReviewRatings, parqueReviews } from '../data/parque/reviews';
+import { site } from '../data/site';
+
+const headerWhatsapp = site.whatsappUrl(
+  `Hola ${parqueHouse.contactName}, quiero consultar disponibilidad para ${parqueHouse.name}. Mis fechas tentativas son: `,
+  parqueHouse.whatsapp
+);
 ---
 <BaseLayout title="La Casa Frente al Parque | Experiencias Mendoza" description={parqueHouse.summary} image={parqueHouse.heroImage}>
-  <SiteHeader current="parque" />
-  <HouseLanding house={parqueHouse} reviews={parqueReviews} internalBase="parque" />
+  <SiteHeader current="parque" whatsappHref={headerWhatsapp} />
+  <HouseLanding house={parqueHouse} reviews={parqueReviews} reviewRatings={parqueReviewRatings} internalBase="parque" />
   <SiteFooter />
 </BaseLayout>

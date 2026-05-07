@@ -1,54 +1,167 @@
 ---
-const { house, reviews = [], wa } = Astro.props;
+const { reviews = [], reviewRatings, wa } = Astro.props;
 
-const selectedReviews = reviews.slice(0, 4);
+const selectedReviews = reviews.slice(0, 30).map((review) =>
+  typeof review === 'string'
+    ? { text: review, name: 'Huesped' }
+    : review
+);
+
+const airbnbRating = reviewRatings?.airbnb?.toFixed(1);
+const bookingRating = reviewRatings?.booking?.toFixed(1);
+
+const formatDate = (value) => {
+  if (!value) {
+    return null;
+  }
+
+  const date = new Date(value.includes('T') ? value : `${value}T00:00:00`);
+
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return date.toLocaleDateString('es-AR', {
+    month: 'long',
+    year: 'numeric',
+  });
+};
+
+const rawStayMeta = (review) => {
+  const raw = review.rawStayText;
+
+  if (!raw) {
+    return null;
+  }
+
+  const date = formatDate(review.stayStartDate ?? review.reviewPublishedAt);
+  const nights = review.nights ? `${review.nights} noches` : null;
+
+  return raw
+    .split(/Â·|·/)
+    .map((item) => item.trim())
+    .filter((item) => item && item !== date && item !== nights && !/^\d+\s+noches?$/i.test(item))
+    .filter((item) => !/^[a-záéíóúñ]+\s+de\s+\d{4}$/i.test(item))
+    .filter((item) => !date || item.toLowerCase() !== date.toLowerCase())
+    .join(' | ') || null;
+};
+
+const rawStayDate = (review) => {
+  const raw = review.rawStayText;
+
+  if (!raw) {
+    return null;
+  }
+
+  return raw
+    .split(/Â·|·/)
+    .map((item) => item.trim())
+    .find((item) => /^[a-záéíóúñ]+\s+de\s+\d{4}$/i.test(item)) ?? null;
+};
+
+const reviewMeta = (review) => [
+  review.platform ? review.platform[0].toUpperCase() + review.platform.slice(1) : null,
+  rawStayDate(review) ?? formatDate(review.stayStartDate ?? review.reviewPublishedAt),
+  rawStayMeta(review),
+  review.guestCount ? `${review.guestCount} huéspedes` : null,
+  review.nights ? `${review.nights} noches` : null,
+].filter(Boolean);
 ---
 
 <section class="section reviews">
   <div class="shell reviews-layout">
-
     <div class="reviews-copy">
-      <span class="section-label">Lo que dicen los huéspedes</span>
+      <span class="section-label">Lo que dicen los hu&eacute;spedes</span>
       <h2>Las mejores razones para elegirla ya las dijeron quienes se quedaron.</h2>
 
-      <div class="score-card">
-        <strong>4,88</strong>
-        <span>valoración promedio</span>
-        <p>Opiniones reales de huéspedes.</p>
-      </div>
+      {(airbnbRating || bookingRating) && (
+        <div class="score-list">
+          {airbnbRating && (
+            <div class="score-card">
+              <strong>{airbnbRating}/5</strong>
+              <span>Airbnb</span>
+            </div>
+          )}
+
+          {bookingRating && (
+            <div class="score-card">
+              <strong>{bookingRating}/10</strong>
+              <span>Booking</span>
+            </div>
+          )}
+        </div>
+      )}
     </div>
 
-    <div class="reviews-grid">
-      {selectedReviews.map((review) => (
-        <article class="review-card">
-          <p>“{review.text ?? review.quote ?? review.content}”</p>
-          <strong>{review.name ?? review.author ?? 'Huésped'}</strong>
+    <div class="reviews-list" data-review-rotator>
+      {selectedReviews.map((review, index) => (
+        <article class:list={['review-card', { 'is-active': index < 3 }]} data-review-card data-index={index}>
+          <aside class="review-side">
+            <strong>{review.name ?? review.author ?? 'Huésped'}</strong>
+            <span>{reviewMeta(review).join(' | ')}</span>
+          </aside>
+
+          <p>&ldquo;{review.text ?? review.quote ?? review.content}&rdquo;</p>
         </article>
       ))}
     </div>
-
   </div>
 </section>
 
 <section class="section final-cta">
   <div class="shell final-card">
     <span class="section-label">Consulta directa</span>
-    <h2>Si te imaginás acá, preguntame fechas y te ayudo a resolverlo.</h2>
+    <h2>Si te imagin&aacute;s ac&aacute;, preguntame fechas y te ayudo a resolverlo.</h2>
 
-    <a class="button primary" href={wa}>
+    <a class="button primary" href={wa} target="_blank" rel="noreferrer">
       Consultar por WhatsApp
     </a>
   </div>
 </section>
 
+<script>
+  const rotators = document.querySelectorAll('[data-review-rotator]');
+
+  rotators.forEach((rotator) => {
+    const cards = [...rotator.querySelectorAll('[data-review-card]')];
+
+    if (cards.length === 0) {
+      return;
+    }
+
+    let start = 0;
+
+    const render = () => {
+      const groupSize = window.matchMedia('(max-width: 850px)').matches ? 2 : 3;
+
+      cards.forEach((card, index) => {
+        const offset = (index - start + cards.length) % cards.length;
+        card.classList.toggle('is-active', offset < groupSize);
+      });
+    };
+
+    render();
+
+    if (cards.length > 3) {
+      window.setInterval(() => {
+        const groupSize = window.matchMedia('(max-width: 850px)').matches ? 2 : 3;
+        start = (start + groupSize) % cards.length;
+        render();
+      }, 6500);
+    }
+
+    window.addEventListener('resize', render);
+  });
+</script>
+
 <style>
 .reviews {
-  padding: 72px 0;
+  padding: 56px 0;
 }
 
 .reviews-layout {
   display: grid;
-  grid-template-columns: .9fr 1.1fr;
+  grid-template-columns: .72fr 1.28fr;
   gap: 36px;
   align-items: start;
 }
@@ -59,7 +172,7 @@ const selectedReviews = reviews.slice(0, 4);
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: .12em;
-  color: #9a3f58;
+  color: var(--olive);
   font-weight: 700;
 }
 
@@ -70,17 +183,22 @@ const selectedReviews = reviews.slice(0, 4);
   margin: 0 0 24px;
 }
 
+.score-list {
+  display: grid;
+  gap: 12px;
+  max-width: 320px;
+}
+
 .score-card {
-  background: #9a4650;
+  background: linear-gradient(135deg, var(--olive), var(--olive-dark));
   color: white;
-  border-radius: 24px;
-  padding: 28px;
-  max-width: 280px;
+  border-radius: var(--radius-lg);
+  padding: 24px;
 }
 
 .score-card strong {
   display: block;
-  font-size: 54px;
+  font-size: 38px;
   line-height: 1;
 }
 
@@ -90,46 +208,68 @@ const selectedReviews = reviews.slice(0, 4);
   font-weight: 700;
 }
 
-.score-card p {
-  opacity: .85;
+.reviews-list {
+  display: grid;
+  gap: 14px;
 }
 
-.reviews-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+.review-card:not(.is-active) {
+  display: none;
 }
 
 .review-card {
-  background: #fff;
-  border-radius: 20px;
-  padding: 22px;
-  box-shadow: 0 18px 45px rgba(0,0,0,.07);
+  display: grid;
+  grid-template-columns: minmax(150px, .32fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+  background: rgba(255,255,255,.74);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.review-side {
+  min-width: 0;
+  padding-right: 18px;
+  border-right: 1px solid var(--line);
+}
+
+.review-side strong {
+  display: block;
+  margin: 0 0 8px;
+  font-size: 16px;
+  line-height: 1.15;
+}
+
+.review-side span {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.45;
 }
 
 .review-card p {
-  color: #4f4641;
-  line-height: 1.5;
-}
-
-.review-card strong {
-  display: block;
-  margin-top: 14px;
+  color: var(--text);
+  line-height: 1.65;
+  margin: 0;
+  font-size: 15px;
 }
 
 .final-cta {
-  padding: 56px 0 96px;
+  padding: 42px 0 72px;
 }
 
 .final-card {
-  background: #9a4650;
+  background: linear-gradient(135deg, var(--olive), var(--olive-dark));
   color: white;
-  border-radius: 28px;
+  border-radius: var(--radius-xl);
   padding: 42px;
 }
 
 .final-card .section-label {
-  color: #f3d7dc;
+  color: rgba(255,255,255,.82);
 }
 
 .button {
@@ -143,13 +283,24 @@ const selectedReviews = reviews.slice(0, 4);
 
 .button.primary {
   background: white;
-  color: #9a4650;
+  color: var(--olive-dark);
 }
 
 @media (max-width: 850px) {
-  .reviews-layout,
-  .reviews-grid {
+  .reviews-layout {
     grid-template-columns: 1fr;
+  }
+
+  .review-card {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .review-side {
+    padding-right: 0;
+    padding-bottom: 12px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
   }
 }
 </style>

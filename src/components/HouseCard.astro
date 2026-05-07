@@ -12,7 +12,7 @@ const { house } = Astro.props;
     <h3 class="card-name">{house.name}</h3>
     <p class="card-summary">{house.summary}</p>
     <ul class="card-features">
-      {house.features.slice(0, 7).map((f: string) => <li>{f}</li>)}
+      {house.features.slice(0, 12).map((f: string) => <li>{f}</li>)}
     </ul>
     <span class="card-arrow">Ver casa →</span>
   </div>

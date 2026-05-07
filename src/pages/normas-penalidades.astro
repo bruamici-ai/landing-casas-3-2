@@ -2,29 +2,72 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
-import { commonRules, commonPenalties } from '../data/site';
+import baseNormas from '../data/normas-y-sanciones-unificadas.json';
+
+const totalNormas = baseNormas.normas.length;
+const totalPenalizaciones = baseNormas.penalizaciones.length;
 ---
-<BaseLayout title="Normas y penalidades | Experiencias Mendoza" description="Reglamento unificado para las propiedades del sistema.">
+
+<BaseLayout title="Normas y penalidades | Experiencias Mendoza" description={baseNormas.descripcion}>
   <SiteHeader />
   <main>
     <section class="hero-basic">
       <div class="container">
-        <p class="eyebrow">Archivo común</p>
+        <p class="eyebrow">Archivo comun</p>
         <h1>Normas y penalidades unificadas.</h1>
-        <p>Archivo único para usar como referencia transversal entre casas, operación y futuras integraciones.</p>
+        <p>{baseNormas.descripcion}</p>
+        <div class="meta-row">
+          <span>Version {baseNormas.version}</span>
+          <span>{totalNormas} bloques de normas</span>
+          <span>{totalPenalizaciones} penalidades</span>
+        </div>
       </div>
     </section>
+
     <section class="rules-wrap">
-      <div class="container layout">
+      <div class="container">
+        <div class="summary card panel">
+          <div>
+            <h2>Aplica a</h2>
+            <p>{baseNormas.aplica_a.join(' · ')}</p>
+          </div>
+          <div>
+            <h2>Horario base</h2>
+            <p>Check-in {baseNormas.checkin_checkout_base.check_in} · Check-out {baseNormas.checkin_checkout_base.check_out}</p>
+          </div>
+        </div>
+
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Normas</p>
+            <h2>Reglamento unificado</h2>
+          </div>
+        </div>
+
+        <div class="rules-grid">
+          {baseNormas.normas.map((bloque) => (
+            <article class="card panel">
+              <h3>{bloque.titulo}</h3>
+              <ul>{bloque.reglas.map((regla) => <li>{regla}</li>)}</ul>
+            </article>
+          ))}
+        </div>
+
+        <div class="section-head penalties-head">
+          <div>
+            <p class="eyebrow">Penalidades</p>
+            <h2>Tabla de sanciones</h2>
+          </div>
+        </div>
+
         <article class="card panel">
-          <h2>Normas generales</h2>
-          <ul>{commonRules.map((rule) => <li>{rule}</li>)}</ul>
-        </article>
-        <article class="card panel">
-          <h2>Penalidades</h2>
           <div class="penalties">
-            {commonPenalties.map((item) => (
-              <div class="row"><strong>{item.reason}</strong><span>{item.amount}</span></div>
+            {baseNormas.penalizaciones.map((item) => (
+              <div class="row">
+                <strong>{item.motivo}</strong>
+                <span>{item.cargo_usd} USD</span>
+                <small>{item.tipo}</small>
+              </div>
             ))}
           </div>
         </article>
@@ -33,14 +76,27 @@ import { commonRules, commonPenalties } from '../data/site';
   </main>
   <SiteFooter />
 </BaseLayout>
+
 <style>
   .rules-wrap { padding: 0 0 56px; }
-  .layout { display:grid; grid-template-columns: 1fr 1fr; gap:22px; }
+  .meta-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
+  .meta-row span { border:1px solid var(--line); border-radius:999px; padding:8px 12px; background:#fff; color:var(--muted); font-size:14px; }
+  .summary { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:32px; }
+  .summary h2 { font-size:20px; }
+  .summary p { margin:0; color:var(--muted); line-height:1.6; }
+  .section-head { display:flex; justify-content:space-between; gap:18px; align-items:end; margin:0 0 18px; }
+  .section-head h2 { margin:4px 0 0; font-size:32px; }
+  .rules-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:22px; }
   .panel { padding:24px; }
-  .panel h2 { margin:0 0 14px; font-size:32px; }
+  .panel h2, .panel h3 { margin:0 0 14px; }
+  .panel h3 { font-size:24px; }
   ul { margin:0; padding-left:18px; color:var(--muted); line-height:1.8; }
+  .penalties-head { margin-top:36px; }
   .penalties { display:grid; gap:12px; }
-  .row { display:flex; justify-content:space-between; gap:12px; padding:14px 16px; border:1px solid var(--line); border-radius:16px; background:#fff; }
+  .row { display:grid; grid-template-columns:minmax(0, 1fr) 140px 180px; gap:12px; align-items:center; padding:14px 16px; border:1px solid var(--line); border-radius:16px; background:#fff; }
   .row span { color:var(--olive-dark); font-weight:700; }
-  @media (max-width: 900px) { .layout { grid-template-columns:1fr; } }
+  .row small { color:var(--muted); }
+  @media (max-width: 900px) {
+    .summary, .rules-grid, .row { grid-template-columns:1fr; }
+  }
 </style>

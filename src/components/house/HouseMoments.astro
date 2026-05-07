@@ -1,0 +1,136 @@
+---
+import { cloudinaryImage } from '../../utils/cloudinary';
+
+const { house } = Astro.props;
+
+const moments = house.moments ?? [];
+const labels = ['Mañana', 'Tarde', 'Noche', 'Pausa'];
+
+const imageFor = (moment, index) =>
+  moment.image ?? house.images?.[index % house.images.length] ?? house.heroImage;
+---
+
+{moments.length > 0 && (
+  <section class="section moments-section">
+    <div class="shell">
+      <div class="moments-head">
+        <span class="section-label">Momentos del día</span>
+        <h2>{house.momentsTitle ?? 'La casa cambia con el ritmo del viaje.'}</h2>
+        <p>
+          {house.momentsSummary ??
+            'Más que una lista de ambientes, estos espacios proponen una forma de vivir cada parte del día con otro ritmo.'}
+        </p>
+      </div>
+
+      <div class="moments-grid">
+        {moments.map((moment, index) => (
+          <article class="moment-card">
+            {imageFor(moment, index) && (
+              <img src={cloudinaryImage(imageFor(moment, index), 'q_auto,f_auto,c_limit,w_700')} alt={moment.title} loading="lazy" />
+            )}
+
+            <div>
+              <span>{moment.label ?? labels[index] ?? 'Momento'}</span>
+              <h3>{moment.title}</h3>
+              <p>{moment.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+.moments-section {
+  padding: 56px 0;
+}
+
+.moments-head {
+  max-width: 760px;
+  margin-bottom: 26px;
+}
+
+.section-label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--olive);
+  font-weight: 700;
+}
+
+.moments-head h2 {
+  margin: 0 0 14px;
+  font-size: clamp(34px, 5vw, 58px);
+  line-height: .95;
+}
+
+.moments-head p {
+  max-width: 680px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.moments-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.moment-card {
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  background: rgba(255,255,255,.78);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.moment-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.moment-card div {
+  padding: 18px;
+}
+
+.moment-card span {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--olive);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.moment-card h3 {
+  margin: 0;
+  font-size: clamp(20px, 2vw, 26px);
+  line-height: 1;
+}
+
+.moment-card p {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+@media (max-width: 980px) {
+  .moments-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .moments-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

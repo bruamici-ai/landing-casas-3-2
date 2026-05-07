@@ -19,7 +19,7 @@
       "categoria": "Destacados de la casa",
       "items": [
         {
-          "nombre": "Piscina privada",
+          "nombre": "Piscina de temporada",
           "detalle": "De 4 x 2 metros y 1 metro de profundidad, disponible de noviembre a fines de febrero."
         },
         {
@@ -226,16 +226,16 @@
       "categoria": "Entretenimiento y conectividad",
       "items": [
         {
-          "nombre": "TV",
-          "detalle": "Disponible."
+          "nombre": "Smart TV Samsung 75 pulgadas",
+          "detalle": "Smart TV Samsung de 75 pulgadas."
         },
         {
-          "nombre": "Sistema de sonido",
-          "detalle": "Home theater disponible."
+          "nombre": "Sony Home Theater 5.1",
+          "detalle": "Sistema de sonido Sony Home Theater 5.1."
         },
         {
-          "nombre": "Wifi",
-          "detalle": "Disponible en la propiedad."
+          "nombre": "Wifi / Internet fibra 100 Mb",
+          "detalle": "Wifi con conexi\u00f3n de fibra \u00f3ptica de 100 Mb en la propiedad."
         }
       ]
     },

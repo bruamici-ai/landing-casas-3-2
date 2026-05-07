@@ -5,31 +5,39 @@ import SiteFooter from '../../components/SiteFooter.astro';
 import InternalNav from '../../components/InternalNav.astro';
 import { avellanedaReviews } from '../../data/avellaneda/reviews';
 ---
-<BaseLayout title="Reseñas internas | Casa Avellaneda" description="Base interna inicial de reseñas para Casa Avellaneda.">
+
+<BaseLayout title="Rese&ntilde;as internas | Casa Avellaneda" description="Base interna de rese&ntilde;as para Casa Avellaneda." noindex>
   <SiteHeader current="avellaneda" />
   <main>
     <section class="hero-basic">
       <div class="container">
         <p class="eyebrow">Interno · Avellaneda</p>
-        <h1>Reseñas base para seguir cargando</h1>
-        <p>La navegación y la estructura ya quedan listas para cuando integremos la base completa y normalizada de esta casa.</p>
+        <h1>Rese&ntilde;as base</h1>
+        <p>Vista interna para consultar la base de rese&ntilde;as normalizada.</p>
       </div>
     </section>
     <section class="content-wrap">
       <div class="container">
         <InternalNav base="avellaneda" />
         <div class="reviews">
-          {avellanedaReviews.map((review) => <article class="card review-card"><p>{review}</p></article>)}
+          {avellanedaReviews.map((review) => (
+            <article class="card review-card">
+              <p>{review.text}</p>
+              <strong>{review.name}</strong>
+            </article>
+          ))}
         </div>
       </div>
     </section>
   </main>
   <SiteFooter />
 </BaseLayout>
+
 <style>
   .content-wrap { padding: 0 0 56px; }
   .reviews { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:22px; }
   .review-card { padding:22px; }
   .review-card p { margin:0; color:var(--muted); line-height:1.75; }
+  .review-card strong { display:block; margin-top:12px; }
   @media (max-width: 900px) { .reviews { grid-template-columns:1fr; } }
 </style>

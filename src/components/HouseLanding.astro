@@ -2,19 +2,39 @@
 import HouseHero from './house/HouseHero.astro';
 import HouseOverview from './house/HouseOverview.astro';
 import HouseDetails from './house/HouseDetails.astro';
+import HouseMoments from './house/HouseMoments.astro';
 import HouseReviewsCTA from './house/HouseReviewsCTA.astro';
+import { site } from '../data/site';
 
-const { house, reviews } = Astro.props;
+const { house, reviews, reviewRatings } = Astro.props;
+const contactName = house.contactName ?? 'Bruno';
+const whatsapp = house.whatsapp ?? site.whatsapp;
 
-const wa = `https://wa.me/5492610000000?text=Hola! Quiero consultar por ${house.name}`;
+const wa = site.whatsappUrl(
+  `Hola ${contactName}, quiero consultar disponibilidad para ${house.name}. Mis fechas tentativas son: `,
+  whatsapp
+);
 ---
 
-<main>
-  <HouseHero house={house} wa={wa} />
+<main class="house-landing">
+  <HouseHero house={house} wa={wa} reviewRatings={reviewRatings} />
 
   <HouseOverview house={house} />
 
   <HouseDetails house={house} />
 
-  <HouseReviewsCTA house={house} reviews={reviews} wa={wa} />
+  <HouseMoments house={house} />
+
+  <HouseReviewsCTA house={house} reviews={reviews} reviewRatings={reviewRatings} wa={wa} />
 </main>
+
+<style is:global>
+  .house-landing .shell {
+    width: min(1180px, calc(100% - 28px));
+    margin: 0 auto;
+  }
+
+  .house-landing .section {
+    padding: 56px 0;
+  }
+</style>

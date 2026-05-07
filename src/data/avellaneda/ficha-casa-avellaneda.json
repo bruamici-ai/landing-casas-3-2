@@ -19,7 +19,7 @@
       "categoria": "Destacados de la casa",
       "items": [
         {
-          "nombre": "Cochera cubierta",
+          "nombre": "Cochera cubierta para 2 vehículos",
           "detalle": "Con portón automático y espacio para 2 vehículos grandes."
         },
         {
@@ -226,8 +226,8 @@
           "detalle": "Disponible."
         },
         {
-          "nombre": "Wifi",
-          "detalle": "Disponible en toda la propiedad."
+          "nombre": "Wifi / Internet fibra 100 Mb",
+          "detalle": "Wifi con conexi\u00f3n de fibra \u00f3ptica de 100 Mb en toda la propiedad."
         }
       ]
     },
@@ -235,7 +235,7 @@
       "categoria": "Acceso y estacionamiento",
       "items": [
         {
-          "nombre": "Cochera cubierta",
+          "nombre": "Cochera cubierta para 2 vehículos",
           "detalle": "Con espacio para 2 vehículos grandes."
         },
         {

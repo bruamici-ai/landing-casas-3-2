@@ -1,40 +1,52 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import SiteHeader from '../../components/SiteHeader.astro';
-import SiteFooter from '../../components/SiteFooter.astro';
+import ServicePage from '../../components/ServicePage.astro';
 ---
-<BaseLayout
-  title="Parrillero | Experiencias Mendoza"
-  description="Coordinación de parrillero externo para grupos o reuniones tranquilas en casa."
+
+<ServicePage
+  title="Parrillero"
+  description="Chef parrillero para cocinar carnes, vegetales y verduras a la parrilla en la casa, con vino libre, entrada, principal y postre."
+  heading="Un chef parrillero para vivir el asado sin quedar atado al fuego."
+  intro="El grupo elige el horario y el chef se ocupa de cocinar carnes, vegetales y verduras a la parrilla, con una propuesta completa para compartir en casa."
+  image="/services/parrillero.jpg"
+  imageAlt="Chef parrillero cocinando al fuego"
+  service="parrillero"
+  whatsappMessage="Hola Bruno, quiero consultar por el servicio de parrillero en la casa. Somos aproximadamente: "
 >
-  <SiteHeader current="servicios" />
-  <main>
-    <section class="hero-basic">
-      <div class="container">
-        <p class="eyebrow">Servicio</p>
-        <h1>Parrillero</h1>
-        <p>
-          Una opción pensada para grupos o familias que quieren disfrutar el asado sin ocuparse de cocinar.
-        </p>
-      </div>
-    </section>
+  <section class="service-section">
+    <div class="container service-panel">
+      <h2>Menu completo al fuego</h2>
+      <p>
+        La propuesta incluye entrada, plato principal al fuego, postre y vino libre. Es una opcion pensada para
+        grupos que quieren disfrutar la mesa, el patio y la parrilla sin ocuparse de la cocina.
+      </p>
 
-    <section class="service-detail">
-      <div class="container card wrap">
-        <h2>Base de desarrollo</h2>
-        <p>
-          Más adelante podemos definir mejor esta página con formato del servicio,
-          alcances, tiempos de reserva y enfoque visual.
-        </p>
-      </div>
-    </section>
-  </main>
-  <SiteFooter />
-</BaseLayout>
+      <ul class="service-list">
+        <li>Entrada: empanadas</li>
+        <li>Principal: carnes al fuego</li>
+        <li>Vegetales y verduras a la parrilla</li>
+        <li>Postre</li>
+        <li>Vino libre</li>
+        <li>Horario a coordinar</li>
+      </ul>
+    </div>
+  </section>
 
-<style>
-  .service-detail { padding: 0 0 56px; }
-  .wrap { padding: 28px; }
-  .wrap h2 { margin: 0 0 10px; }
-  .wrap p { margin: 0; color: var(--muted); line-height: 1.75; }
-</style>
+  <section class="service-section">
+    <div class="container service-grid">
+      <article class="service-card">
+        <strong>USD 130 por persona</strong>
+        <p>Valor de referencia por comensal para la experiencia completa.</p>
+      </article>
+
+      <article class="service-card">
+        <strong>Carne y vegetales</strong>
+        <p>La cocina contempla tanto carnes como vegetales y verduras a la parrilla.</p>
+      </article>
+
+      <article class="service-card">
+        <strong>En la casa</strong>
+        <p>El servicio se coordina en el alojamiento para que la cena sea parte de la estadia.</p>
+      </article>
+    </div>
+  </section>
+</ServicePage>

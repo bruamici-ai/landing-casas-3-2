@@ -5,14 +5,15 @@ import SiteFooter from '../../components/SiteFooter.astro';
 import InternalNav from '../../components/InternalNav.astro';
 import { avellanedaHouse } from '../../data/avellaneda/house';
 ---
-<BaseLayout title="Ficha interna | Casa Avellaneda" description="Base interna inicial de Casa Avellaneda para seguir normalizando.">
+
+<BaseLayout title="Ficha interna | Casa Avellaneda" description="Base interna de Casa Avellaneda para consulta operativa." noindex>
   <SiteHeader current="avellaneda" />
   <main>
     <section class="hero-basic">
       <div class="container">
         <p class="eyebrow">Interno · Avellaneda</p>
         <h1>Ficha base de {avellanedaHouse.name}</h1>
-        <p>Esta sección queda preparada para pulir con la misma lógica de Parque. Ya monta estructura, tono y navegación, aunque todavía no tiene la normalización final al mismo nivel.</p>
+        <p>Vista interna para consultar perfil, datos clave y amenities base.</p>
       </div>
     </section>
     <section class="content-wrap">
@@ -22,13 +23,14 @@ import { avellanedaHouse } from '../../data/avellaneda/house';
           <article class="card panel"><h2>Perfil</h2><p>{avellanedaHouse.summary}</p></article>
           <article class="card panel"><h2>Datos clave</h2><ul>{avellanedaHouse.features.map((item) => <li>{item}</li>)}</ul></article>
           <article class="card panel"><h2>Amenities base</h2><ul>{avellanedaHouse.amenities.map((item) => <li>{item}</li>)}</ul></article>
-          <article class="card panel"><h2>Estado</h2><p>Placeholder premium para seguir cargando datos reales, imágenes definitivas y estructura interna completa.</p></article>
+          <article class="card panel"><h2>Estado</h2><p>Ficha interna preparada para seguir cargando datos operativos.</p></article>
         </div>
       </div>
     </section>
   </main>
   <SiteFooter />
 </BaseLayout>
+
 <style>
   .content-wrap { padding: 0 0 56px; }
   .grid-2 { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:22px; }

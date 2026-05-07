@@ -1,7 +1,12 @@
 ---
 import { site } from '../data/site';
-const { current = '' } = Astro.props;
+
+const {
+  current = '',
+  whatsappHref = site.whatsappUrl('Hola Bruno, quiero consultar por una estadia en Experiencias Mendoza')
+} = Astro.props;
 ---
+
 <header class="topbar">
   <div class="container topbar-inner">
     <a href="/" class="brand">
@@ -15,16 +20,9 @@ const { current = '' } = Astro.props;
         <a href="/la-casa-frente-al-parque" aria-current={current === 'parque' ? 'page' : undefined}>Parque</a>
         <a href="/casa-avellaneda" aria-current={current === 'avellaneda' ? 'page' : undefined}>Avellaneda</a>
         <a href="/servicios" aria-current={current === 'servicios' ? 'page' : undefined}>Servicios</a>
-        <a href="/bio" aria-current={current === 'bio' ? 'page' : undefined}>Bio</a>
-        <a href="/contacto" aria-current={current === 'contacto' ? 'page' : undefined}>Contacto</a>
       </nav>
 
-      <a
-        class="btn btn-primary whatsapp-top"
-        href={site.whatsappUrl('Hola Bruno, quiero consultar por una estadía en Experiencias Mendoza')}
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a class="btn btn-primary whatsapp-top" href={whatsappHref} target="_blank" rel="noreferrer">
         WhatsApp
       </a>
     </div>

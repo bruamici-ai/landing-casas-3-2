@@ -95,6 +95,12 @@ import { services } from '../data/site';
               <img src={`/services/${service.slug}.jpg`} alt={service.title} />
 
               <div class="overlay">
+                {service.slug === 'degustaciones' && (
+                  <span class="free-service-badge">
+                    <span>0</span>
+                    Experiencia gratis
+                  </span>
+                )}
                 <h3>{service.title}</h3>
                 <p class="service-desc">{service.short}</p>
               </div>
@@ -298,6 +304,34 @@ import { services } from '../data/site';
     justify-content: flex-end;
     padding: 20px;
     color: white;
+  }
+
+  .free-service-badge {
+    width: fit-content;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 7px 11px 7px 7px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.94);
+    color: var(--olive-dark);
+    font-size: 12px;
+    font-weight: 900;
+    box-shadow: 0 12px 26px rgba(0,0,0,.18);
+  }
+
+  .free-service-badge span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--olive);
+    color: white;
+    font-size: 11px;
+    line-height: 1;
   }
 
   .overlay h3 {

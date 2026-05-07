@@ -1,41 +1,40 @@
 ---
-const { house, wa } = Astro.props;
+import { cloudinaryImage } from '../../utils/cloudinary';
+
+const { house, reviewRatings } = Astro.props;
 
 const img = (i) => house.images?.[i] || house.images?.[0];
 
 const title = house.heroTitle ?? 'Mendoza empieza en los portones del parque.';
-const summary = house.summary;
+const summary = house.heroSummary ?? house.summary;
+const eyebrow = house.eyebrow ?? 'CASA COMPLETA · FRENTE AL PARQUE GENERAL SAN MARTIN';
+const airbnbRating = reviewRatings?.airbnb?.toFixed(1);
+const bookingRating = reviewRatings?.booking?.toFixed(1);
 ---
 
 <section class="hero">
   <div class="shell hero-layout">
     <div class="hero-copy">
-      <p class="eyebrow">CASA COMPLETA · FRENTE AL PARQUE GENERAL SAN MARTÍN</p>
+      <p class="eyebrow">{eyebrow}</p>
 
       <h1>{title}</h1>
 
       <p class="lead">{summary}</p>
 
-      <div class="hero-actions">
-        <a class="button primary" href={wa}>Consultar disponibilidad</a>
-        <a class="button quiet" href="#experiencia">Ver la casa</a>
-      </div>
-
       <div class="mini-proof">
-        <span>⭐ 4.8/5</span>
-        <span>{house.capacity} huéspedes</span>
-        <span>Frente al Parque</span>
+        {airbnbRating && <span>Airbnb ⭐ {airbnbRating}/5</span>}
+        {bookingRating && <span>Booking ⭐ {bookingRating}/10</span>}
       </div>
     </div>
 
     <div class="hero-gallery">
       <div class="main-image">
-        <img src={img(0)} alt={`Living principal de ${house.name}`} />
+        <img src={cloudinaryImage(img(0), 'q_auto,f_auto,c_limit,w_1600')} alt={`Living principal de ${house.name}`} fetchpriority="high" />
       </div>
 
       <div class="side-images">
-        <img src={img(1)} alt={`Dormitorio de ${house.name}`} />
-        <img src={img(2)} alt={`Exterior de ${house.name}`} />
+        <img src={cloudinaryImage(img(1), 'q_auto,f_auto,c_limit,w_900')} alt={`Dormitorio de ${house.name}`} loading="lazy" />
+        <img src={cloudinaryImage(img(2), 'q_auto,f_auto,c_limit,w_900')} alt={`Exterior de ${house.name}`} loading="lazy" />
       </div>
     </div>
   </div>
@@ -43,7 +42,7 @@ const summary = house.summary;
 
 <style>
 .hero {
-  padding: 56px 0 72px;
+  padding: 72px 0 34px;
 }
 
 .hero-layout {
@@ -63,8 +62,8 @@ const summary = house.summary;
   line-height: 1.2;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: #9a4650;
-  font-weight: 800;
+  color: var(--olive);
+  font-weight: 700;
 }
 
 h1 {
@@ -78,45 +77,9 @@ h1 {
 .lead {
   max-width: 560px;
   margin: 22px 0 0;
-  color: #5f5651;
+  color: var(--muted);
   font-size: clamp(17px, 1.45vw, 21px);
   line-height: 1.55;
-}
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 28px;
-}
-
-.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 46px;
-  padding: 0 18px;
-  border-radius: 999px;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 800;
-  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
-}
-
-.button:hover {
-  transform: translateY(-1px);
-}
-
-.button.primary {
-  background: #1f3d2b;
-  color: white;
-  box-shadow: 0 14px 34px rgba(31, 61, 43, .22);
-}
-
-.button.quiet {
-  background: #fff;
-  color: #201916;
-  border: 1px solid rgba(0,0,0,.08);
 }
 
 .mini-proof {
@@ -132,9 +95,9 @@ h1 {
   min-height: 34px;
   padding: 0 12px;
   border-radius: 999px;
-  background: #fff;
-  border: 1px solid rgba(0,0,0,.07);
-  color: #4f4641;
+  background: rgba(255,255,255,.78);
+  border: 1px solid var(--line);
+  color: var(--text);
   font-size: 13px;
   font-weight: 700;
 }
@@ -151,7 +114,7 @@ h1 {
   overflow: hidden;
   border-radius: 28px;
   background: #ddd;
-  box-shadow: 0 24px 70px rgba(0,0,0,.10);
+  box-shadow: var(--shadow);
 }
 
 .main-image img,
@@ -162,7 +125,6 @@ h1 {
   display: block;
 }
 
-/* Ajuste fino: evita que el living quede raro arriba */
 .main-image img {
   object-position: center center;
 }
@@ -219,14 +181,6 @@ h1 {
 @media (max-width: 560px) {
   .hero {
     padding-top: 24px;
-  }
-
-  .hero-actions {
-    flex-direction: column;
-  }
-
-  .button {
-    width: 100%;
   }
 
   .main-image {

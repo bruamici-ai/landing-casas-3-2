@@ -1,40 +1,275 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import SiteHeader from '../../components/SiteHeader.astro';
-import SiteFooter from '../../components/SiteFooter.astro';
----
-<BaseLayout
-  title="Traslados | Experiencias Mendoza"
-  description="Coordinación de traslados para aeropuerto, bodegas, montaña y salidas puntuales."
->
-  <SiteHeader current="servicios" />
-  <main>
-    <section class="hero-basic">
-      <div class="container">
-        <p class="eyebrow">Servicio</p>
-        <h1>Traslados</h1>
-        <p>
-          Coordinación de traslados tercerizados para aeropuerto, bodegas, montaña, cenas o salidas puntuales.
-        </p>
-      </div>
-    </section>
+import ServicePage from '../../components/ServicePage.astro';
+import { site } from '../../data/site';
 
-    <section class="service-detail">
-      <div class="container card wrap">
-        <h2>Base de desarrollo</h2>
+const whatsappNumber = site.whatsapp;
+
+const options = [
+  { label: 'Aeropuerto a la casa', value: 'aeropuerto a la casa' },
+  { label: 'Casa al aeropuerto', value: 'casa al aeropuerto' },
+  { label: 'Bodegas', value: 'bodegas' },
+  { label: 'Valle de Uco', value: 'Valle de Uco' },
+  { label: 'Potrerillos', value: 'Potrerillos' },
+  { label: 'Uspallata', value: 'Uspallata' },
+  { label: 'Rafting', value: 'rafting' },
+  { label: 'Cabalgatas', value: 'cabalgatas' },
+  { label: 'Sunset', value: 'sunset' },
+  { label: 'City tour', value: 'city tour' },
+];
+---
+
+<ServicePage
+  title="Traslados"
+  description="Traslados desde el aeropuerto a las casas y consultas por salidas a bodegas, Valle de Uco, Potrerillos, Uspallata, sunset y city tour."
+  heading="Traslado desde el aeropuerto directo a la casa."
+  intro="Coordinamos la llegada a Mendoza para que el grupo salga del aeropuerto y vaya directo al alojamiento, sin resolver autos ni esperas de ultimo momento."
+  image="/services/traslados-aeropuerto.jpg"
+  imageAlt="Combi llegando a una casa en Mendoza"
+  service="traslados"
+  showCta={false}
+>
+  <section class="service-section">
+    <div class="container service-panel">
+      <h2>Aeropuerto a las casas</h2>
+      <p>
+        El traslado principal esta pensado para conectar el aeropuerto con La Casa Frente al Parque o Casa Avellaneda.
+        La idea es que la llegada sea simple: horario de vuelo, cantidad de personas, equipaje y direccion de la casa.
+      </p>
+    </div>
+  </section>
+
+  <section class="service-section">
+    <div class="container service-grid">
+      <article class="vehicle-card">
+        <img src="/services/traslados-vehiculos.jpg" alt="Hyundai H1 y combis para traslados en Mendoza" loading="lazy" />
+        <div>
+          <strong>Combi para 8</strong>
+          <p>Hyundai H1, practica para familias o grupos medianos que quieren moverse juntos.</p>
+        </div>
+      </article>
+
+      <article class="vehicle-card">
+        <img src="/services/traslados-flota.jpg" alt="Mercedes para grupos de hasta 15 personas" loading="lazy" />
+        <div>
+          <strong>Combi para 15</strong>
+          <p>Mercedes para grupos mas grandes, ideal para bodegas o excursiones de dia completo.</p>
+        </div>
+      </article>
+
+      <article class="service-card">
+        <strong>Con Veronica Ceparo</strong>
+        <p>Trabajamos junto a Veronica para consultar disponibilidad segun destino, horario y cantidad de personas.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="service-section">
+    <div class="container transfer-picker" data-transfer-picker>
+      <div>
+        <p class="eyebrow">Armar consulta</p>
+        <h2>Marc&aacute; lo que necesit&aacute;s y enviamos el mensaje listo.</h2>
         <p>
-          Esta página queda creada para desarrollar después el servicio con mayor profundidad:
-          tipos de traslado, radios, condiciones, tiempos de coordinación e imágenes.
+          Pod&eacute;s combinar llegada, regreso y salidas. Si marc&aacute;s aeropuerto y bodega, el WhatsApp se arma
+          con esa consulta para responder m&aacute;s r&aacute;pido.
         </p>
       </div>
-    </section>
-  </main>
-  <SiteFooter />
-</BaseLayout>
+
+      <form class="picker-box">
+        <fieldset>
+          <legend>Tipo de traslado</legend>
+          <div class="check-grid">
+            {options.map((option) => (
+              <label class="check-option">
+                <input type="checkbox" name="traslado" value={option.value} />
+                <span>{option.label}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <label class="notes">
+          <span>Datos opcionales</span>
+          <textarea name="detalle" rows="4" placeholder="Fechas, horario de vuelo, cantidad de personas, casa o destino"></textarea>
+        </label>
+
+        <a class="btn btn-primary picker-button" href={site.whatsappUrl('Hola Bruno, quiero consultar por traslados.')} target="_blank" rel="noreferrer" data-transfer-whatsapp>
+          Consultar por WhatsApp
+        </a>
+      </form>
+    </div>
+  </section>
+</ServicePage>
+
+<script define:vars={{ whatsappNumber }}>
+  const picker = document.querySelector('[data-transfer-picker]');
+  const button = picker?.querySelector('[data-transfer-whatsapp]');
+  const checks = [...(picker?.querySelectorAll('input[name="traslado"]') ?? [])];
+  const detail = picker?.querySelector('textarea[name="detalle"]');
+
+  const buildMessage = () => {
+    const selected = checks
+      .filter((check) => check.checked)
+      .map((check) => check.value);
+
+    const selectedText = selected.length ? selected.join(', ') : 'traslados';
+    const extra = detail?.value?.trim();
+    const lines = [
+      `Hola Bruno, quiero consultar por ${selectedText}.`,
+      '',
+      'Datos:',
+      extra || '-'
+    ];
+
+    return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join('\n'))}`;
+  };
+
+  const sync = () => {
+    if (button) {
+      button.href = buildMessage();
+    }
+  };
+
+  checks.forEach((check) => check.addEventListener('change', sync));
+  detail?.addEventListener('input', sync);
+  sync();
+</script>
 
 <style>
-  .service-detail { padding: 0 0 56px; }
-  .wrap { padding: 28px; }
-  .wrap h2 { margin: 0 0 10px; }
-  .wrap p { margin: 0; color: var(--muted); line-height: 1.75; }
+  .vehicle-card {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: rgba(255,255,255,.68);
+  }
+
+  .vehicle-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+
+  .vehicle-card div {
+    padding: 18px;
+  }
+
+  .vehicle-card strong {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 18px;
+  }
+
+  .vehicle-card p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .transfer-picker {
+    display: grid;
+    grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+    gap: 24px;
+    align-items: start;
+    padding: 28px;
+    border: 1px solid rgba(109, 117, 82, .18);
+    border-radius: 28px;
+    background: linear-gradient(135deg, rgba(109, 117, 82, .10), rgba(255, 255, 255, .96));
+    box-shadow: 0 24px 60px rgba(30, 22, 16, .08);
+  }
+
+  .transfer-picker h2 {
+    margin: 0 0 10px;
+    font-size: clamp(30px, 4.5vw, 52px);
+    line-height: 1;
+    letter-spacing: -.04em;
+  }
+
+  .transfer-picker p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  .picker-box {
+    display: grid;
+    gap: 16px;
+  }
+
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  legend,
+  .notes span {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .check-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .check-option {
+    cursor: pointer;
+  }
+
+  .check-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .check-option span {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: rgba(255,255,255,.72);
+    color: var(--text);
+    font-weight: 800;
+    transition: background .2s ease, border-color .2s ease, color .2s ease;
+  }
+
+  .check-option input:checked + span {
+    border-color: var(--olive);
+    background: var(--olive);
+    color: white;
+  }
+
+  .notes {
+    display: grid;
+  }
+
+  textarea {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 14px 16px;
+    font: inherit;
+    resize: vertical;
+    background: #fff;
+  }
+
+  .picker-button {
+    width: 100%;
+  }
+
+  @media (max-width: 900px) {
+    .transfer-picker,
+    .check-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .transfer-picker {
+      padding: 20px;
+      border-radius: 22px;
+    }
+  }
 </style>
