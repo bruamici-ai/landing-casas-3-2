@@ -12,3 +12,5 @@ pnpm-debug.log*
 
 # Local source photos. Keep optimized/public assets in public/.
 fotos-trafic/
+
+.vercel
