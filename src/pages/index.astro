@@ -363,6 +363,14 @@ import { services } from '../data/site';
   }
 
   @media (max-width: 560px) {
+    .services {
+      padding-bottom: 40px;
+    }
+
+    .services-pro {
+      gap: 12px;
+    }
+
     .host-pro {
       align-items: flex-start;
     }
@@ -373,7 +381,59 @@ import { services } from '../data/site';
     }
 
     .service-pro {
-      height: 220px;
+      display: grid;
+      grid-template-columns: 116px minmax(0, 1fr);
+      height: auto;
+      min-height: 126px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.78);
+      border: 1px solid var(--line);
+      box-shadow: 0 12px 28px rgba(30,22,16,.07);
+    }
+
+    .service-pro img {
+      height: 100%;
+      min-height: 126px;
+    }
+
+    .service-pro::after {
+      display: none;
+    }
+
+    .overlay {
+      position: static;
+      min-width: 0;
+      justify-content: center;
+      padding: 14px;
+      background: transparent;
+      color: var(--text);
+    }
+
+    .free-service-badge {
+      margin-bottom: 8px;
+      padding: 5px 9px 5px 5px;
+      background: #eef3ee;
+      color: var(--olive-dark);
+      box-shadow: none;
+      font-size: 11px;
+    }
+
+    .free-service-badge span {
+      width: 19px;
+      height: 19px;
+      font-size: 10px;
+    }
+
+    .overlay h3 {
+      font-size: 19px;
+    }
+
+    .service-desc {
+      margin-top: 5px;
+      color: var(--muted);
+      opacity: 1;
+      font-size: 12.5px;
+      line-height: 1.35;
     }
   }
 </style>

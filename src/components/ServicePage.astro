@@ -176,17 +176,53 @@ const {
   }
 
   @media (max-width: 560px) {
+    .service-hero {
+      padding: 26px 0 22px;
+    }
+
+    .service-hero__grid {
+      gap: 18px;
+    }
+
+    .service-hero__copy h1 {
+      font-size: 40px;
+      line-height: .98;
+      letter-spacing: -.035em;
+    }
+
+    .service-hero__copy p:not(.eyebrow) {
+      margin-top: 14px;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
     .service-hero__media {
       border-radius: 22px;
     }
 
     .service-hero__media,
     .service-hero__media img {
-      min-height: 320px;
+      min-height: 220px;
     }
 
     :global(.service-panel) {
       padding: 20px;
+      border-radius: 18px;
+    }
+
+    :global(.service-section) {
+      padding: 10px 0 34px;
+    }
+
+    :global(.service-card) {
+      padding: 16px;
+      border-radius: 16px;
+    }
+
+    :global(.service-list li) {
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: 14px;
     }
   }
 </style>
