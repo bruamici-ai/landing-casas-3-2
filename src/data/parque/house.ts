@@ -64,6 +64,7 @@ export const parqueHouse = {
       title: 'Living',
       text: 'El lugar donde el grupo vuelve a encontrarse despues de recorrer Mendoza: sillones, charla, musica y tiempo compartido sin apuro.',
       images: [
+        'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873941/_BRU1510_kupufv.jpg',
         'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873958/_BRU1492_yuclbe.jpg',
         'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873954/BRU_1444_dywtrx.jpg',
         'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873943/_BRU1564_jfjczt.jpg',
@@ -92,9 +93,9 @@ export const parqueHouse = {
       title: 'Suite principal',
       text: 'Habitacion 1: dormitorio principal con vestidor, baño en suite y armado flexible para cama doble o dos simples.',
       images: [
+        'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873950/_BRU1727_sswi3t.jpg',
         'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873950/_BRU1734_jrndoh.jpg',
-        'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873952/_BRU1738_vjsasu.jpg',
-        'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873950/_BRU1727_sswi3t.jpg'
+        'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873952/_BRU1738_vjsasu.jpg'
       ]
     },
     {
