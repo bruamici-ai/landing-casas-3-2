@@ -67,8 +67,7 @@ export const parqueHouse = {
         'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873958/_BRU1492_yuclbe.jpg',
         'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873954/BRU_1444_dywtrx.jpg',
         'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873943/_BRU1564_jfjczt.jpg',
-        'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873943/_BRU1576_uwjlvf.jpg',
-        'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775888576/IMG_3442_tr7hzt.jpg'
+        'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873943/_BRU1576_uwjlvf.jpg'
       ]
     },
     {
