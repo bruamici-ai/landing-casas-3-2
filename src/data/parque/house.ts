@@ -92,7 +92,7 @@ export const parqueHouse = {
       title: 'Suite principal',
       text: 'Habitacion 1: dormitorio principal con vestidor, baño en suite y armado flexible para cama doble o dos simples.',
       images: [
-        'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873945/_BRU1602_a7hpbb.jpg',
+        'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873950/_BRU1734_jrndoh.jpg',
         'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873952/_BRU1738_vjsasu.jpg',
         'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873950/_BRU1727_sswi3t.jpg'
       ]
@@ -101,18 +101,9 @@ export const parqueHouse = {
       title: 'Habitaciones 2 y 3',
       text: 'Dos dormitorios espejados, cada uno con capacidad para tres personas y armado flexible.',
       images: [
-        'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873950/_BRU1734_jrndoh.jpg',
+        'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873945/_BRU1602_a7hpbb.jpg',
         'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873946/_BRU1638_gcorjf.jpg',
         'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873945/_BRU1630_c5tben.jpg'
-      ]
-    },
-    {
-      title: 'Habitacion 4',
-      text: 'Dormitorio mas sencillo, con cajonera y camas simples mediante cucheta con carro.',
-      images: [
-        'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873947/_BRU1685_ib5yow.jpg',
-        'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873945/_BRU1586_bpmrfn.jpg',
-        'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873945/_BRU1611_dk9hcw.jpg'
       ]
     },
     {
