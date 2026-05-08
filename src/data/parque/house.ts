@@ -62,6 +62,7 @@ export const parqueHouse = {
   virtualTour: [
     {
       title: 'Living',
+      previewFit: 'contain',
       text: 'El lugar donde el grupo vuelve a encontrarse despues de recorrer Mendoza: sillones, charla, musica y tiempo compartido sin apuro.',
       images: [
         'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873941/_BRU1510_kupufv.jpg',

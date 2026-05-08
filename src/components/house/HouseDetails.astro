@@ -38,7 +38,7 @@ const galleryPayload = tour.map((section) => ({
 
       <div class="preview-gallery">
         {previewTour.map((section, index) => (
-          <article class:list={['preview-card', { large: index === 0 }]}>
+          <article class:list={['preview-card', section.previewFit, { large: index === 0 }]}>
             <img src={cloudinaryImage(imageSrc(section.images[0]), index === 0 ? 'q_auto,f_auto,c_limit,w_1100' : 'q_auto,f_auto,c_limit,w_700')} alt={imageCaption(section.images[0]) || `${section.title} de ${house.name}`} loading="lazy" />
             <div>
               <span>{section.images.length} fotos</span>
@@ -279,6 +279,11 @@ const galleryPayload = tour.map((section) => ({
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.preview-card.contain img {
+  object-fit: contain;
+  background: #ded7cd;
 }
 
 .preview-card::after {
