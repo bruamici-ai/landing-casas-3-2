@@ -1,0 +1,22 @@
+---
+const { items = [] } = Astro.props;
+---
+
+{items.length > 1 && (
+  <nav class="breadcrumbs container" aria-label="Migas de pan">
+    <ol>
+      {items.map((item: { name: string; url?: string }, index: number) => (
+        <li>
+          {item.url && index < items.length - 1 ? <a href={item.url}>{item.name}</a> : <span aria-current="page">{item.name}</span>}
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}
+
+<style>
+  .breadcrumbs { padding-top: 18px; }
+  ol { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; color: var(--muted); font-size: 14px; }
+  li:not(:last-child)::after { content: '/'; margin-left: 8px; opacity: .55; }
+  a { text-underline-offset: 3px; }
+</style>

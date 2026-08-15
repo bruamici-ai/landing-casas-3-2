@@ -2,14 +2,17 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
-import { services } from '../data/site';
+import { services, breadcrumbSchema } from '../data/site';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 ---
 
 <BaseLayout
-  title="Servicios | Experiencias Mendoza"
+  title="Servicios para estadías en Mendoza | Experiencias Mendoza"
+  structuredData={[breadcrumbSchema([{name:'Inicio',url:'/'},{name:'Servicios',url:'/servicios'}])]}
   description="Servicios complementarios para resolver traslados, compras, experiencias, parrilla y detalles regionales durante la estadia en Mendoza."
 >
   <SiteHeader current="servicios" />
+  <Breadcrumbs items={[{name:'Inicio',url:'/'},{name:'Servicios',url:'/servicios'}]} />
 
   <main>
     <section class="services-hero">
@@ -27,7 +30,7 @@ import { services } from '../data/site';
       <div class="container grid">
         {services.map((service) => (
           <a class="card item" href={`/servicios/${service.slug}`}>
-            <img src={`/services/${service.slug}.jpg`} alt={service.title} loading="lazy" />
+            <img src={`/services/${service.slug}.jpg`} alt={`${service.title} para la estadía en Mendoza`} width="1200" height="800" loading="lazy" />
             <div class="item-copy">
               <span class="kicker">Ver servicio</span>
               <h2>{service.title}</h2>

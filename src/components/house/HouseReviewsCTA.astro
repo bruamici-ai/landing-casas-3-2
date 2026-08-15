@@ -66,6 +66,14 @@ const reviewMeta = (review) => [
   review.guestCount ? `${review.guestCount} huéspedes` : null,
   review.nights ? `${review.nights} noches` : null,
 ].filter(Boolean);
+
+const highlightPattern = /(Bruno (?:fue|es|siempre estuvo)[^.!?]{0,65}(?:atento|amable|disponible|anfitri[oó]n)|Heliana (?:fue|es|siempre estuvo|se mostró)[^.!?]{0,65}(?:atenta|amable|disponible|anfitriona|flexible)|(?:la )?casa (?:es|fue|estaba|súper|super|muy)[^.!?]{0,55}(?:amplia|cómoda|hermosa|impecable|equipada)|(?:excelente|inmejorable|perfecta|privilegiada|muy buena) ubicaci[oó]n|ubicaci[oó]n (?:es|era|fue)[^.!?]{0,35}(?:excelente|inmejorable|perfecta|privilegiada|muy buena)|impecablemente limpia|súper bien equipada|super bien equipada|\bBruno\b|\bHeliana\b)/gi;
+
+const highlightedReview = (text = '') => text.split(highlightPattern).filter(Boolean);
+const isHighlight = (text) => {
+  highlightPattern.lastIndex = 0;
+  return highlightPattern.test(text);
+};
 ---
 
 <section class="section reviews">
@@ -101,7 +109,9 @@ const reviewMeta = (review) => [
             <span>{reviewMeta(review).join(' | ')}</span>
           </aside>
 
-          <p>&ldquo;{review.text ?? review.quote ?? review.content}&rdquo;</p>
+          <p>&ldquo;{highlightedReview(review.text ?? review.quote ?? review.content).map((part) =>
+            isHighlight(part) ? <strong>{part}</strong> : part
+          )}&rdquo;</p>
         </article>
       ))}
     </div>
@@ -113,7 +123,7 @@ const reviewMeta = (review) => [
     <span class="section-label">Consulta directa</span>
     <h2>Si te imagin&aacute;s ac&aacute;, preguntame fechas y te ayudo a resolverlo.</h2>
 
-    <a class="button primary" href={wa} target="_blank" rel="noreferrer">
+    <a class="button primary" href={wa} target="_blank" rel="noreferrer" data-analytics-event="consultation_click">
       Consultar por WhatsApp
     </a>
   </div>
@@ -255,6 +265,11 @@ const reviewMeta = (review) => [
   line-height: 1.65;
   margin: 0;
   font-size: 15px;
+}
+
+.review-card p strong {
+  color: var(--olive-dark);
+  font-weight: 800;
 }
 
 .final-cta {

@@ -6,14 +6,17 @@ import HouseLanding from '../components/HouseLanding.astro';
 import { parqueHouse } from '../data/parque/house';
 import { parqueReviewRatings, parqueReviews } from '../data/parque/reviews';
 import { site } from '../data/site';
+import { breadcrumbSchema, lodgingSchema } from '../data/site';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 
 const headerWhatsapp = site.whatsappUrl(
   `Hola ${parqueHouse.contactName}, quiero consultar disponibilidad para ${parqueHouse.name}. Mis fechas tentativas son: `,
   parqueHouse.whatsapp
 );
 ---
-<BaseLayout title="La Casa Frente al Parque | Experiencias Mendoza" description={parqueHouse.summary} image={parqueHouse.heroImage}>
+<BaseLayout title="Casa para grupos frente al Parque San Martín | Mendoza" description={parqueHouse.summary} image={parqueHouse.heroImage} structuredData={[lodgingSchema(parqueHouse), breadcrumbSchema([{name:'Inicio',url:'/'},{name:parqueHouse.name,url:'/la-casa-frente-al-parque'}])]}>
   <SiteHeader current="parque" whatsappHref={headerWhatsapp} />
+  <Breadcrumbs items={[{name:'Inicio',url:'/'},{name:parqueHouse.name,url:'/la-casa-frente-al-parque'}]} />
   <HouseLanding house={parqueHouse} reviews={parqueReviews} reviewRatings={parqueReviewRatings} internalBase="parque" />
   <SiteFooter />
 </BaseLayout>

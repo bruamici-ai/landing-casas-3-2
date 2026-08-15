@@ -5,10 +5,15 @@ import SiteFooter from '../components/SiteFooter.astro';
 import HouseCard from '../components/HouseCard.astro';
 import { parqueHouse } from '../data/parque/house';
 import { avellanedaHouse } from '../data/avellaneda/house';
-import { services } from '../data/site';
+import { services, site } from '../data/site';
+const structuredData = [
+  { '@context': 'https://schema.org', '@type': 'Organization', name: site.brand, url: site.url, logo: new URL('/favicon.svg', site.url).href },
+  { '@context': 'https://schema.org', '@type': 'WebSite', name: site.brand, url: site.url, inLanguage: 'es-AR', description: 'Alojamientos y experiencias para grupos en Mendoza.' }
+];
 ---
 <BaseLayout
-  title="Experiencias Mendoza | Casas y servicios"
+  title="Alojamientos y experiencias para grupos en Mendoza"
+  structuredData={structuredData}
   description="Dos propiedades de alquiler temporario en Mendoza y una selección de servicios pensados para acompañar la estadía."
 >
   <SiteHeader current="home" />
@@ -29,7 +34,7 @@ import { services } from '../data/site';
 
           <div class="hosts-pro-list">
             <article class="host-pro">
-              <img src="/hosts/bruno.jpg" alt="Bruno anfitrión" />
+              <img src="/hosts/bruno.jpg" alt="Bruno, anfitrión de Experiencias Mendoza" width="600" height="600" loading="lazy" />
 
               <div class="host-pro-info">
                 <div class="host-pro-head">
@@ -45,7 +50,7 @@ import { services } from '../data/site';
             </article>
 
             <article class="host-pro">
-              <img src="/hosts/heliana.jpg" alt="Heliana anfitriona" />
+              <img src="/hosts/heliana.jpg" alt="Heliana, anfitriona de Experiencias Mendoza" width="600" height="600" loading="lazy" />
 
               <div class="host-pro-info">
                 <div class="host-pro-head">
@@ -92,7 +97,7 @@ import { services } from '../data/site';
         <div class="grid-3 services-pro">
           {services.map((service) => (
             <a class="service-pro" href={`/servicios/${service.slug}`}>
-              <img src={`/services/${service.slug}.jpg`} alt={service.title} />
+              <img src={`/services/${service.slug}.jpg`} alt={`${service.title} para huéspedes en Mendoza`} width="1200" height="800" loading="lazy" />
 
               <div class="overlay">
                 {service.slug === 'degustaciones' && (

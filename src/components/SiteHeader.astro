@@ -17,12 +17,12 @@ const {
     <div class="nav-wrap">
       <nav class="main-nav">
         <a href="/" aria-current={current === 'home' ? 'page' : undefined}>Home</a>
-        <a href="/la-casa-frente-al-parque" aria-current={current === 'parque' ? 'page' : undefined}>Parque</a>
-        <a href="/casa-avellaneda" aria-current={current === 'avellaneda' ? 'page' : undefined}>Avellaneda</a>
+        <a href="/la-casa-frente-al-parque" aria-current={current === 'parque' ? 'page' : undefined}>La Casa Frente al Parque</a>
+        <a href="/casa-avellaneda" aria-current={current === 'avellaneda' ? 'page' : undefined}>Casa Avellaneda</a>
         <a href="/servicios" aria-current={current === 'servicios' ? 'page' : undefined}>Servicios</a>
       </nav>
 
-      <a class="btn btn-primary whatsapp-top" href={whatsappHref} target="_blank" rel="noreferrer">
+      <a class="btn btn-primary whatsapp-top" href={whatsappHref} target="_blank" rel="noreferrer" data-analytics-event="consultation_click" aria-label="Consultar por WhatsApp">
         WhatsApp
       </a>
     </div>
@@ -46,6 +46,10 @@ const {
     color: var(--text);
     font-weight: 700;
   }
+
+  .main-nav { gap: 16px; }
+
+  .main-nav a { white-space: nowrap; }
 
   @media (max-width: 900px) {
     .nav-wrap {

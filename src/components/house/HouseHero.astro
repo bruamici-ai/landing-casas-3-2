@@ -22,19 +22,19 @@ const bookingRating = reviewRatings?.booking?.toFixed(1);
       <p class="lead">{summary}</p>
 
       <div class="mini-proof">
-        {airbnbRating && <span>Airbnb ⭐ {airbnbRating}/5</span>}
-        {bookingRating && <span>Booking ⭐ {bookingRating}/10</span>}
+        {airbnbRating && <span><b>Airbnb</b> {airbnbRating}/5</span>}
+        {bookingRating && <span><b>Booking</b> {bookingRating}/10</span>}
       </div>
     </div>
 
     <div class="hero-gallery">
       <div class="main-image">
-        <img src={cloudinaryImage(img(0), 'q_auto,f_auto,c_limit,w_1600')} alt={`Living principal de ${house.name}`} fetchpriority="high" />
+        <img src={cloudinaryImage(img(0), 'q_auto,f_auto,c_limit,w_1600')} alt={`Living principal de ${house.name}`} width="1200" height="900" fetchpriority="high" />
       </div>
 
       <div class="side-images">
-        <img src={cloudinaryImage(img(1), 'q_auto,f_auto,c_limit,w_900')} alt={`Dormitorio de ${house.name}`} loading="lazy" />
-        <img src={cloudinaryImage(img(2), 'q_auto,f_auto,c_limit,w_900')} alt={`Exterior de ${house.name}`} loading="lazy" />
+        <img src={cloudinaryImage(img(1), 'q_auto,f_auto,c_limit,w_900')} alt={`Dormitorio de ${house.name}`} width="700" height="600" loading="lazy" />
+        <img src={cloudinaryImage(img(2), 'q_auto,f_auto,c_limit,w_900')} alt={`Exterior de ${house.name}`} width="700" height="600" loading="lazy" />
       </div>
     </div>
   </div>
@@ -100,6 +100,11 @@ h1 {
   color: var(--text);
   font-size: 13px;
   font-weight: 700;
+}
+
+.mini-proof b {
+  margin-right: 5px;
+  color: var(--olive-dark);
 }
 
 .hero-gallery {

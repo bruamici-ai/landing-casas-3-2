@@ -1,10 +1,24 @@
 ---
+import UiIcon from './UiIcon.astro';
 const { house } = Astro.props;
+
+const featureIcon = (feature: string) => {
+  const text = feature.toLowerCase();
+  if (/hu[eé]sped|capacidad/.test(text)) return 'guests';
+  if (/habitaci[oó]n|dormitorio|cama/.test(text)) return 'bed';
+  if (/baño|baños|jacuzzi|piscina/.test(text)) return 'bath';
+  if (/cochera|veh[ií]culo|estacionamiento|port[oó]n/.test(text)) return 'car';
+  if (/wifi|internet|radio|sonido|tv|theater/.test(text)) return 'wifi';
+  if (/patio|parque|exterior|fogonero|churrasquera/.test(text)) return 'outdoor';
+  if (/aire|calefacci[oó]n|estufa/.test(text)) return 'climate';
+  if (/ubicaci[oó]n|quinta secci[oó]n/.test(text)) return 'pin';
+  return 'check';
+};
 ---
 
-<a class="house-card" href={`/${house.slug}`}>
+<a class="house-card" href={`/${house.slug}`} data-analytics-event="property_view">
   <div class="card-image">
-    <img src={house.heroImage} alt={house.name} loading="lazy" />
+    <img src={house.heroImage} alt={`Vista principal de ${house.name} en Mendoza`} width="1200" height="800" loading="lazy" />
     <span class="card-badge">{house.badge}</span>
   </div>
   <div class="card-body">
@@ -12,7 +26,7 @@ const { house } = Astro.props;
     <h3 class="card-name">{house.name}</h3>
     <p class="card-summary">{house.summary}</p>
     <ul class="card-features">
-      {house.features.slice(0, 12).map((f: string) => <li>{f}</li>)}
+      {house.features.slice(0, 12).map((f: string) => <li><i><UiIcon name={featureIcon(f)} size={16} /></i><span>{f}</span></li>)}
     </ul>
     <span class="card-arrow">Ver casa →</span>
   </div>
@@ -102,18 +116,41 @@ const { house } = Astro.props;
   list-style: none;
   margin: 4px 0 0;
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
 
 .card-features li {
-  padding: 6px 12px;
+  min-width: 0;
+  min-height: 38px;
+  padding: 7px 10px;
   background: #f6f0ea;
-  border-radius: 999px;
+  border: 1px solid rgba(109,117,82,.1);
+  border-radius: 12px;
   font-size: .78rem;
   font-weight: 700;
   color: #211915;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 7px;
+  align-items: center;
+  line-height: 1.25;
+}
+
+.card-features i {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: rgba(109,117,82,.12);
+  color: var(--olive-dark, #576041);
+  font-style: normal;
+}
+
+@media (max-width: 480px) {
+  .card-features { grid-template-columns: 1fr; }
 }
 
 .card-arrow {
