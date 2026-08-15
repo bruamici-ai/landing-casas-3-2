@@ -47,7 +47,7 @@ export const parqueHouse = {
   name: ficha.nombre,
   contactName: 'Bruno',
   whatsapp: '5492616931948',
-  location: ficha.direccion,
+  location: ficha.zona,
   capacity: capacidad,
   bedrooms: numeroDesdeTexto(habitaciones, 4),
   bathrooms: numeroDesdeTexto(banos, 3),

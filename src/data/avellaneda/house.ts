@@ -36,7 +36,7 @@ export const avellanedaHouse = {
   name: ficha.nombre,
   contactName: 'Heliana',
   whatsapp: '5492616545175',
-  location: ficha.direccion,
+  location: ficha.zona,
   capacity: capacidad,
   bedrooms: numeroDesdeTexto(habitaciones, 3),
   bathrooms: numeroDesdeTexto(banos, 4),

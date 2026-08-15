@@ -51,7 +51,7 @@
     "is_platform_translated": false,
     "source_order": 2,
     "source_file": "resumen online de casa avellaneda.docx",
-    "is_duplicate": false,
+    "is_duplicate": true,
     "duplicate_of_review_id": null,
     "raw_stay_text": "En grupo",
     "tags": [
@@ -142,7 +142,7 @@
     "is_platform_translated": true,
     "source_order": 5,
     "source_file": "resumen online de casa avellaneda.docx",
-    "is_duplicate": false,
+    "is_duplicate": true,
     "duplicate_of_review_id": null,
     "raw_stay_text": "En grupo",
     "tags": [
@@ -443,7 +443,7 @@
     "is_platform_translated": false,
     "source_order": 1,
     "source_file": "resumen online de casa avellaneda.docx",
-    "is_duplicate": false,
+    "is_duplicate": true,
     "duplicate_of_review_id": null,
     "raw_stay_text": "4 noches · enero de 2026 · En grupo",
     "tags": [
@@ -646,7 +646,7 @@
     "is_platform_translated": false,
     "source_order": 8,
     "source_file": "resumen online de casa avellaneda.docx",
-    "is_duplicate": false,
+    "is_duplicate": true,
     "duplicate_of_review_id": null,
     "raw_stay_text": "3 noches · enero de 2026 · En grupo",
     "tags": [
@@ -675,7 +675,7 @@
     "is_platform_translated": false,
     "source_order": 9,
     "source_file": "resumen online de casa avellaneda.docx",
-    "is_duplicate": false,
+    "is_duplicate": true,
     "duplicate_of_review_id": null,
     "raw_stay_text": "5 noches · abril de 2025 · En grupo",
     "tags": [
@@ -1193,7 +1193,7 @@
     "is_platform_translated": false,
     "source_order": 27,
     "source_file": "resumen online de casa avellaneda.docx",
-    "is_duplicate": false,
+    "is_duplicate": true,
     "duplicate_of_review_id": null,
     "raw_stay_text": "3 noches · agosto de 2025 · En familia",
     "tags": [
@@ -1222,7 +1222,7 @@
     "is_platform_translated": false,
     "source_order": 28,
     "source_file": "resumen online de casa avellaneda.docx",
-    "is_duplicate": false,
+    "is_duplicate": true,
     "duplicate_of_review_id": null,
     "raw_stay_text": "2 noches · diciembre de 2025 · En grupo",
     "tags": [
@@ -1249,7 +1249,7 @@
     "is_platform_translated": true,
     "source_order": 29,
     "source_file": "resumen online de casa avellaneda.docx",
-    "is_duplicate": false,
+    "is_duplicate": true,
     "duplicate_of_review_id": null,
     "raw_stay_text": "3 noches · diciembre de 2024 · En grupo",
     "tags": [

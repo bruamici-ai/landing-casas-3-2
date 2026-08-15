@@ -1,12 +1,27 @@
 export const site = {
   brand: 'Experiencias Mendoza',
-  url: 'https://experienciasmendoza.com',
+  url: 'https://landing-casas-3-2.vercel.app',
   defaultImage: 'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873958/_BRU1492_yuclbe.jpg',
   whatsapp: '5492616931948',
   whatsappUrl(message: string, phone = this.whatsapp) {
     return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   }
 };
+
+// Reusable, conservative SEO schemas. Only fields visible in the site are emitted.
+export const breadcrumbSchema = (items: { name: string; url: string }[]) => ({
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.name, item: new URL(item.url, site.url).href }))
+});
+
+export const lodgingSchema = (house: any) => ({
+  '@context': 'https://schema.org', '@type': 'VacationRental', name: house.name,
+  description: house.summary, url: new URL(`/${house.slug}`, site.url).href, image: house.images,
+  address: { '@type': 'PostalAddress', addressLocality: 'Mendoza', addressRegion: 'Mendoza', addressCountry: 'AR' },
+  numberOfBedrooms: house.bedrooms, numberOfBathroomsTotal: house.bathrooms,
+  occupancy: { '@type': 'QuantitativeValue', maxValue: house.capacity },
+  amenityFeature: house.amenities.map((name: string) => ({ '@type': 'LocationFeatureSpecification', name, value: true }))
+});
 
 export const commonRules = [
   'Check-in desde las 15:00 y check-out hasta las 10:00.',

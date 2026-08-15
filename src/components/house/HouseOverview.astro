@@ -1,4 +1,5 @@
 ---
+import UiIcon from '../UiIcon.astro';
 const { house } = Astro.props;
 
 const capacity = house.capacity ?? house.capacidad ?? '14';
@@ -10,7 +11,7 @@ const summary = house.experienceSummary ?? house.summary;
 
 <section class="section overview" id="experiencia">
   <div class="shell overview-card">
-    <div>
+    <div class="overview-copy">
       <span class="section-label">La experiencia</span>
       <h2>{title}</h2>
       <p>
@@ -20,23 +21,23 @@ const summary = house.experienceSummary ?? house.summary;
 
     <div class="overview-grid">
       <article>
-        <strong>{capacity}</strong>
-        <span>hu&eacute;spedes</span>
+        <i><UiIcon name="guests" size={34} /></i>
+        <div><strong>{capacity}</strong><span>hu&eacute;spedes</span></div>
       </article>
 
       <article>
-        <strong>{bedrooms}</strong>
-        <span>dormitorios</span>
+        <i><UiIcon name="bed" size={34} /></i>
+        <div><strong>{bedrooms}</strong><span>dormitorios</span></div>
       </article>
 
       <article>
-        <strong>{bathrooms}</strong>
-        <span>ba&ntilde;os</span>
+        <i><UiIcon name="bath" size={34} /></i>
+        <div><strong>{bathrooms}</strong><span>ba&ntilde;os</span></div>
       </article>
 
       <article>
-        <strong>{house.location ?? 'Mendoza'}</strong>
-        <span>ubicaci&oacute;n</span>
+        <i><UiIcon name="pin" size={34} /></i>
+        <div><strong>{house.location ?? 'Mendoza'}</strong><span>zona</span></div>
       </article>
     </div>
   </div>
@@ -54,8 +55,9 @@ const summary = house.experienceSummary ?? house.summary;
   padding: 34px;
   box-shadow: var(--shadow);
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 32px;
+  grid-template-columns: minmax(260px, .82fr) minmax(0, 1.18fr);
+  gap: 42px;
+  align-items: center;
 }
 
 .section-label {
@@ -75,6 +77,8 @@ const summary = house.experienceSummary ?? house.summary;
 }
 
 .overview-card p {
+  max-width: 520px;
+  margin-bottom: 0;
   color: var(--muted);
   line-height: 1.6;
 }
@@ -90,12 +94,33 @@ const summary = house.experienceSummary ?? house.summary;
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 22px;
+  min-height: 112px;
+  display: grid;
+  grid-template-columns: 60px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+.overview-grid i {
+  width: 60px;
+  height: 60px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: rgba(109,117,82,.12);
+  color: var(--olive-dark);
+  font-style: normal;
 }
 
 .overview-grid strong {
   display: block;
   font-size: 26px;
+  line-height: 1.08;
+  overflow-wrap: anywhere;
 }
+
+.overview-grid article:last-child strong { font-size: clamp(18px, 1.8vw, 23px); }
 
 .overview-grid span {
   color: var(--muted);

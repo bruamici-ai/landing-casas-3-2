@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+---
+
+<BaseLayout title="Página no encontrada | Experiencias Mendoza" description="La página solicitada no existe." noindex>
+  <SiteHeader />
+  <main class="hero-basic">
+    <div class="container">
+      <p class="eyebrow">Error 404</p>
+      <h1>Esta página no está disponible.</h1>
+      <p>Podés volver al inicio para conocer las casas y los servicios de Experiencias Mendoza.</p>
+      <a class="btn btn-primary" href="/">Volver al inicio</a>
+    </div>
+  </main>
+  <SiteFooter />
+</BaseLayout>

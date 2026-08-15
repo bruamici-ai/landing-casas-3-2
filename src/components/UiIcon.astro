@@ -1,0 +1,22 @@
+---
+const { name, size = 24 } = Astro.props;
+
+const paths = {
+  guests: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
+  bed: '<path d="M2 4v16M22 20v-8a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v8M2 16h20"/><path d="M6 10V7a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v3"/>',
+  bath: '<path d="M4 12h16v3a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5v-3ZM7 12V5a3 3 0 0 1 5.83-1"/><path d="M4 21v-2M20 21v-2"/>',
+  pin: '<path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/>',
+  star: '<path d="m12 3 2.6 5.3 5.9.9-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.2 5.9-.9L12 3Z"/>',
+  layout: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+  kitchen: '<path d="M6 3v8M3 3v5a3 3 0 0 0 6 0V3M6 11v10M15 3v18M15 3c4 2 5 6 5 10h-5"/>',
+  climate: '<path d="M14 14.76V5a4 4 0 0 0-8 0v9.76a6 6 0 1 0 8 0Z"/><path d="M10 9v8"/>',
+  outdoor: '<path d="M12 21V10M12 10C7 10 4 7 4 3c5 0 8 3 8 7ZM12 14c4 0 7-2 8-6-4 0-7 2-8 6Z"/>',
+  wifi: '<path d="M5 12.55a11 11 0 0 1 14 0M8.5 16a6 6 0 0 1 7 0M12 20h.01M2 9a16 16 0 0 1 20 0"/>',
+  car: '<path d="m5 17-2-2v-4l2-5h14l2 5v4l-2 2H5Z"/><circle cx="7" cy="14" r="1"/><circle cx="17" cy="14" r="1"/><path d="M5 17v3M19 17v3M4 11h16"/>',
+  check: '<path d="m5 12 4 4L19 6"/>',
+};
+
+const markup = paths[name] ?? paths.check;
+---
+
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={markup} />

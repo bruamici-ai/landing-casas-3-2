@@ -2743,7 +2743,7 @@
     "is_platform_translated": false,
     "source_order": 16,
     "source_file": "reviews LA CASA FRENTE AL APRQUE BOOKING 2026.csv",
-    "is_duplicate": false,
+    "is_duplicate": true,
     "duplicate_of_review_id": null,
     "raw_stay_text": null,
     "tags": [
@@ -2775,7 +2775,7 @@
     "is_platform_translated": false,
     "source_order": 17,
     "source_file": "reviews LA CASA FRENTE AL APRQUE BOOKING 2026.csv",
-    "is_duplicate": false,
+    "is_duplicate": true,
     "duplicate_of_review_id": null,
     "raw_stay_text": null,
     "tags": [

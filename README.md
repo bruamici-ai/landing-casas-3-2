@@ -1,23 +1,63 @@
-# Landing Casas 3.0
+# Experiencias Mendoza
 
-Base Astro premium en español para comenzar a pulir el sistema de landings.
+Sitio estático para presentar dos casas de alquiler temporario en Mendoza:
 
-## Incluye
-- Home / main de Experiencias Mendoza
-- Bio
-- Servicios
-- Contacto / formulario base
-- Landing pública de La Casa Frente al Parque
-- Landing pública de Casa Avellaneda
-- Internas de Parque: ficha y reseñas
-- Internas de Avellaneda: ficha y reseñas base
-- Archivo común de normas y penalidades
+- La Casa Frente al Parque
+- Casa Avellaneda
 
-## Estado
-Esta repo está pensada como base de trabajo real para seguir puliendo. Parque tiene más profundidad porque existe más material estructurado disponible. Avellaneda y algunas páginas institucionales quedan listas para editar y elevar en siguientes iteraciones.
+También incluye información sobre servicios complementarios, normas de estadía,
+fichas de las propiedades y reseñas de huéspedes.
 
-## Levantar en local
+## Tecnología
+
+- Astro 5
+- TypeScript
+- Imágenes principales alojadas en Cloudinary
+- Salida estática, apta para Vercel o cualquier hosting de archivos estáticos
+
+No utiliza backend, base de datos ni autenticación.
+
+## Uso local
+
 ```bash
 npm install
 npm run dev
 ```
+
+Otros comandos disponibles:
+
+```bash
+npm run build
+npm run preview
+```
+
+## Páginas principales
+
+- `/`: presentación general de Experiencias Mendoza
+- `/la-casa-frente-al-parque`: landing de Parque
+- `/casa-avellaneda`: landing de Avellaneda
+- `/servicios`: servicios adicionales
+- `/normas-penalidades`: reglas comunes de estadía
+
+Las rutas `/parque/*` y `/avellaneda/*` contienen fichas y consultas internas.
+
+## Organización
+
+```text
+src/
+  components/       Componentes visuales compartidos
+  data/             Contenido general y datos de ambas casas
+  layouts/          Estructura HTML y metadatos comunes
+  pages/            Rutas del sitio
+  utils/            Utilidades, incluida la optimización de Cloudinary
+public/              Archivos públicos e imágenes locales
+```
+
+Para saber dónde cambiar textos, imágenes, teléfonos o reseñas, consultar
+[CONTENT.md](./CONTENT.md). Las decisiones y cambios relevantes se registran en
+[BITACORA.md](./BITACORA.md).
+
+## Configuración del dominio
+
+Astro utiliza `SITE_URL` cuando está definida. En caso contrario, el dominio
+predeterminado es `https://experienciasmendoza.com`.

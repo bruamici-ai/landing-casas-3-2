@@ -3,6 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteHeader from './SiteHeader.astro';
 import SiteFooter from './SiteFooter.astro';
 import ServiceCTA from './ServiceCTA.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import { site } from '../data/site';
 
 const {
   title,
@@ -16,10 +18,26 @@ const {
   whatsappMessage,
   showCta = true,
 } = Astro.props;
+const pageUrl = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
+const breadcrumbs = [
+  { name: 'Inicio', url: '/' },
+  { name: 'Servicios', url: '/servicios' },
+  { name: title, url: Astro.url.pathname }
+];
+const structuredData = [{
+  '@context': 'https://schema.org', '@type': 'Service', name: title, description,
+  url: pageUrl, image: new URL(image, Astro.site ?? site.url).href,
+  areaServed: { '@type': 'City', name: 'Mendoza' },
+  provider: { '@type': 'Organization', name: site.brand, url: site.url }
+}, {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbs.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.name, item: new URL(item.url, Astro.site ?? site.url).href }))
+}];
 ---
 
-<BaseLayout title={`${title} | Experiencias Mendoza`} description={description} image={image}>
+<BaseLayout title={`${title} en Mendoza | Experiencias Mendoza`} description={description} image={image} structuredData={structuredData}>
   <SiteHeader current="servicios" />
+  <Breadcrumbs items={breadcrumbs} />
 
   <main>
     <section class="service-hero">
@@ -31,7 +49,7 @@ const {
         </div>
 
         <figure class="service-hero__media">
-          <img src={image} alt={imageAlt ?? title} loading="eager" />
+          <img src={image} alt={imageAlt ?? title} width="1200" height="800" loading="eager" fetchpriority="high" />
         </figure>
       </div>
     </section>

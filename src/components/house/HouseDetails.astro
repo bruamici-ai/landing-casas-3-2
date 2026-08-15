@@ -1,5 +1,6 @@
 ---
 import { cloudinaryImage } from '../../utils/cloudinary';
+import UiIcon from '../UiIcon.astro';
 
 const { house } = Astro.props;
 
@@ -13,6 +14,18 @@ const previewTour = previewTitles
 const galleryId = `gallery-${house.slug ?? 'house'}`;
 const imageSrc = (image) => typeof image === 'string' ? image : image.src;
 const imageCaption = (image) => typeof image === 'string' ? '' : image.caption;
+const usefulDetail = (detail) => detail && !/^Disponibles?(?:\.|\s)/i.test(detail.trim());
+const categoryIcon = (title) => ({
+  'Destacados de la casa': 'star',
+  'Distribución y capacidad': 'layout',
+  'Dormitorios y descanso': 'bed',
+  'Baños': 'bath',
+  'Cocina y comedor': 'kitchen',
+  'Climatización y confort': 'climate',
+  'Exterior y experiencia': 'outdoor',
+  'Entretenimiento y conectividad': 'wifi',
+  'Acceso y estacionamiento': 'car',
+}[title] ?? 'check');
 const galleryPayload = tour.map((section) => ({
   title: section.title,
   images: section.images,
@@ -38,13 +51,13 @@ const galleryPayload = tour.map((section) => ({
 
       <div class="preview-gallery">
         {previewTour.map((section, index) => (
-          <article class:list={['preview-card', section.previewFit, { large: index === 0 }]}>
+          <button class:list={['preview-card', section.previewFit, { large: index === 0 }]} type="button" data-open-gallery={galleryId} data-gallery-section={section.title} aria-label={`Ver fotos de ${section.title}`}>
             <img src={cloudinaryImage(imageSrc(section.images[0]), index === 0 ? 'q_auto,f_auto,c_limit,w_1100' : 'q_auto,f_auto,c_limit,w_700')} alt={imageCaption(section.images[0]) || `${section.title} de ${house.name}`} loading="lazy" />
             <div>
               <span>{section.images.length} fotos</span>
               <strong>{section.title}</strong>
             </div>
-          </article>
+          </button>
         ))}
       </div>
     </div>
@@ -64,6 +77,7 @@ const galleryPayload = tour.map((section) => ({
             return (
             <details class="amenity-group" open={isPriorityGroup} data-default-open={isPriorityGroup ? 'true' : 'false'}>
               <summary class="amenity-group-title">
+                <i><UiIcon name={categoryIcon(group.title)} size={28} /></i>
                 <h4>{group.title}</h4>
                 <span>{group.items.length} detalles</span>
               </summary>
@@ -71,8 +85,8 @@ const galleryPayload = tour.map((section) => ({
               <ul>
                 {group.items.slice(0, 5).map((item) => (
                   <li>
-                    <strong>{item.name}</strong>
-                    <span>{item.detail}</span>
+                    <i><UiIcon name="check" size={17} /></i>
+                    <div><strong>{item.name}</strong>{usefulDetail(item.detail) && <span>{item.detail}</span>}</div>
                   </li>
                 ))}
               </ul>
@@ -143,6 +157,7 @@ const galleryPayload = tour.map((section) => ({
     sections.forEach((section) => {
       const sectionNode = document.createElement('section');
       sectionNode.className = 'modal-section';
+      sectionNode.dataset.gallerySection = section.title;
 
       const head = document.createElement('div');
       head.className = 'modal-section-head';
@@ -197,6 +212,14 @@ const galleryPayload = tour.map((section) => ({
       if (dialog instanceof HTMLDialogElement) {
         buildGallery(dialog);
         dialog.showModal();
+        const requestedSection = button.getAttribute('data-gallery-section');
+        if (requestedSection) {
+          requestAnimationFrame(() => {
+            const section = [...dialog.querySelectorAll('[data-gallery-section]')]
+              .find((node) => node.dataset.gallerySection === requestedSection);
+            section?.scrollIntoView({ block: 'start' });
+          });
+        }
       }
     });
   });
@@ -267,7 +290,16 @@ const galleryPayload = tour.map((section) => ({
   border-radius: var(--radius-xl);
   background: #ddd;
   box-shadow: var(--shadow);
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
 }
+
+.preview-card:focus-visible { outline: 3px solid var(--olive); outline-offset: 3px; }
 
 .preview-card.large {
   grid-row: span 2;
@@ -279,7 +311,10 @@ const galleryPayload = tour.map((section) => ({
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform .35s ease;
 }
+
+.preview-card:hover img { transform: scale(1.025); }
 
 .preview-card.contain img {
   object-fit: contain;
@@ -518,6 +553,18 @@ const galleryPayload = tour.map((section) => ({
   list-style: none;
 }
 
+.amenity-group-title > i {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: rgba(109,117,82,.12);
+  color: var(--olive-dark);
+  font-style: normal;
+}
+
 .amenity-group-title::-webkit-details-marker {
   display: none;
 }
@@ -567,7 +614,7 @@ const galleryPayload = tour.map((section) => ({
 
 .amenity-group ul {
   display: grid;
-  gap: 12px;
+  gap: 8px;
   margin: 0;
   padding: 16px 18px 18px;
   list-style: none;
@@ -575,6 +622,23 @@ const galleryPayload = tour.map((section) => ({
 
 .amenity-group li {
   min-width: 0;
+  position: relative;
+  display: block;
+  padding: 8px 0 8px 32px;
+}
+
+.amenity-group li > i {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  top: 7px;
+  left: 0;
+  border-radius: 50%;
+  background: rgba(109,117,82,.1);
+  color: var(--olive-dark);
+  font-style: normal;
 }
 
 .amenity-group li strong {
