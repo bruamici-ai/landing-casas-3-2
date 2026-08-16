@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GuestGuide from '../../components/GuestGuide.astro';
+import { avellanedaGuide } from '../../data/guest-guides';
+---
+
+<BaseLayout
+  title="Guía de llegada | Casa Avellaneda"
+  description="Información práctica para tu estadía en Casa Avellaneda."
+  image={avellanedaGuide.heroImage}
+  noindex
+>
+  <GuestGuide guide={avellanedaGuide} />
+</BaseLayout>
+

@@ -1,0 +1,106 @@
+---
+import GuestGuide from '../components/GuestGuide.astro';
+import { avellanedaGuide, parqueGuide } from '../data/guest-guides';
+
+const apiBase = (import.meta.env.PUBLIC_ESTADIA_API_BASE || '/estadia-api').replace(/\/$/, '');
+---
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Mi estadía | Experiencias Mendoza</title>
+    <style>
+      :root { --olive:#6d7552; --olive-dark:#576041; --cream:#f6f2eb; --text:#211d1a; }
+      * { box-sizing:border-box; }
+      html,body { margin:0; min-height:100%; background:var(--cream); color:var(--text); font-family:Inter,system-ui,sans-serif; }
+      [hidden] { display:none !important; }
+      .portal-state { min-height:100vh; display:grid; place-items:center; padding:24px; }
+      .state-card { width:min(100%,560px); padding:30px; border:1px solid rgba(33,29,26,.12); border-radius:24px; background:#fffdf9; box-shadow:0 18px 44px rgba(30,22,16,.08); text-align:center; }
+      .state-card h1 { margin:0 0 10px; font-size:clamp(30px,8vw,48px); letter-spacing:-.04em; }
+      .state-card p { margin:0; color:#6f675f; line-height:1.6; }
+      .portal-summary { padding:22px 16px; background:linear-gradient(135deg,var(--olive),var(--olive-dark)); color:white; }
+      .summary-inner { width:min(100%,1120px); margin:auto; display:grid; grid-template-columns:1fr auto; gap:22px; align-items:center; }
+      .summary-inner p { margin:0 0 5px; opacity:.82; font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; }
+      .summary-inner h1 { margin:0; font-size:clamp(28px,6vw,48px); letter-spacing:-.04em; }
+      .summary-inner strong { display:block; margin-top:8px; font-size:16px; }
+      .stay-dates { padding:13px 16px; border:1px solid rgba(255,255,255,.28); border-radius:16px; background:rgba(255,255,255,.1); line-height:1.5; }
+      @media(max-width:700px){ .summary-inner{grid-template-columns:1fr}.stay-dates{width:100%} }
+    </style>
+  </head>
+  <body data-api-base={apiBase}>
+    <section class="portal-state" data-loading>
+      <div class="state-card"><h1>Preparando tu estadía</h1><p>Estamos cargando la información de tu reserva.</p></div>
+    </section>
+
+    <section class="portal-state" data-error hidden>
+      <div class="state-card"><h1>Este enlace no está disponible</h1><p>Puede haber vencido o haber sido reemplazado. Pedile al anfitrión un nuevo enlace.</p></div>
+    </section>
+
+    <div data-portal hidden>
+      <header class="portal-summary">
+        <div class="summary-inner">
+          <div><p data-phase-label>Tu estadía</p><h1 data-greeting></h1><strong data-phase-message></strong></div>
+          <div class="stay-dates"><span>Check-in: <b data-check-in></b></span><br /><span>Check-out: <b data-check-out></b></span></div>
+        </div>
+      </header>
+      <div data-guide-wrapper="parque" hidden><GuestGuide guide={parqueGuide} embedded /></div>
+      <div data-guide-wrapper="avellaneda" hidden><GuestGuide guide={avellanedaGuide} embedded /></div>
+    </div>
+
+    <script define:vars={{ apiBase }}>
+      const loading = document.querySelector('[data-loading]');
+      const error = document.querySelector('[data-error]');
+      const portal = document.querySelector('[data-portal]');
+      const pathParts = window.location.pathname.split('/').filter(Boolean);
+      const token = new URLSearchParams(window.location.search).get('token') || (pathParts[0] === 'estadia' ? pathParts[1] : '');
+
+      const localIsoDate = (timeZone) => {
+        const parts = new Intl.DateTimeFormat('en-CA', { timeZone, year:'numeric', month:'2-digit', day:'2-digit' }).formatToParts(new Date());
+        const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+        return `${values.year}-${values.month}-${values.day}`;
+      };
+      const dayNumber = (iso) => Date.parse(`${iso}T00:00:00Z`) / 86400000;
+      const displayDate = (iso) => new Intl.DateTimeFormat('es-AR', { day:'numeric', month:'long', year:'numeric', timeZone:'UTC' }).format(new Date(`${iso}T12:00:00Z`));
+      const phaseCopy = (today, checkIn, checkOut) => {
+        const current = dayNumber(today), arrival = dayNumber(checkIn), departure = dayNumber(checkOut);
+        if (current < arrival) {
+          const days = arrival - current;
+          return ['Antes de tu llegada', days === 1 ? 'Falta 1 día para recibirte.' : `Faltan ${days} días para recibirte.`];
+        }
+        if (current === arrival) return ['Día de llegada', 'Hoy te esperamos. Tené a mano la dirección y las indicaciones de acceso.'];
+        if (current === departure - 1) return ['Antes de la salida', 'Mañana es tu check-out. Revisá el checklist y las indicaciones de llaves y residuos.'];
+        if (current === departure) return ['Día de salida', 'Hoy es tu check-out. La salida es hasta las 10:00.'];
+        if (current > departure) return ['Estadía finalizada', 'Gracias por habernos elegido. Esperamos que hayas disfrutado Mendoza.'];
+        return ['Durante tu estadía', 'Encontrá aquí el Wi-Fi y toda la información para disfrutar la casa.'];
+      };
+
+      const showError = () => { loading.hidden = true; portal.hidden = true; error.hidden = false; };
+
+      if (!token || !/^[A-Za-z0-9_-]{32,160}$/.test(token)) {
+        showError();
+      } else {
+        fetch(`${apiBase}/estadia/${encodeURIComponent(token)}`, { headers:{ Accept:'application/json' }, credentials:'omit', cache:'no-store' })
+          .then((response) => { if (!response.ok) throw new Error('unavailable'); return response.json(); })
+          .then((stay) => {
+            if (!['parque','avellaneda'].includes(stay.casa)) throw new Error('unavailable');
+            const [label, message] = phaseCopy(localIsoDate(stay.timezone), stay.check_in, stay.check_out);
+            document.querySelector('[data-phase-label]').textContent = label;
+            document.querySelector('[data-phase-message]').textContent = message;
+            document.querySelector('[data-greeting]').textContent = `Hola, ${stay.nombre}`;
+            document.querySelector('[data-check-in]').textContent = displayDate(stay.check_in);
+            document.querySelector('[data-check-out]').textContent = displayDate(stay.check_out);
+            document.querySelectorAll('[data-guide-wrapper]').forEach((guide) => {
+              if (guide.dataset.guideWrapper === stay.casa) guide.hidden = false;
+              else guide.remove();
+            });
+            loading.hidden = true;
+            portal.hidden = false;
+          })
+          .catch(showError);
+      }
+    </script>
+  </body>
+</html>

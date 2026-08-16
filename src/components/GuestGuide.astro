@@ -1,0 +1,497 @@
+---
+import UiIcon from './UiIcon.astro';
+import { site } from '../data/site';
+import { cloudinaryImage } from '../utils/cloudinary';
+
+const { guide, embedded = false } = Astro.props;
+const hostWa = site.whatsappUrl(`Hola ${guide.host.name}, te escribo desde la guía de ${guide.house.name}. `, guide.host.phone);
+const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped de ${guide.house.name} y necesito ayuda. `, guide.backupHost.phone);
+---
+
+<main class:list={["guest-guide", { "is-embedded": embedded }]} data-guide={guide.slug}>
+  <header class="guide-topbar">
+    <a class="guide-brand" href="#inicio" aria-label="Ir al inicio">
+      <span>Experiencias Mendoza</span>
+      <strong>{guide.house.name}</strong>
+    </a>
+    <a class="host-pill" href={hostWa} target="_blank" rel="noreferrer" data-analytics-event="guest_guide_whatsapp">
+      Hablar con {guide.host.name}
+    </a>
+  </header>
+
+  <section class="guide-hero" id="inicio">
+    <img src={cloudinaryImage(guide.heroImage, 'q_auto,f_auto,c_fill,w_1800,h_1400')} alt={`Bienvenida a ${guide.house.name}`} width="1400" height="1050" fetchpriority="high" />
+    <div class="hero-shade"></div>
+    <div class="hero-content">
+      <p class="guide-eyebrow">{guide.eyebrow}</p>
+      <h1>Bienvenidos</h1>
+      <p class="hero-house-name">{guide.house.name}</p>
+      <p class="hero-intro">Todo listo para disfrutar Mendoza desde el primer momento.</p>
+      <a class="scroll-cue" href="#esencial">Todo lo necesario para tu estadía <span aria-hidden="true">↓</span></a>
+    </div>
+  </section>
+
+  <nav class="quick-nav" aria-label="Secciones de la guía">
+    <a href="#esencial">Llegada</a>
+    <a href="#casa">La casa</a>
+    <a href="#residuos">Residuos</a>
+    <a href="#salida">Salida</a>
+    <a href="#ayuda">Ayuda</a>
+  </nav>
+
+  <section class="guide-section first" id="esencial">
+    <div class="guide-shell">
+      <div class="section-intro">
+        <p class="guide-eyebrow">Primero lo importante</p>
+        <h2>Llegar y sentirse en casa.</h2>
+      </div>
+
+      <div class="essentials-grid">
+        <article class="action-card featured">
+          <div class="card-icon"><UiIcon name="pin" /></div>
+          <h3>Cómo llegar</h3>
+          <p class="private-value" id={`${guide.slug}-address`} hidden>{guide.address}</p>
+          <button class="reveal-button" type="button" data-reveal={`${guide.slug}-address`} data-show-label="Mostrar dirección" data-hide-label="Ocultar dirección">Mostrar dirección</button>
+          <a class="text-link" href={guide.mapsUrl} target="_blank" rel="noreferrer">Abrir en Google Maps ↗</a>
+        </article>
+
+        <article class="action-card">
+          <div class="card-icon"><UiIcon name="wifi" /></div>
+          <h3>Wi-Fi</h3>
+          <div class="private-value wifi-value" id={`${guide.slug}-wifi`} hidden>
+            <span>Red</span><strong>{guide.wifiName}</strong>
+            <span>Contraseña</span><strong>{guide.wifiPassword}</strong>
+          </div>
+          <button class="reveal-button" type="button" data-reveal={`${guide.slug}-wifi`} data-show-label="Ver Wi-Fi" data-hide-label="Ocultar Wi-Fi">Ver Wi-Fi</button>
+        </article>
+
+        <article class="action-card">
+          <div class="card-icon"><UiIcon name="clock" /></div>
+          <h3>Horarios</h3>
+          <div class="schedule-times">
+            <span><small>Check-in</small><time>{guide.checkIn}</time></span>
+            <b aria-hidden="true">→</b>
+            <span><small>Check-out</small><time>{guide.checkOut}</time></span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="guide-section warm" id="llegada">
+    <div class="guide-shell split-section">
+      <div>
+        <p class="guide-eyebrow">Tu llegada</p>
+        <h2>Acceso simple, coordinado por WhatsApp.</h2>
+      </div>
+      <div class="info-stack">
+        <article class="line-card"><span class="line-icon"><UiIcon name="key" size={20} /></span><div><h3>Locker y llaves</h3><p>{guide.arrival}</p></div></article>
+        <article class="line-card"><span class="line-icon"><UiIcon name="car" size={20} /></span><div><h3>Estacionamiento</h3><p>{guide.parking}</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="guide-section" id="casa">
+    <div class="guide-shell">
+      <div class="section-intro wide">
+        <p class="guide-eyebrow">Vivir la casa</p>
+        <h2>Confort, cuidado y tiempo compartido.</h2>
+      </div>
+      <div class="house-layout">
+        <img class="house-photo" src={cloudinaryImage(guide.sectionImage, 'q_auto,f_auto,c_fill,w_1400,h_1200')} alt={`Exterior de ${guide.house.name}`} width="900" height="760" loading="lazy" />
+        <div class="house-notes">
+          <details open>
+            <summary><span><UiIcon name="climate" size={21} /> Climatización</span><b>+</b></summary>
+            <p>{guide.climate}</p>
+            <div class="season-grid">
+              {guide.climateSeasons.map((season) => (
+                <details class="season-card" data-season={season.name.toLowerCase()}>
+                  <summary class="season-heading">
+                    <span class="season-icon"><UiIcon name={season.icon} size={20} /></span>
+                    <span class="season-copy"><small>{season.name}</small><strong>{season.title}</strong></span>
+                    <span class="season-state" aria-hidden="true">+</span>
+                  </summary>
+                  <ol class="instruction-list">
+                    {season.instructions.map((instruction, index) => (
+                      <li><span>{index + 1}</span><p>{instruction}</p></li>
+                    ))}
+                  </ol>
+                </details>
+              ))}
+            </div>
+          </details>
+          <details class="seasonal-pool" data-seasonal-pool>
+            <summary><span><UiIcon name="pool" size={21} /> {guide.poolTitle}</span><b>+</b></summary>
+            <p class="seasonal-notice"><UiIcon name="alert" size={18} /> Servicio disponible solo de noviembre a febrero.</p>
+            <div class="tip-grid">
+              {guide.poolRules.map((rule) => (
+                <article class="tip-card">
+                  <span class="tip-icon"><UiIcon name={rule.icon} size={19} /></span>
+                  <div><strong>{rule.title}</strong><p>{rule.text}</p></div>
+                </article>
+              ))}
+            </div>
+            <aside class="maintenance-note">
+              <span class="tip-icon"><UiIcon name="outdoor" size={19} /></span>
+              <div><strong>Mantenimiento durante la estadía</strong><p>{guide.poolNote}</p></div>
+            </aside>
+          </details>
+          {guide.specialTitle && (
+            <details open>
+              <summary><span><UiIcon name="bath" size={21} /> {guide.specialTitle}</span><b>+</b></summary>
+              <div class="tip-grid">
+                {guide.specialInstructions.map((rule) => (
+                  <article class="tip-card">
+                    <span class="tip-icon"><UiIcon name={rule.icon} size={19} /></span>
+                    <div><strong>{rule.title}</strong><p>{rule.text}</p></div>
+                  </article>
+                ))}
+              </div>
+            </details>
+          )}
+          <details open>
+            <summary><span><UiIcon name="fire" size={21} /> Churrasquera</span><b>+</b></summary>
+            <div class="tip-grid">
+              {guide.grillTips.map((rule) => (
+                <article class="tip-card">
+                  <span class="tip-icon"><UiIcon name={rule.icon} size={19} /></span>
+                  <div><strong>{rule.title}</strong><p>{rule.text}</p></div>
+                </article>
+              ))}
+            </div>
+          </details>
+          <details open>
+            <summary><span><UiIcon name="kitchen" size={21} /> Cocina y lavado</span><b>+</b></summary>
+            <div class="tip-grid">
+              {guide.kitchenTips.map((rule) => (
+                <article class="tip-card">
+                  <span class="tip-icon"><UiIcon name={rule.icon} size={19} /></span>
+                  <div><strong>{rule.title}</strong><p>{rule.text}</p></div>
+                </article>
+              ))}
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="guide-section waste-section" id="residuos">
+    <div class="guide-shell waste-layout">
+      <div class="waste-heading">
+        <p class="guide-eyebrow light">Una indicación muy importante</p>
+        <div class="section-symbol light-symbol"><UiIcon name="trash" size={26} /></div>
+        <h2>Residuos: respetá el horario de recolección.</h2>
+        <p class="collection-status" data-collection-status>Cargando el cronograma de hoy…</p>
+      </div>
+      <div class="waste-content">
+        <p class="waste-lead">Hay recolección <strong>{guide.collectionDays}</strong>, exclusivamente de <strong>21:00 a 00:00</strong>. No hay recolección los martes ni los sábados.</p>
+        <div class="warning-box">
+          <strong><UiIcon name="alert" size={20} /> No saques residuos por la mañana.</strong>
+          <p>Si te retirás a las 10:00, sacá la basura la noche anterior. Dejar bolsas en la calle fuera de horario puede generar una multa municipal.</p>
+        </div>
+        <div class="waste-cards">
+          <article><span><UiIcon name="trash" size={16} /> Residuos habituales</span><p>{guide.wasteRegular}</p></article>
+          <article><span><UiIcon name="key" size={16} /> Excepción solo al salir</span><p>{guide.wasteExceptional}</p></article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="guide-section" id="normas">
+    <div class="guide-shell split-section rules-section">
+      <div>
+        <p class="guide-eyebrow">Convivencia</p>
+        <h2>Pocas reglas para cuidar la casa y el descanso.</h2>
+        <p class="quiet-note">Horario de descanso: <strong>{guide.quietHours}</strong>. Evitá también ruidos durante la siesta.</p>
+      </div>
+      <ol class="rules-list">
+        {guide.rules.map((rule, index) => <li><span>{String(index + 1).padStart(2, '0')}</span><p>{rule}</p></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <section class="guide-section checkout-section" id="salida">
+    <div class="guide-shell">
+      <div class="section-intro">
+        <p class="guide-eyebrow">Antes de las {guide.checkOut}</p>
+        <div class="section-symbol"><UiIcon name="clock" size={26} /></div>
+        <h2>Una salida simple.</h2>
+        <p>Este checklist nos ayuda a preparar la casa para quienes llegan después.</p>
+      </div>
+      <div class="checklist">
+        {guide.checkout.map((item, index) => (
+          <label class="check-item">
+            <input type="checkbox" />
+            <span class="custom-check"><UiIcon name="check" size={16} /></span>
+            <span><small>{String(index + 1).padStart(2, '0')}</small>{item}</span>
+          </label>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="guide-section local-section" id="mendoza">
+    <div class="guide-shell local-card">
+      <p class="guide-eyebrow">Muy pronto</p>
+      <div class="section-symbol"><UiIcon name="sparkle" size={26} /></div>
+      <h2>Nuestros lugares recomendados.</h2>
+      <p>Estamos preparando una selección cercana de restaurantes, cafeterías, mercados, farmacias y experiencias con beneficios especiales para nuestros huéspedes.</p>
+    </div>
+  </section>
+
+  <section class="guide-section help-section" id="ayuda">
+    <div class="guide-shell">
+      <div class="section-intro wide">
+        <p class="guide-eyebrow light">Estamos para ayudarte</p>
+        <div class="section-symbol light-symbol"><UiIcon name="phone" size={26} /></div>
+        <h2>Contactos y emergencias.</h2>
+      </div>
+      <div class="help-grid">
+        <article class="help-card main-contact">
+          <span>Anfitrión principal</span><h3>{guide.host.name}</h3>
+          <a href={hostWa} target="_blank" rel="noreferrer">Escribir por WhatsApp</a>
+        </article>
+        <article class="help-card">
+          <span>Contacto de respaldo</span><h3>{guide.backupHost.name}</h3>
+          <a href={backupWa} target="_blank" rel="noreferrer">Escribir por WhatsApp</a>
+        </article>
+        {guide.emergencies.map((contact) => (
+          <article class="help-card emergency"><span>{contact.label}</span><h3>{contact.value}</h3><a href={contact.href}>Llamar ahora</a></article>
+        ))}
+      </div>
+      <div class="review-note">
+        <p>Tu opinión nos ayuda a mejorar.</p>
+        <span>Si algo no estuvo bien, escribinos durante la estadía para que podamos resolverlo. Al finalizar, nos encantará recibir tu reseña.</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="guide-footer">
+    <p>Esperamos que disfrutes Mendoza y que esta casa también sea parte del viaje.</p>
+    <span>Experiencias Mendoza · {guide.house.name}</span>
+  </footer>
+
+</main>
+
+<script>
+  document.querySelectorAll('[data-reveal]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const target = document.getElementById(button.getAttribute('data-reveal'));
+      if (!target) return;
+      const willShow = target.hidden;
+      target.hidden = !willShow;
+      button.textContent = willShow ? button.getAttribute('data-hide-label') : button.getAttribute('data-show-label');
+      button.setAttribute('aria-expanded', String(willShow));
+    });
+  });
+
+  const now = new Date();
+  const mendozaDate = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Argentina/Mendoza',
+    weekday: 'short',
+    month: 'numeric',
+    day: 'numeric'
+  }).formatToParts(now);
+  const dateParts = Object.fromEntries(mendozaDate.map((part) => [part.type, part.value]));
+  const weekdayIndexes: Record<string, number> = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+  const day = weekdayIndexes[dateParts.weekday];
+  document.querySelectorAll('[data-collection-status]').forEach((status) => {
+    const dayNames = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+    const collectionDays = [0, 1, 3, 4, 5];
+    const date = now.toLocaleDateString('es-AR', { day: 'numeric', month: 'long', timeZone: 'America/Argentina/Mendoza' });
+    const today = document.createElement('strong');
+    today.textContent = `Hoy ${dayNames[day]} ${date}`;
+    status.replaceChildren(today, document.createTextNode(
+      collectionDays.includes(day)
+        ? ': hay recolección. Sacá las bolsas entre las 21:00 y las 00:00.'
+        : ': no hay recolección. No saques bolsas a la calle. Si mañana hacés check-out, usá el punto excepcional indicado abajo.'
+    ));
+    status.classList.add(collectionDays.includes(day) ? 'is-collection' : 'no-collection');
+  });
+
+  const month = Number(dateParts.month) - 1;
+  const currentSeason = month >= 4 && month <= 8 ? 'invierno' : 'verano';
+  document.querySelectorAll('[data-season]').forEach((season) => {
+    season.open = season.getAttribute('data-season') === currentSeason;
+  });
+
+  document.querySelectorAll('[data-seasonal-pool]').forEach((pool) => {
+    const inPoolSeason = [10, 11, 0, 1].includes(month);
+    pool.open = inPoolSeason;
+    pool.classList.toggle('out-of-season', !inPoolSeason);
+  });
+</script>
+
+<style>
+  .guest-guide { --guide-dark:#283027; --guide-cream:#f4efe6; --guide-green:#697456; background:#faf8f4; color:#211d1a; overflow:hidden; }
+  .guide-shell { width:min(1120px, calc(100% - 34px)); margin:0 auto; }
+  .guide-topbar { min-height:72px; padding:11px max(17px, calc((100vw - 1120px)/2)); display:flex; align-items:center; justify-content:space-between; gap:20px; background:rgba(250,248,244,.9); backdrop-filter:blur(16px); position:fixed; inset:0 0 auto; z-index:50; border-bottom:1px solid rgba(33,29,26,.09); }
+  .guest-guide.is-embedded .guide-topbar { position:sticky; }
+  .guide-brand { text-decoration:none; display:grid; gap:2px; }
+  .guide-brand span { color:#777066; font-size:11px; text-transform:uppercase; letter-spacing:.12em; }
+  .guide-brand strong { font-size:16px; }
+  .host-pill,.card-button { text-decoration:none; border-radius:999px; background:var(--guide-green); color:#fff; font-size:13px; font-weight:750; padding:12px 17px; }
+  .guide-hero { min-height:min(900px, 100svh); position:relative; display:flex; align-items:flex-end; color:#fff; }
+  .guide-hero>img,.hero-shade { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .hero-shade { background:linear-gradient(180deg,rgba(18,22,17,.08) 15%,rgba(18,22,17,.18) 44%,rgba(18,22,17,.82) 100%); }
+  .hero-content { position:relative; z-index:1; width:min(1120px,calc(100% - 34px)); margin:0 auto; padding:150px 0 72px; }
+  .guide-eyebrow { margin:0 0 14px; color:var(--guide-green); font-size:11px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; }
+  .guide-eyebrow.light { color:#cdd7bc; }
+  .hero-content .guide-eyebrow { color:#e4e9da; }
+  .hero-content h1 { max-width:900px; margin:0; font-size:clamp(68px,12vw,148px); line-height:.78; letter-spacing:-.07em; }
+  .hero-content .hero-house-name { max-width:720px; margin:28px 0 0; color:#fff; font-size:clamp(24px,3vw,38px); line-height:1; font-weight:800; letter-spacing:-.04em; }
+  .hero-content .hero-intro { max-width:520px; margin:14px 0 0; color:rgba(255,255,255,.78); font-size:16px; line-height:1.55; }
+  .scroll-cue { display:inline-flex; gap:12px; margin-top:24px; color:#fff; text-decoration:none; font-size:13px; font-weight:700; }
+  .quick-nav { position:sticky; top:72px; z-index:40; display:flex; justify-content:center; gap:4px; padding:9px 17px; overflow-x:auto; background:rgba(244,239,230,.94); backdrop-filter:blur(14px); border-bottom:1px solid rgba(33,29,26,.08); scrollbar-width:none; }
+  .quick-nav a { flex:0 0 auto; padding:9px 13px; color:#665f57; text-decoration:none; font-size:12px; font-weight:750; border-radius:999px; }
+  .quick-nav a:hover { background:#fff; color:#23231e; }
+  .guide-section { padding:100px 0; scroll-margin-top:122px; }
+  .guide-section.first { padding-top:88px; }
+  .section-intro { max-width:680px; margin-bottom:42px; }
+  .section-intro.wide { max-width:850px; }
+  .section-intro h2,.split-section h2,.waste-heading h2,.local-card h2 { margin:0; font-size:clamp(38px,6vw,66px); line-height:.95; letter-spacing:-.055em; }
+  .section-intro>p:last-child { color:#746d65; line-height:1.7; font-size:17px; }
+  .essentials-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:15px; }
+  .action-card { min-height:235px; padding:28px; display:flex; flex-direction:column; align-items:flex-start; border:1px solid rgba(33,29,26,.1); border-radius:25px; background:#fff; box-shadow:0 18px 50px rgba(39,31,24,.055); }
+  .action-card.featured { background:var(--guide-dark); color:#fff; }
+  .card-icon { width:42px; height:42px; display:grid; place-items:center; border-radius:50%; color:var(--guide-green); background:#eef0e8; margin-bottom:24px; }
+  .featured .card-icon { color:#fff; background:rgba(255,255,255,.12); }
+  .action-card h3 { margin:0 0 8px; font-size:28px; letter-spacing:-.04em; }
+  .action-card>p { margin:0; color:#777067; line-height:1.55; }
+  .private-value { margin:6px 0 12px!important; color:inherit!important; font-size:16px; font-weight:700; }
+  .private-value[hidden] { display:none; }
+  .wifi-value { display:grid; grid-template-columns:auto 1fr; gap:4px 12px; }
+  .wifi-value span { color:#8a8279; font-size:12px; }
+  .reveal-button { margin-top:14px; border:0; border-radius:999px; padding:11px 15px; background:#eceee7; color:#424a37; font:inherit; font-size:13px; font-weight:800; cursor:pointer; }
+  .featured .reveal-button { background:#fff; }
+  .text-link { margin-top:12px; color:inherit; font-size:13px; font-weight:800; }
+  .schedule-times { display:flex; align-items:end; gap:14px; margin-top:auto; }
+  .schedule-times span { display:grid; gap:4px; }
+  .schedule-times small { color:#817a72; font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+  .schedule-times time { font-size:25px; font-weight:850; letter-spacing:-.04em; }
+  .schedule-times b { padding-bottom:3px; color:#999187; font-weight:400; }
+  .warm { background:var(--guide-cream); }
+  .split-section { display:grid; grid-template-columns:.8fr 1.2fr; gap:80px; align-items:start; }
+  .info-stack { border-top:1px solid rgba(33,29,26,.14); }
+  .line-card { display:grid; grid-template-columns:45px 1fr; gap:18px; padding:27px 0; border-bottom:1px solid rgba(33,29,26,.14); }
+  .line-card>span { color:#8a8279; font-size:12px; padding-top:5px; }
+  .line-card>span.line-icon { width:36px; height:36px; padding:0; display:grid; place-items:center; border-radius:50%; color:var(--guide-green); background:#e4e5dc; }
+  .line-card h3 { margin:0 0 8px; font-size:22px; }
+  .line-card p { margin:0; color:#706960; line-height:1.7; }
+  .house-layout { display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:start; }
+  .house-photo { width:100%; height:660px; object-fit:cover; border-radius:28px; position:sticky; top:140px; }
+  .house-notes { border-top:1px solid rgba(33,29,26,.14); }
+  details { border-bottom:1px solid rgba(33,29,26,.14); }
+  summary { list-style:none; cursor:pointer; padding:22px 0; display:flex; justify-content:space-between; align-items:center; gap:20px; font-size:18px; font-weight:800; }
+  summary::-webkit-details-marker { display:none; }
+  summary span { display:flex; align-items:center; gap:11px; }
+  summary b { font-size:22px; font-weight:400; transition:transform .2s; }
+  details[open] summary b { transform:rotate(45deg); }
+  details>p,details>ul { margin:0 0 24px; color:#706960; line-height:1.7; }
+  details>ul { padding-left:20px; }
+  details .note { padding:14px 16px; border-radius:14px; background:#f0ece4; color:#575149; }
+  .seasonal-notice { display:none; align-items:center; gap:9px; padding:13px 15px; border-radius:13px; background:#f0dfc2; color:#332d25; font-weight:750; }
+  details.seasonal-pool.out-of-season .seasonal-notice { display:flex; }
+  .tip-grid { display:grid; grid-template-columns:1fr 1fr; gap:9px; margin:0 0 24px; }
+  .tip-card,.maintenance-note { display:flex; align-items:flex-start; gap:11px; padding:14px; border-radius:14px; background:#f5f2ec; }
+  .tip-icon { width:34px; height:34px; flex:0 0 34px; display:grid; place-items:center; border-radius:50%; color:var(--guide-green); background:#e2e7da; }
+  .tip-card strong,.maintenance-note strong { display:block; margin:1px 0 4px; font-size:14px; }
+  .tip-card p,.maintenance-note p { margin:0; color:#6c655d; font-size:13px; line-height:1.5; }
+  .maintenance-note { margin:0 0 24px; padding:16px; background:#ebe6dd; }
+  .maintenance-note .tip-icon { background:#dadfce; }
+  .season-grid { display:grid; gap:12px; margin:0 0 25px; }
+  details.season-card { padding:0 18px; border:1px solid rgba(33,29,26,.1); border-radius:18px; background:#f7f4ee; }
+  details.season-card[open] { background:#f2efe8; }
+  details.season-card .season-heading { display:grid; grid-template-columns:39px 1fr auto; align-items:center; gap:12px; margin:0; padding:17px 0; }
+  .season-icon { width:39px; height:39px; display:grid; place-items:center; flex:0 0 auto; border-radius:50%; background:#e3e7dc; color:var(--guide-green); }
+  .season-copy { display:block; }
+  .season-copy small { display:block; color:#7c756c; font-size:10px; font-weight:800; letter-spacing:.13em; text-transform:uppercase; }
+  .season-copy strong { display:block; margin-top:3px; font-size:17px; }
+  .season-state { font-size:22px; font-weight:400; transition:transform .2s; }
+  details.season-card[open] .season-state { transform:rotate(45deg); }
+  .instruction-list { list-style:none; margin:0 0 25px; padding:0; display:grid; gap:10px; }
+  .season-card .instruction-list { margin-bottom:18px; }
+  .instruction-list li { display:grid; grid-template-columns:28px 1fr; gap:11px; align-items:start; padding:14px; border-radius:14px; background:#f0ece4; }
+  .instruction-list li>span { width:26px; height:26px; display:grid; place-items:center; border-radius:50%; background:var(--guide-green); color:#fff; font-size:11px; font-weight:800; }
+  .instruction-list p { margin:2px 0 0; color:#5f5951; line-height:1.6; }
+  .waste-section { background:#31392f; color:#fff; }
+  .waste-layout { display:grid; grid-template-columns:.8fr 1.2fr; gap:80px; }
+  .waste-heading { position:sticky; top:145px; align-self:start; }
+  .section-symbol { width:48px; height:48px; display:grid; place-items:center; margin:0 0 20px; border-radius:50%; color:var(--guide-green); background:#e8ebe2; }
+  .section-symbol.light-symbol { color:#fff; background:rgba(255,255,255,.1); }
+  .collection-status { margin-top:26px; padding:14px 16px; border-radius:15px; background:rgba(255,255,255,.09); line-height:1.5; }
+  .collection-status.is-collection { border-left:3px solid #b7cc91; }
+  .collection-status.no-collection { border-left:3px solid #e1b783; }
+  .waste-lead { margin:0 0 24px; font-size:21px; line-height:1.6; color:#e4e8df; }
+  .warning-box { padding:24px; border-radius:20px; background:#f0dfc2; color:#2a2823; }
+  .warning-box strong { display:flex; align-items:center; gap:9px; font-size:20px; }
+  .warning-box p { margin:8px 0 0; line-height:1.65; }
+  .waste-cards { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px; }
+  .waste-cards article { padding:22px; border-radius:20px; background:rgba(255,255,255,.075); }
+  .waste-cards span { display:flex; align-items:center; gap:7px; color:#cdd7bc; font-size:11px; text-transform:uppercase; letter-spacing:.12em; font-weight:800; }
+  .waste-cards p { margin:10px 0 0; color:#e2e6de; line-height:1.65; }
+  .quiet-note { color:#706960; line-height:1.7; }
+  .rules-list { list-style:none; padding:0; margin:0; border-top:1px solid rgba(33,29,26,.14); }
+  .rules-list li { display:grid; grid-template-columns:42px 1fr; gap:15px; padding:19px 0; border-bottom:1px solid rgba(33,29,26,.14); }
+  .rules-list span { color:#8a8279; font-size:11px; padding-top:5px; }
+  .rules-list p { margin:0; line-height:1.6; }
+  .checkout-section { background:#e8e1d5; }
+  .checklist { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .check-item { min-height:105px; display:flex; gap:15px; align-items:flex-start; padding:21px; border-radius:19px; background:rgba(255,255,255,.65); cursor:pointer; line-height:1.55; }
+  .check-item input { position:absolute; opacity:0; pointer-events:none; }
+  .custom-check { flex:0 0 25px; width:25px; height:25px; display:grid; place-items:center; border:1px solid #a7a095; border-radius:50%; color:transparent; margin-top:1px; }
+  .check-item input:checked+.custom-check { background:var(--guide-green); border-color:var(--guide-green); color:#fff; }
+  .check-item input:checked~span:last-child { text-decoration:line-through; color:#777067; }
+  .check-item small { display:block; margin-bottom:5px; color:#8c857c; font-size:10px; letter-spacing:.12em; }
+  .local-section { background:#faf8f4; }
+  .local-card { padding:70px; border-radius:30px; background:linear-gradient(135deg,#ddd4c4,#efebe3); }
+  .local-card p:last-child { max-width:650px; margin:20px 0 0; color:#6d665e; font-size:17px; line-height:1.7; }
+  .help-section { background:#20261f; color:#fff; }
+  .help-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  .help-card { min-height:170px; padding:23px; border-radius:20px; background:rgba(255,255,255,.075); display:flex; flex-direction:column; align-items:flex-start; }
+  .help-card.main-contact { background:#dfe8ce; color:#252b22; }
+  .help-card span { color:#aeb5a9; font-size:11px; text-transform:uppercase; letter-spacing:.11em; }
+  .main-contact span { color:#667057; }
+  .help-card h3 { margin:12px 0; font-size:25px; }
+  .help-card a { margin-top:auto; color:inherit; font-size:13px; font-weight:800; }
+  .review-note { margin-top:55px; padding-top:28px; border-top:1px solid rgba(255,255,255,.15); display:grid; grid-template-columns:.7fr 1.3fr; gap:30px; }
+  .review-note p { margin:0; font-size:27px; letter-spacing:-.03em; }
+  .review-note span { color:#bdc3b9; line-height:1.7; }
+  .guide-footer { padding:52px 20px 110px; text-align:center; background:#20261f; color:#fff; border-top:1px solid rgba(255,255,255,.08); }
+  .guide-footer p { max-width:600px; margin:0 auto 12px; font-size:22px; }
+  .guide-footer span { color:#959c92; font-size:12px; }
+  @media (max-width:800px) {
+    .guide-topbar { min-height:64px; }
+    .guide-brand span { display:none; }
+    .guide-brand strong { font-size:14px; }
+    .host-pill { padding:10px 13px; font-size:11px; }
+    .quick-nav { top:64px; justify-content:flex-start; }
+    .guide-hero { min-height:760px; }
+    .hero-content { padding-bottom:48px; }
+    .guide-section { padding:72px 0; scroll-margin-top:112px; }
+    .guide-section.first { padding-top:65px; }
+    .essentials-grid { grid-template-columns:1fr 1fr; gap:14px; }
+    .essentials-grid .featured { grid-column:1 / -1; }
+    .house-layout,.split-section,.waste-layout { grid-template-columns:1fr; gap:40px; }
+    .action-card { min-height:240px; }
+    .house-photo { height:440px; position:static; }
+    .waste-heading { position:static; }
+    .waste-cards,.checklist { grid-template-columns:1fr; }
+    .help-grid { grid-template-columns:1fr 1fr; }
+    .review-note { grid-template-columns:1fr; }
+    .local-card { width:min(100% - 34px,1120px); padding:42px 25px; }
+  }
+  @media (max-width:520px) {
+    .guide-hero { min-height:690px; }
+    .hero-content h1 { font-size:clamp(66px,20vw,92px); }
+    .hero-content .hero-house-name { margin-top:22px; font-size:28px; }
+    .hero-content .hero-intro { font-size:15px; }
+    .essentials-grid,.help-grid { grid-template-columns:1fr; }
+    .essentials-grid .featured { grid-column:auto; }
+    .tip-grid { grid-template-columns:1fr; }
+    .action-card { min-height:220px; padding:23px; }
+    .section-intro h2,.split-section h2,.waste-heading h2,.local-card h2 { font-size:39px; }
+    .house-photo { height:360px; border-radius:22px; }
+  }
+</style>

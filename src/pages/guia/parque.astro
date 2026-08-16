@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GuestGuide from '../../components/GuestGuide.astro';
+import { parqueGuide } from '../../data/guest-guides';
+---
+
+<BaseLayout
+  title="Guía de llegada | La Casa Frente al Parque"
+  description="Información práctica para tu estadía en La Casa Frente al Parque."
+  image={parqueGuide.heroImage}
+  noindex
+>
+  <GuestGuide guide={parqueGuide} />
+</BaseLayout>
+
