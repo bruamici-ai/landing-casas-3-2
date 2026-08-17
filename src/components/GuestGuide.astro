@@ -349,23 +349,23 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
   .section-intro.wide { max-width:850px; }
   .section-intro h2,.split-section h2,.waste-heading h2,.local-card h2 { margin:0; font-size:clamp(38px,6vw,66px); line-height:.95; letter-spacing:-.055em; }
   .section-intro>p:last-child { color:#746d65; line-height:1.7; font-size:17px; }
-  .essentials-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:15px; }
-  .action-card { min-height:235px; padding:28px; display:flex; flex-direction:column; align-items:flex-start; border:1px solid rgba(33,29,26,.1); border-radius:25px; background:#fff; box-shadow:0 18px 50px rgba(39,31,24,.055); }
-  .action-card.featured { background:var(--guide-dark); color:#fff; }
-  .card-heading { width:100%; display:flex; align-items:center; gap:13px; margin-bottom:22px; }
-  .card-icon { flex:0 0 42px; width:42px; height:42px; display:grid; place-items:center; border-radius:50%; color:var(--guide-green); background:#eef0e8; }
-  .featured .card-icon { color:#fff; background:rgba(255,255,255,.12); }
-  .action-card h3 { margin:0; font-size:28px; letter-spacing:-.04em; }
+  .essentials-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+  .action-card { min-height:0; padding:24px; display:flex; flex-direction:column; align-items:stretch; border:1px solid rgba(33,29,26,.11); border-top:4px solid var(--guide-green); border-radius:20px; background:#fff; box-shadow:0 14px 38px rgba(39,31,24,.05); color:var(--guide-text); }
+  .action-card.featured { background:#fff; color:var(--guide-text); }
+  .card-heading { width:100%; display:flex; align-items:center; gap:12px; margin-bottom:18px; padding-bottom:16px; border-bottom:1px solid rgba(33,29,26,.09); }
+  .card-icon { flex:0 0 38px; width:38px; height:38px; display:grid; place-items:center; border-radius:12px; color:var(--guide-green); background:#edf1e8; }
+  .featured .card-icon { color:var(--guide-green); background:#edf1e8; }
+  .action-card h3 { margin:0; font-size:24px; letter-spacing:-.035em; }
   .action-card>p { margin:0; color:#777067; line-height:1.55; }
-  .private-value { margin:6px 0 12px!important; color:inherit!important; font-size:16px; font-weight:700; }
+  .private-value { margin:0 0 14px!important; padding:13px 14px; border-radius:12px; background:#f5f4f0; color:inherit!important; font-size:14px; font-weight:700; }
   .private-value[hidden] { display:none; }
   .wifi-value { width:100%; display:grid; grid-template-columns:64px minmax(0,1fr); gap:8px 12px; align-items:baseline; }
   .wifi-value span { color:#8a8279; font-size:12px; }
   .wifi-value strong { min-width:0; overflow-wrap:anywhere; }
-  .reveal-button { margin-top:14px; border:0; border-radius:999px; padding:11px 15px; background:#eceee7; color:#424a37; font:inherit; font-size:13px; font-weight:800; cursor:pointer; }
-  .featured .reveal-button { background:#fff; }
-  .text-link { margin-top:12px; color:inherit; font-size:13px; font-weight:800; }
-  .schedule-times { display:flex; align-items:end; gap:14px; margin-top:auto; }
+  .reveal-button { align-self:flex-start; margin-top:0; border:0; border-radius:10px; padding:10px 13px; background:#edf1e8; color:#36422f; font:inherit; font-size:12px; font-weight:800; cursor:pointer; }
+  .featured .reveal-button { background:#edf1e8; }
+  .text-link { margin-top:12px; color:#53633f; font-size:12px; font-weight:800; }
+  .schedule-times { display:flex; align-items:end; gap:14px; padding:15px; border-radius:12px; background:#f5f4f0; }
   .schedule-times span { display:grid; gap:4px; }
   .schedule-times small { color:#817a72; font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
   .schedule-times time { font-size:25px; font-weight:850; letter-spacing:-.04em; }
@@ -474,7 +474,7 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
     .essentials-grid { grid-template-columns:1fr 1fr; gap:14px; }
     .essentials-grid .featured { grid-column:1 / -1; }
     .house-layout,.split-section,.waste-layout { grid-template-columns:1fr; gap:40px; }
-    .action-card { min-height:240px; }
+    .action-card { min-height:0; }
     .house-photo { height:440px; position:static; }
     .waste-heading { position:static; }
     .waste-cards,.checklist { grid-template-columns:1fr; }
@@ -490,7 +490,7 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
     .essentials-grid,.help-grid { grid-template-columns:1fr; }
     .essentials-grid .featured { grid-column:auto; }
     .tip-grid { grid-template-columns:1fr; }
-    .action-card { min-height:220px; padding:23px; }
+    .action-card { min-height:0; padding:21px; }
     .section-intro h2,.split-section h2,.waste-heading h2,.local-card h2 { font-size:39px; }
     .house-photo { height:360px; border-radius:22px; }
   }
