@@ -1,6 +1,6 @@
 export const site = {
   brand: 'Experiencias Mendoza',
-  url: 'https://landing-casas-3-2.vercel.app',
+  url: 'https://experiencia-mendoza.vercel.app',
   defaultImage: 'https://res.cloudinary.com/drne78uzo/image/upload/q_auto/f_auto/v1775873958/_BRU1492_yuclbe.jpg',
   whatsapp: '5492616931948',
   whatsappUrl(message: string, phone = this.whatsapp) {

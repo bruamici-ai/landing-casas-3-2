@@ -2,14 +2,14 @@
 
 ## Variables de entorno
 
-- `SITE_URL`: dominio público completo, sin ruta. El valor temporal actual es `https://landing-casas-3-2.vercel.app`.
+- `SITE_URL`: dominio público completo, sin ruta. El dominio canónico es `https://experiencia-mendoza.vercel.app`.
 - `PUBLIC_GA_MEASUREMENT_ID`: ID real de GA4 (formato `G-...`). Si no se define, el sitio no carga Google Analytics.
 
 ## Google Search Console
 
-1. Crear una propiedad de tipo **Prefijo de URL** para `https://landing-casas-3-2.vercel.app/`.
+1. Crear una propiedad de tipo **Prefijo de URL** para `https://experiencia-mendoza.vercel.app/`.
 2. Verificarla mediante etiqueta HTML o archivo HTML. No se puede usar la verificación DNS de `vercel.app` porque ese dominio pertenece a Vercel.
-3. En **Sitemaps**, enviar `https://landing-casas-3-2.vercel.app/sitemap.xml`.
+3. En **Sitemaps**, enviar `https://experiencia-mendoza.vercel.app/sitemap.xml`.
 4. Inspeccionar las URLs de inicio, ambas casas y servicios después del despliegue.
 5. Cuando se conecte el dominio propio, crear una nueva propiedad de tipo **Dominio** y verificarla mediante DNS.
 
