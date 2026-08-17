@@ -82,7 +82,9 @@ const apiBase = (import.meta.env.PUBLIC_ESTADIA_API_BASE || '/estadia-api').repl
       if (!token || !/^[A-Za-z0-9_-]{32,160}$/.test(token)) {
         showError();
       } else {
-        fetch(`${apiBase}/estadia/${encodeURIComponent(token)}`, { headers:{ Accept:'application/json' }, credentials:'omit', cache:'no-store' })
+        const isLocalAudit = ['localhost', '127.0.0.1'].includes(location.hostname) || /^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(location.hostname);
+        const coldStartQuery = isLocalAudit ? '?simulate_cold_start=8' : '';
+        fetch(`${apiBase}/estadia/${encodeURIComponent(token)}${coldStartQuery}`, { headers:{ Accept:'application/json' }, credentials:'omit', cache:'no-store' })
           .then((response) => { if (!response.ok) throw new Error('unavailable'); return response.json(); })
           .then((stay) => {
             if (!['parque','avellaneda'].includes(stay.casa)) throw new Error('unavailable');
