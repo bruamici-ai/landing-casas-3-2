@@ -48,16 +48,14 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
 
       <div class="essentials-grid">
         <article class="action-card featured">
-          <div class="card-icon"><UiIcon name="pin" /></div>
-          <h3>Cómo llegar</h3>
+          <div class="card-heading"><div class="card-icon"><UiIcon name="pin" /></div><h3>Cómo llegar</h3></div>
           <p class="private-value" id={`${guide.slug}-address`} hidden>{guide.address}</p>
           <button class="reveal-button" type="button" data-reveal={`${guide.slug}-address`} data-show-label="Mostrar dirección" data-hide-label="Ocultar dirección" aria-controls={`${guide.slug}-address`} aria-expanded="false">Mostrar dirección</button>
           <a class="text-link" href={guide.mapsUrl} target="_blank" rel="noreferrer">Abrir en Google Maps ↗</a>
         </article>
 
         <article class="action-card">
-          <div class="card-icon"><UiIcon name="wifi" /></div>
-          <h3>Wi-Fi</h3>
+          <div class="card-heading"><div class="card-icon"><UiIcon name="wifi" /></div><h3>Wi-Fi</h3></div>
           <div class="private-value wifi-value" id={`${guide.slug}-wifi`} hidden>
             <span>Red</span><strong>{guide.wifiName}</strong>
             <span>Contraseña</span><strong>{guide.wifiPassword}</strong>
@@ -66,8 +64,7 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
         </article>
 
         <article class="action-card">
-          <div class="card-icon"><UiIcon name="clock" /></div>
-          <h3>Horarios</h3>
+          <div class="card-heading"><div class="card-icon"><UiIcon name="clock" /></div><h3>Horarios</h3></div>
           <div class="schedule-times">
             <span><small>Check-in</small><time>{guide.checkIn}</time></span>
             <b aria-hidden="true">→</b>
@@ -355,14 +352,16 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
   .essentials-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:15px; }
   .action-card { min-height:235px; padding:28px; display:flex; flex-direction:column; align-items:flex-start; border:1px solid rgba(33,29,26,.1); border-radius:25px; background:#fff; box-shadow:0 18px 50px rgba(39,31,24,.055); }
   .action-card.featured { background:var(--guide-dark); color:#fff; }
-  .card-icon { width:42px; height:42px; display:grid; place-items:center; border-radius:50%; color:var(--guide-green); background:#eef0e8; margin-bottom:24px; }
+  .card-heading { width:100%; display:flex; align-items:center; gap:13px; margin-bottom:22px; }
+  .card-icon { flex:0 0 42px; width:42px; height:42px; display:grid; place-items:center; border-radius:50%; color:var(--guide-green); background:#eef0e8; }
   .featured .card-icon { color:#fff; background:rgba(255,255,255,.12); }
-  .action-card h3 { margin:0 0 8px; font-size:28px; letter-spacing:-.04em; }
+  .action-card h3 { margin:0; font-size:28px; letter-spacing:-.04em; }
   .action-card>p { margin:0; color:#777067; line-height:1.55; }
   .private-value { margin:6px 0 12px!important; color:inherit!important; font-size:16px; font-weight:700; }
   .private-value[hidden] { display:none; }
-  .wifi-value { display:grid; grid-template-columns:auto 1fr; gap:4px 12px; }
+  .wifi-value { width:100%; display:grid; grid-template-columns:64px minmax(0,1fr); gap:8px 12px; align-items:baseline; }
   .wifi-value span { color:#8a8279; font-size:12px; }
+  .wifi-value strong { min-width:0; overflow-wrap:anywhere; }
   .reveal-button { margin-top:14px; border:0; border-radius:999px; padding:11px 15px; background:#eceee7; color:#424a37; font:inherit; font-size:13px; font-weight:800; cursor:pointer; }
   .featured .reveal-button { background:#fff; }
   .text-link { margin-top:12px; color:inherit; font-size:13px; font-weight:800; }
