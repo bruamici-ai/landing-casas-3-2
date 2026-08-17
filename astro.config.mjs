@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: process.env.SITE_URL ?? 'https://experiencia-mendoza.vercel.app',
+  site: process.env.SITE_URL ?? 'https://experiencias-mendoza.vercel.app',
   vite: {
     server: {
       proxy: {
