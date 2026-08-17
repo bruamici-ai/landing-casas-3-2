@@ -179,14 +179,14 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
         <p class="guide-eyebrow light">Una indicación muy importante</p>
         <div class="section-symbol light-symbol"><UiIcon name="trash" size={26} /></div>
         <h2>Residuos: respetá el horario de recolección.</h2>
-        <p class="collection-status" data-collection-status>Cargando el cronograma de hoy…</p>
+        <div class="warning-box compact-warning">
+          <strong><UiIcon name="alert" size={18} /> No saques residuos por la mañana.</strong>
+          <p>Si te retirás a las 10:00, sacá la basura la noche anterior.</p>
+        </div>
       </div>
       <div class="waste-content">
         <p class="waste-lead">Hay recolección <strong>{guide.collectionDays}</strong>, exclusivamente de <strong>21:00 a 00:00</strong>. No hay recolección los martes ni los sábados.</p>
-        <div class="warning-box">
-          <strong><UiIcon name="alert" size={20} /> No saques residuos por la mañana.</strong>
-          <p>Si te retirás a las 10:00, sacá la basura la noche anterior. Dejar bolsas en la calle fuera de horario puede generar una multa municipal.</p>
-        </div>
+        <p class="collection-status" data-collection-status>Cargando el cronograma de hoy…</p>
         <div class="waste-cards">
           <article><span><UiIcon name="trash" size={16} /> Residuos habituales</span><p>{guide.wasteRegular}</p></article>
           <article><span><UiIcon name="key" size={16} /> Excepción solo al salir</span><p>{guide.wasteExceptional}</p></article>
@@ -419,13 +419,17 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
   .waste-heading { position:sticky; top:145px; align-self:start; }
   .section-symbol { width:48px; height:48px; display:grid; place-items:center; margin:0 0 20px; border-radius:50%; color:var(--guide-green); background:#e8ebe2; }
   .section-symbol.light-symbol { color:#fff; background:rgba(255,255,255,.1); }
-  .collection-status { margin-top:26px; padding:14px 16px; border-radius:15px; background:rgba(255,255,255,.09); line-height:1.5; }
-  .collection-status.is-collection { border-left:3px solid #b7cc91; }
-  .collection-status.no-collection { border-left:3px solid #e1b783; }
+  .collection-status { margin:0; padding:24px; border-radius:20px; background:#f0dfc2; color:#2a2823; font-size:17px; line-height:1.6; }
+  .collection-status strong { font-size:20px; }
+  .collection-status.is-collection { border-left:5px solid #b7cc91; }
+  .collection-status.no-collection { border-left:5px solid #d49b60; }
   .waste-lead { margin:0 0 24px; font-size:21px; line-height:1.6; color:#e4e8df; }
   .warning-box { padding:24px; border-radius:20px; background:#f0dfc2; color:#2a2823; }
   .warning-box strong { display:flex; align-items:center; gap:9px; font-size:20px; }
   .warning-box p { margin:8px 0 0; line-height:1.65; }
+  .compact-warning { margin-top:26px; padding:14px 16px; border-left:3px solid #e1b783; border-radius:15px; background:rgba(255,255,255,.09); color:#fff; }
+  .compact-warning strong { font-size:15px; }
+  .compact-warning p { color:#e2e6de; font-size:14px; }
   .waste-cards { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px; }
   .waste-cards article { padding:22px; border-radius:20px; background:rgba(255,255,255,.075); }
   .waste-cards span { display:flex; align-items:center; gap:7px; color:#cdd7bc; font-size:11px; text-transform:uppercase; letter-spacing:.12em; font-weight:800; }
