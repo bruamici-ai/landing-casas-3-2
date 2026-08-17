@@ -27,13 +27,56 @@ const apiBase = (import.meta.env.PUBLIC_ESTADIA_API_BASE || '/estadia-api').repl
       .summary-inner h1 { margin:0; font-size:clamp(28px,6vw,48px); letter-spacing:-.04em; }
       .summary-inner strong { display:block; margin-top:8px; font-size:16px; }
       .stay-dates { padding:13px 16px; border:1px solid rgba(255,255,255,.28); border-radius:16px; background:rgba(255,255,255,.1); line-height:1.5; }
+      .loading-brand { padding:18px 16px; border-bottom:1px solid rgba(33,29,26,.1); background:#fffdf9; }
+      .loading-brand-inner { width:min(100%,1120px); margin:auto; display:flex; justify-content:space-between; align-items:center; gap:18px; }
+      .loading-brand strong { font-size:17px; }
+      .loading-brand span { color:#756d65; font-size:13px; font-weight:700; }
+      .loading-summary { min-height:190px; display:flex; align-items:center; }
+      .loading-copy { width:min(100%,640px); }
+      .skeleton { display:block; border-radius:999px; background:linear-gradient(90deg,rgba(255,255,255,.16) 25%,rgba(255,255,255,.34) 45%,rgba(255,255,255,.16) 65%); background-size:240% 100%; animation:shimmer 1.5s ease-in-out infinite; }
+      .skeleton-label { width:150px; height:13px; margin-bottom:18px; }
+      .skeleton-title { width:min(100%,460px); height:48px; margin-bottom:15px; }
+      .skeleton-text { width:min(82%,360px); height:16px; }
+      .loading-content { width:min(100%,1120px); margin:auto; padding:54px 16px 80px; }
+      .loading-content > p { margin:0 0 9px; color:var(--olive); font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+      .loading-content h2 { margin:0 0 30px; font-size:clamp(32px,6vw,56px); letter-spacing:-.045em; }
+      .loading-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+      .loading-card { min-height:190px; padding:24px; border:1px solid rgba(33,29,26,.1); border-radius:22px; background:#fffdf9; box-shadow:0 16px 38px rgba(30,22,16,.06); }
+      .loading-card .skeleton { background:linear-gradient(90deg,#ebe7df 25%,#f6f3ed 45%,#ebe7df 65%); background-size:240% 100%; }
+      .loading-card .skeleton:first-child { width:55%; height:25px; margin-bottom:28px; }
+      .loading-card .skeleton:nth-child(2) { width:88%; height:14px; margin-bottom:12px; }
+      .loading-card .skeleton:last-child { width:66%; height:14px; }
+      @keyframes shimmer { to { background-position:-240% 0; } }
+      @media (prefers-reduced-motion:reduce) { .skeleton { animation:none; } }
       @media(max-width:700px){ .summary-inner{grid-template-columns:1fr}.stay-dates{width:100%} }
+      @media(max-width:700px){ .loading-cards{grid-template-columns:1fr}.loading-card{min-height:140px}.loading-summary{min-height:220px}.loading-brand span{display:none} }
     </style>
   </head>
   <body data-api-base={apiBase}>
-    <section class="portal-state" data-loading>
-      <div class="state-card"><h1>Preparando tu estadía</h1><p>Estamos cargando la información de tu reserva.</p></div>
-    </section>
+    <div data-loading aria-live="polite" aria-busy="true">
+      <div class="loading-brand">
+        <div class="loading-brand-inner"><strong>Experiencias Mendoza</strong><span>Mi estadía</span></div>
+      </div>
+      <header class="portal-summary loading-summary">
+        <div class="summary-inner">
+          <div class="loading-copy">
+            <span class="skeleton skeleton-label"></span>
+            <span class="skeleton skeleton-title"></span>
+            <span class="skeleton skeleton-text"></span>
+          </div>
+          <div class="stay-dates">Preparando los datos de tu reserva…</div>
+        </div>
+      </header>
+      <main class="loading-content">
+        <p>Tu guía de estadía</p>
+        <h2>Todo listo para sentirte en casa.</h2>
+        <div class="loading-cards" aria-hidden="true">
+          <div class="loading-card"><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span></div>
+          <div class="loading-card"><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span></div>
+          <div class="loading-card"><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span></div>
+        </div>
+      </main>
+    </div>
 
     <section class="portal-state" data-error hidden>
       <div class="state-card"><h1>Este enlace no está disponible</h1><p>Puede haber vencido o haber sido reemplazado. Pedile al anfitrión un nuevo enlace.</p></div>
