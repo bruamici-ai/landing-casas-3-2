@@ -17,7 +17,12 @@ const { house, reviews, reviewRatings } = Astro.props;
 const privateHouse = { ...house, contactName: '', whatsapp: '' };
 const apiBase = (import.meta.env.PUBLIC_ESTADIA_API_BASE || '/estadia-api').replace(/\/$/, '');
 ---
-<BaseLayout title={`Portal privado | ${house.name}`} description="Presentaci&oacute;n privada de la propiedad." noindex>
+<BaseLayout
+  title={`${house.name} | Experiencias Mendoza`}
+  description={house.heroSummary || house.summary}
+  image={house.heroImage}
+  noindex
+>
   <div class="portal-shell" data-portal-shell>
     <header class="portal-brand"><strong>Experiencias Mendoza</strong><span>Presentaci&oacute;n privada</span></header>
     <section class="portal-expired" data-portal-expired hidden>
