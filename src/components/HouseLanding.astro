@@ -4,9 +4,10 @@ import HouseOverview from './house/HouseOverview.astro';
 import HouseDetails from './house/HouseDetails.astro';
 import HouseMoments from './house/HouseMoments.astro';
 import HouseReviewsCTA from './house/HouseReviewsCTA.astro';
+import ServiceOffers from './ServiceOffers.astro';
 import { site } from '../data/site';
 
-const { house, reviews, reviewRatings } = Astro.props;
+const { house, reviews, reviewRatings, privateMode = false, portalName = '' } = Astro.props;
 const contactName = house.contactName ?? 'Bruno';
 const whatsapp = house.whatsapp ?? site.whatsapp;
 
@@ -16,7 +17,8 @@ const wa = site.whatsappUrl(
 );
 ---
 
-<main class="house-landing">
+<main class:list={['house-landing', { 'private-portal': privateMode }]} data-private-portal={privateMode ? 'true' : undefined} data-portal-name={privateMode ? portalName : undefined}>
+  {privateMode && <div class="private-portal-heading shell"><span>Portal privado</span><strong>{portalName}</strong></div>}
   <HouseHero house={house} wa={wa} reviewRatings={reviewRatings} />
 
   <HouseOverview house={house} />
@@ -25,8 +27,42 @@ const wa = site.whatsappUrl(
 
   <HouseMoments house={house} />
 
+  <ServiceOffers houseName={house.name} />
+
   <HouseReviewsCTA house={house} reviews={reviews} reviewRatings={reviewRatings} wa={wa} />
 </main>
+
+{privateMode && <script>
+  const portal = document.querySelector('[data-private-portal="true"]');
+  const params = new URLSearchParams(window.location.search);
+  const applyWatermark = (nextLabel) => {
+    const label = nextLabel.trim();
+    const heading = portal?.querySelector('.private-portal-heading strong');
+    if (heading) heading.textContent = label;
+    const watermarkImages = () => portal?.querySelectorAll('img').forEach((image) => {
+        const parent = image.closest('.main-image, .side-image, .preview-card, .modal-photo, .moment-image');
+        if (!parent || parent.querySelector('.private-watermark')) return;
+        parent.classList.add('private-photo');
+        const watermark = document.createElement('span');
+        watermark.className = 'private-watermark';
+        watermark.textContent = label;
+        watermark.setAttribute('aria-hidden', 'true');
+        parent.append(watermark);
+        const centerWatermark = document.createElement('span');
+        centerWatermark.className = 'private-watermark private-watermark-center';
+        centerWatermark.textContent = `Portal privado · ${label}`;
+        centerWatermark.setAttribute('aria-hidden', 'true');
+        parent.append(centerWatermark);
+      });
+    if (portal && label) {
+      watermarkImages();
+      new MutationObserver(watermarkImages).observe(portal, { childList: true, subtree: true });
+    }
+  };
+  const initialLabel = (portal?.dataset.portalName || params.get('nombre') || '').trim();
+  if (initialLabel) applyWatermark(initialLabel);
+  window.addEventListener('private-portal-name', (event) => applyWatermark(event.detail || ''));
+</script>}
 
 <style is:global>
   .house-landing .shell {
@@ -37,4 +73,12 @@ const wa = site.whatsappUrl(
   .house-landing .section {
     padding: 56px 0;
   }
+
+  .private-portal-heading { display:flex; align-items:baseline; gap:10px; padding-top:22px; color:var(--muted); font-size:12px; letter-spacing:.1em; text-transform:uppercase; }
+  .private-portal-heading strong { color:var(--malbec-dark); font-family:'Plus Jakarta Sans',Inter,system-ui,sans-serif; font-size:12px; }
+  .private-portal .hero-actions, .private-portal .host-note, .private-portal .final-cta { display:none; }
+  .private-portal .service-offer__link, .private-portal .service-offers__all { display:none; }
+  .private-photo { position:relative !important; }
+  .private-watermark { position:absolute; z-index:5; top:14px; right:14px; max-width:calc(100% - 28px); padding:6px 10px; border:1px solid rgba(255,255,255,.5); border-radius:999px; background:rgba(45,25,29,.58); color:rgba(255,255,255,.95); font-family:'Plus Jakarta Sans',Inter,system-ui,sans-serif; font-size:12px; font-weight:800; letter-spacing:.06em; line-height:1; pointer-events:none; text-shadow:0 1px 4px rgba(0,0,0,.35); text-transform:uppercase; }
+  .private-watermark-center { top:50%; right:auto; left:50%; max-width:calc(100% - 28px); padding:8px 12px; border:1px solid rgba(255,255,255,.62); border-radius:999px; background:rgba(45,25,29,.72); color:rgba(255,255,255,.98); font-size:clamp(11px,1.4vw,16px); letter-spacing:.12em; text-shadow:0 1px 5px rgba(0,0,0,.6); transform:translate(-50%,-50%) rotate(-18deg); white-space:nowrap; }
 </style>

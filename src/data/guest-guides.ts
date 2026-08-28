@@ -8,7 +8,7 @@ const shared = {
   checkOut: '10:00',
   collectionDays,
   wifiPassword: '',
-  quietHours: '23:00 a 07:00',
+  quietHours: '22:00 a 09:00',
   rules: [
     'Solo pueden ingresar las personas registradas en la reserva.',
     'No se permiten fiestas, eventos ni ruidos que molesten al entorno.',

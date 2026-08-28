@@ -182,7 +182,7 @@ const isHighlight = (text) => {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: .12em;
-  color: var(--olive);
+  color: var(--gold);
   font-weight: 700;
 }
 
@@ -200,11 +200,15 @@ const isHighlight = (text) => {
 }
 
 .score-card {
-  background: linear-gradient(135deg, var(--olive), var(--olive-dark));
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--malbec-light), var(--malbec-dark));
   color: white;
   border-radius: var(--radius-lg);
   padding: 24px;
+  box-shadow: var(--shadow-hover), inset 0 1px 0 rgba(255,255,255,.22);
 }
+.score-card::before { content: ''; position: absolute; inset: 1px 18% auto; height: 1px; background: rgba(255,255,255,.42); }
 
 .score-card strong {
   display: block;
@@ -277,11 +281,15 @@ const isHighlight = (text) => {
 }
 
 .final-card {
-  background: linear-gradient(135deg, var(--olive), var(--olive-dark));
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--malbec-light), var(--malbec-dark));
   color: white;
   border-radius: var(--radius-xl);
   padding: 42px;
+  box-shadow: var(--shadow-hover), inset 0 1px 0 rgba(255,255,255,.22);
 }
+.final-card::before { content: ''; position: absolute; width: 240px; height: 240px; right: -80px; top: -100px; border: 1px solid rgba(231,201,140,.32); border-radius: 50%; }
 
 .final-card .section-label {
   color: rgba(255,255,255,.82);
@@ -297,8 +305,11 @@ const isHighlight = (text) => {
 }
 
 .button.primary {
+  position: relative;
+  overflow: hidden;
   background: white;
   color: var(--olive-dark);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 8px 18px rgba(40,10,20,.15);
 }
 
 @media (max-width: 850px) {

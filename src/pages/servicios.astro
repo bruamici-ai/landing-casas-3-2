@@ -28,11 +28,11 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 
     <section class="cards">
       <div class="container grid">
-        {services.map((service) => (
+        {services.filter((service) => service.status !== 'draft').map((service) => (
           <a class="card item" href={`/servicios/${service.slug}`}>
-            <img src={`/services/${service.slug}.jpg`} alt={`${service.title} para la estadía en Mendoza`} width="1200" height="800" loading="lazy" />
+            <img src={service.image ?? `/services/${service.slug}.jpg`} alt={`${service.title} para la estadía en Mendoza`} width="1200" height="800" loading="lazy" />
             <div class="item-copy">
-              <span class="kicker">Ver servicio</span>
+              <span class="kicker">{service.statusLabel}</span>
               <h2>{service.title}</h2>
               <p class="short">{service.short}</p>
               <p>{service.body}</p>

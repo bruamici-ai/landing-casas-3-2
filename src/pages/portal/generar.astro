@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Generar portal privado | Experiencias Mendoza" description="Generador interno de portales privados." noindex>
+  <main class="generator-shell">
+    <a class="back-link" href="/">Experiencias Mendoza</a>
+    <section class="generator-card">
+      <span class="eyebrow">Herramienta interna</span>
+      <h1>Generar portal privado</h1>
+      <p class="intro">Completá los datos y copiá el enlace para compartir la vidriera de la casa.</p>
+      <form data-generator>
+        <label>Casa<select name="casa" required><option value="parque">La Casa Frente al Parque</option><option value="avellaneda">Casa Avellaneda</option></select></label>
+        <label>Nombre para la marca de agua<input name="nombre" type="text" maxlength="40" placeholder="Juli" required /></label>
+        <label>Vigencia<select name="duracion"><option value="24">24 horas</option><option value="48" selected>48 horas</option></select></label>
+        <button type="submit">Generar enlace</button>
+      </form>
+      <div class="result" data-result hidden>
+        <label>Enlace listo<input data-url readonly /></label>
+        <div class="result-actions"><button type="button" data-copy>Copiar enlace</button><a data-open target="_blank" rel="noreferrer">Abrir portal</a></div>
+        <p data-status role="status"></p>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<script>
+  const form = document.querySelector('[data-generator]');
+  const result = document.querySelector('[data-result]');
+  const urlInput = document.querySelector('[data-url]');
+  const openLink = document.querySelector('[data-open]');
+  const copyButton = document.querySelector('[data-copy]');
+  const status = document.querySelector('[data-status]');
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const name = String(data.get('nombre') || '').trim();
+    if (!/^[\p{L}0-9 ._-]{1,40}$/u.test(name)) { status.textContent = 'Usá un nombre de hasta 40 caracteres, sin símbolos especiales.'; result.hidden = false; return; }
+    const expiry = new Date(Date.now() + Number(data.get('duracion') || 48) * 60 * 60 * 1000);
+    const date = new Intl.DateTimeFormat('en-CA', { year:'numeric', month:'2-digit', day:'2-digit' }).format(expiry);
+    const url = new URL(`/portal/${data.get('casa')}`, window.location.origin);
+    url.searchParams.set('nombre', name); url.searchParams.set('vence', date);
+    urlInput.value = url.href; openLink.href = url.href; status.textContent = `Válido hasta el ${date}.`; result.hidden = false;
+  });
+  copyButton?.addEventListener('click', async () => { await navigator.clipboard.writeText(urlInput.value); status.textContent = 'Enlace copiado.'; });
+</script>
+
+<style>
+  .generator-shell { width:min(760px,calc(100% - 28px)); margin:0 auto; padding:34px 0 80px; }
+  .back-link { color:var(--malbec-dark); font-size:13px; font-weight:800; text-decoration:none; }
+  .generator-card { margin-top:44px; padding:36px; border:1px solid var(--line); border-radius:var(--radius-xl); background:rgba(255,255,255,.78); box-shadow:var(--shadow); }
+  .eyebrow { color:var(--gold); font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+  h1 { margin:12px 0 14px; font-size:clamp(42px,8vw,70px); line-height:.9; }
+  .intro { margin:0 0 28px; color:var(--muted); line-height:1.6; }
+  form,.result { display:grid; gap:16px; } label { display:grid; gap:7px; color:var(--text); font-size:13px; font-weight:800; }
+  input,select { width:100%; min-height:46px; padding:0 13px; border:1px solid var(--line); border-radius:12px; background:#fff; color:var(--text); font:inherit; }
+  button,.result-actions a { min-height:46px; padding:0 17px; border:0; border-radius:999px; background:var(--malbec-dark); color:#fff; font:inherit; font-weight:800; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; justify-content:center; }
+  .result { margin-top:26px; padding-top:26px; border-top:1px solid var(--line); } .result-actions { display:flex; flex-wrap:wrap; gap:10px; } .result-actions a { background:var(--gold); color:var(--malbec-dark); } [data-status] { margin:0; color:var(--muted); font-size:13px; }
+  @media(max-width:560px){ .generator-card { padding:24px; } }
+</style>

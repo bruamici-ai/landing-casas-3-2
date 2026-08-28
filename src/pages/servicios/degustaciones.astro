@@ -5,13 +5,21 @@ import ServicePage from '../../components/ServicePage.astro';
 <ServicePage
   title="Degustaciones"
   description="Experiencia gratuita de degustacion en casa con QR, guia digital y opciones de degustacion en bodegas de Mendoza."
-  heading="Una experiencia gratis de vino en casa, y opciones para salir a bodega."
-  intro="La degustacion guiada en casa es gratuita para huespedes: una forma simple, intima y autonoma de vivir el vino mendocino sin moverse del alojamiento."
+  heading="Una experiencia de vino en casa, próximamente."
+  intro="Estamos preparando una degustación guiada para que los huéspedes puedan vivir el vino mendocino desde el alojamiento. Muy pronto vamos a confirmar cómo funcionará y cuándo estará disponible."
   image="/services/degustaciones.jpg"
   imageAlt="Degustacion de vinos en Mendoza"
   service="degustaciones"
+  showCta={false}
   whatsappMessage="Hola Bruno, quiero consultar por degustaciones. Me interesa una opcion en casa o en bodega para estas fechas: "
 >
+  <section class="service-section">
+    <div class="container coming-soon-notice">
+      <strong>Próximamente</strong>
+      <p>Esta experiencia todavía no está disponible para reservar. Estamos terminando de preparar el contenido, los vinos y la modalidad.</p>
+    </div>
+  </section>
+
   <section class="service-section">
     <div class="container tasting-split">
       <article class="tasting-feature">
@@ -145,6 +153,28 @@ import ServicePage from '../../components/ServicePage.astro';
 </ServicePage>
 
 <style>
+  .coming-soon-notice {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+    align-items: center;
+    padding: 18px 22px;
+    border: 1px solid rgba(184,132,61,.30);
+    border-radius: 18px;
+    background: rgba(231,201,140,.18);
+  }
+
+  .coming-soon-notice strong {
+    color: var(--malbec-dark);
+    font-size: 22px;
+  }
+
+  .coming-soon-notice p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
   .tasting-split {
     display: grid;
     grid-template-columns: 1.2fr .8fr;
@@ -345,6 +375,11 @@ import ServicePage from '../../components/ServicePage.astro';
     .bodega-block {
       padding: 20px;
       border-radius: 22px;
+    }
+
+    .coming-soon-notice {
+      grid-template-columns: 1fr;
+      gap: 6px;
     }
 
     .tasting-feature:first-child {

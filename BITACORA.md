@@ -1,5 +1,14 @@
 # Bitácora
 
+## 2026-08-28
+
+### Portal privado de presentación
+
+- Se incorporó una ruta privada por casa que reutiliza el landing y sus mismas imágenes.
+- El portal oculta contactos y botones de consulta, pero conserva los servicios como vidriera.
+- Las imágenes reciben una marca de agua visible con el nombre entregado por ADM Casas.
+- La generación y validación real de enlaces se trasladó a ADM Casas.
+
 Registro breve de decisiones y cambios relevantes. Las entradas más recientes
 se agregan arriba.
 
@@ -65,3 +74,9 @@ Las demás reseñas identificadas durante la revisión permanecen publicadas.
 - Por qué se decidió.
 - Cómo se verificó, si corresponde.
 ```
+## 2026-08-28 — Ajustes finales de presentación
+
+- Se ordenó la grilla de Momentos del día para evitar tarjetas aisladas en escritorio.
+- En celulares, la sección La experiencia usa tarjetas de ancho completo.
+- Cada imagen lateral del hero tiene su propio contenedor para que la marca de agua no se desplace entre fotos.
+- El build estático fue verificado correctamente.

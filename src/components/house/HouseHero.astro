@@ -1,7 +1,7 @@
 ---
 import { cloudinaryImage } from '../../utils/cloudinary';
 
-const { house, reviewRatings } = Astro.props;
+const { house, reviewRatings, wa } = Astro.props;
 
 const img = (i) => house.images?.[i] || house.images?.[0];
 
@@ -10,6 +10,7 @@ const summary = house.heroSummary ?? house.summary;
 const eyebrow = house.eyebrow ?? 'CASA COMPLETA · FRENTE AL PARQUE GENERAL SAN MARTIN';
 const airbnbRating = reviewRatings?.airbnb?.toFixed(1);
 const bookingRating = reviewRatings?.booking?.toFixed(1);
+const contactName = house.contactName ?? 'tu anfitrión';
 ---
 
 <section class="hero">
@@ -25,6 +26,13 @@ const bookingRating = reviewRatings?.booking?.toFixed(1);
         {airbnbRating && <span><b>Airbnb</b> {airbnbRating}/5</span>}
         {bookingRating && <span><b>Booking</b> {bookingRating}/10</span>}
       </div>
+
+      <div class="hero-actions">
+        <a class="hero-button" href={wa} target="_blank" rel="noreferrer" data-analytics-event="consultation_click">Consultar disponibilidad <span>↗</span></a>
+        <a class="hero-link" href="#experiencia">Conocer la casa <span>↓</span></a>
+      </div>
+
+      <p class="host-note"><span class="host-mark">✦</span> Te recibe {contactName}. Acompañamiento directo antes, durante y después de la estadía.</p>
     </div>
 
     <div class="hero-gallery">
@@ -33,8 +41,8 @@ const bookingRating = reviewRatings?.booking?.toFixed(1);
       </div>
 
       <div class="side-images">
-        <img src={cloudinaryImage(img(1), 'q_auto,f_auto,c_limit,w_900')} alt={`Dormitorio de ${house.name}`} width="700" height="600" loading="lazy" />
-        <img src={cloudinaryImage(img(2), 'q_auto,f_auto,c_limit,w_900')} alt={`Exterior de ${house.name}`} width="700" height="600" loading="lazy" />
+        <div class="side-image"><img src={cloudinaryImage(img(1), 'q_auto,f_auto,c_limit,w_900')} alt={`Dormitorio de ${house.name}`} width="700" height="600" loading="lazy" /></div>
+        <div class="side-image"><img src={cloudinaryImage(img(2), 'q_auto,f_auto,c_limit,w_900')} alt={`Exterior de ${house.name}`} width="700" height="600" loading="lazy" /></div>
       </div>
     </div>
   </div>
@@ -42,7 +50,7 @@ const bookingRating = reviewRatings?.booking?.toFixed(1);
 
 <style>
 .hero {
-  padding: 72px 0 34px;
+  padding: 72px 0 46px;
 }
 
 .hero-layout {
@@ -62,7 +70,7 @@ const bookingRating = reviewRatings?.booking?.toFixed(1);
   line-height: 1.2;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: var(--olive);
+  color: var(--gold);
   font-weight: 700;
 }
 
@@ -71,7 +79,8 @@ h1 {
   margin: 0;
   font-size: clamp(44px, 6vw, 82px);
   line-height: .9;
-  letter-spacing: -.055em;
+  letter-spacing: -.035em;
+  font-weight: 600;
 }
 
 .lead {
@@ -107,6 +116,16 @@ h1 {
   color: var(--olive-dark);
 }
 
+.hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 28px; }
+.hero-button { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 12px; min-height: 50px; padding: 0 20px; border-radius: 999px; background: linear-gradient(135deg, var(--malbec-light), var(--malbec-dark)); color: white; text-decoration: none; font-size: 14px; font-weight: 800; box-shadow: 0 12px 24px rgba(91,11,37,.2), inset 0 1px 0 rgba(255,255,255,.22); transition: transform .2s ease, box-shadow .2s ease; }
+.hero-button::before { content: ''; position: absolute; inset: 1px 16% auto; height: 1px; background: rgba(255,255,255,.44); }
+.hero-button:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(91,11,37,.27), inset 0 1px 0 rgba(255,255,255,.25); }
+.hero-button span { color: var(--gold-pale); font-size: 18px; }
+.hero-link { color: var(--malbec-dark); text-decoration: none; font-size: 13px; font-weight: 800; }
+.hero-link span { margin-left: 5px; color: var(--gold); }
+.host-note { display: flex; gap: 9px; align-items: flex-start; max-width: 410px; margin: 24px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+.host-mark { color: var(--gold); font-size: 16px; line-height: 1; }
+
 .hero-gallery {
   display: grid;
   grid-template-columns: 1.35fr .7fr;
@@ -115,11 +134,12 @@ h1 {
 }
 
 .main-image,
-.side-images img {
+.side-image {
   overflow: hidden;
   border-radius: 28px;
   background: #ddd;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-hover);
+  border: 1px solid rgba(255,255,255,.72);
 }
 
 .main-image img,
@@ -181,6 +201,8 @@ h1 {
   .side-images img {
     height: 220px;
   }
+
+  .side-image { height: 220px; }
 }
 
 @media (max-width: 560px) {
@@ -202,5 +224,7 @@ h1 {
     height: 240px;
     border-radius: 22px;
   }
+
+  .side-image { height: 240px; border-radius: 22px; }
 }
 </style>

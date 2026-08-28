@@ -26,7 +26,7 @@ const imageFor = (moment, index) =>
         {moments.map((moment, index) => (
           <article class="moment-card">
             {imageFor(moment, index) && (
-              <img src={cloudinaryImage(imageFor(moment, index), 'q_auto,f_auto,c_limit,w_700')} alt={moment.title} loading="lazy" />
+              <div class="moment-image"><img src={cloudinaryImage(imageFor(moment, index), 'q_auto,f_auto,c_limit,w_700')} alt={moment.title} loading="lazy" /></div>
             )}
 
             <div>
@@ -57,7 +57,7 @@ const imageFor = (moment, index) =>
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: .12em;
-  color: var(--olive);
+  color: var(--gold);
   font-weight: 700;
 }
 
@@ -82,11 +82,15 @@ const imageFor = (moment, index) =>
 .moment-card {
   min-width: 0;
   overflow: hidden;
-  border-radius: 8px;
-  background: rgba(255,255,255,.78);
+  border-radius: 20px;
+  background: rgba(255,255,255,.82);
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
 }
+.moment-card:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+.moment-card:nth-child(4) { grid-column: 3 / span 2; }
+
+.moment-image { position: relative; }
 
 .moment-card img {
   display: block;
@@ -95,19 +99,21 @@ const imageFor = (moment, index) =>
   object-fit: cover;
 }
 
-.moment-card div {
+.moment-card > div:not(.moment-image) {
   padding: 18px;
 }
 
 .moment-card span {
   display: block;
   margin-bottom: 10px;
-  color: var(--olive);
+  color: var(--gold);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: .08em;
   text-transform: uppercase;
 }
+.moment-card:nth-child(even) span { color: var(--sage, #53675a); }
+.moment-card:nth-child(odd) { box-shadow: var(--shadow), inset 0 3px 0 rgba(184,132,61,.55); }
 
 .moment-card h3 {
   margin: 0;
@@ -126,6 +132,8 @@ const imageFor = (moment, index) =>
   .moments-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .moment-card:nth-child(1),
+  .moment-card:nth-child(4) { grid-column: auto; grid-row: auto; }
 }
 
 @media (max-width: 560px) {

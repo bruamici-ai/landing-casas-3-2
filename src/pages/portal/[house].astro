@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HouseLanding from '../../components/HouseLanding.astro';
+import { parqueHouse } from '../../data/parque/house';
+import { parqueReviewRatings, parqueReviews } from '../../data/parque/reviews';
+import { avellanedaHouse } from '../../data/avellaneda/house';
+import { avellanedaReviewRatings, avellanedaReviews } from '../../data/avellaneda/reviews';
+
+export function getStaticPaths() {
+  return [
+    { params: { house: 'parque' }, props: { house: parqueHouse, reviews: parqueReviews, reviewRatings: parqueReviewRatings } },
+    { params: { house: 'avellaneda' }, props: { house: avellanedaHouse, reviews: avellanedaReviews, reviewRatings: avellanedaReviewRatings } },
+  ];
+}
+
+const { house, reviews, reviewRatings } = Astro.props;
+const privateHouse = { ...house, contactName: '', whatsapp: '' };
+const apiBase = (import.meta.env.PUBLIC_ESTADIA_API_BASE || '/estadia-api').replace(/\/$/, '');
+---
+<BaseLayout title={`Portal privado | ${house.name}`} description="Presentaci&oacute;n privada de la propiedad." noindex>
+  <div class="portal-shell" data-portal-shell>
+    <header class="portal-brand"><strong>Experiencias Mendoza</strong><span>Presentaci&oacute;n privada</span></header>
+    <section class="portal-expired" data-portal-expired hidden>
+      <h1>Este portal ya no est&aacute; disponible</h1>
+      <p>El enlace privado venci&oacute;. Solicit&aacute; un nuevo acceso.</p>
+    </section>
+    <div data-portal-content hidden>
+      <HouseLanding house={privateHouse} reviews={reviews} reviewRatings={reviewRatings} privateMode portalName="" />
+    </div>
+  </div>
+</BaseLayout>
+
+<script define:vars={{ apiBase, houseSlug: Astro.params.house }}>
+  const params = new URLSearchParams(window.location.search);
+  const name = (params.get('nombre') || '').trim();
+  const token = (params.get('token') || '').trim();
+  const expiry = (params.get('vence') || '').trim();
+  const validName = /^[\p{L}0-9 ._-]{1,40}$/u.test(name);
+  const expired = expiry && !/^\d{4}-\d{2}-\d{2}$/.test(expiry)
+    ? true
+    : expiry && new Date(`${expiry}T23:59:59`).getTime() < Date.now();
+
+  const shell = document.querySelector('[data-portal-shell]');
+  const content = document.querySelector('[data-portal-content]');
+  const expiredMessage = document.querySelector('[data-portal-expired]');
+
+  const applyPrivateWatermark = (label) => {
+    const main = content?.querySelector('[data-private-portal="true"]');
+    if (!main || !label) return;
+    main.dataset.portalName = label;
+    const addWatermarks = () => main.querySelectorAll('img').forEach((image) => {
+      const parent = image.closest('.main-image, .side-image, .preview-card, .modal-photo, .moment-image');
+      if (!parent) return;
+      parent.classList.add('private-photo');
+      if (!parent.querySelector('.private-watermark-corner')) {
+        const corner = document.createElement('span');
+        corner.className = 'private-watermark private-watermark-corner';
+        corner.textContent = label;
+        corner.setAttribute('aria-hidden', 'true');
+        parent.append(corner);
+      }
+      if (!parent.querySelector('.private-watermark-center')) {
+        const center = document.createElement('span');
+        center.className = 'private-watermark private-watermark-center';
+        center.textContent = `Portal privado · ${label}`;
+        center.setAttribute('aria-hidden', 'true');
+        parent.append(center);
+      }
+    });
+    addWatermarks();
+    new MutationObserver(addWatermarks).observe(main, { childList: true, subtree: true });
+  };
+
+  const showUnavailable = () => {
+    content?.setAttribute('hidden', 'true');
+    if (expiredMessage) expiredMessage.hidden = false;
+  };
+  const showPortal = (portalData) => {
+    if (expiredMessage) expiredMessage.hidden = true;
+    if (shell) shell.dataset.portalName = portalData.nombre_visible;
+    content?.removeAttribute('hidden');
+    applyPrivateWatermark(portalData.nombre_visible);
+    window.dispatchEvent(new CustomEvent('private-portal-name', { detail: portalData.nombre_visible }));
+    fetch(`${apiBase}/portal-privado/${encodeURIComponent(token)}/visita`, { method: 'POST', credentials: 'omit' }).catch(() => {});
+  };
+
+  if (token) {
+    fetch(`${apiBase}/portal-privado/${encodeURIComponent(token)}`, { headers: { Accept: 'application/json' }, credentials: 'omit', cache: 'no-store' })
+      .then((response) => { if (!response.ok) throw new Error('unavailable'); return response.json(); })
+      .then((portalData) => portalData.casa_slug === houseSlug ? showPortal(portalData) : showUnavailable())
+      .catch(showUnavailable);
+  } else if (validName && !expired) {
+    showPortal({ nombre_visible: name });
+  } else {
+    showUnavailable();
+  }
+</script>
+
+<style>
+  .portal-brand { width:min(1180px,calc(100% - 28px)); margin:0 auto; padding:20px 0 0; display:flex; justify-content:space-between; gap:18px; align-items:baseline; color:var(--muted); font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
+  [hidden] { display:none !important; }
+  .portal-brand strong { color:var(--malbec-dark); font-family:'Cormorant Garamond',Georgia,serif; font-size:22px; letter-spacing:0; text-transform:none; }
+  .portal-expired { min-height:70vh; display:grid; place-content:center; padding:40px 20px; text-align:center; }
+  .portal-expired h1 { margin:0 0 12px; font-size:clamp(38px,7vw,68px); line-height:.95; }
+  .portal-expired p { margin:0; color:var(--muted); line-height:1.6; }
+</style>

@@ -15,3 +15,7 @@ pnpm-debug.log*
 fotos-trafic/
 
 .vercel
+
+# Local audit/runtime artifacts.
+.local-portal-audit/
+*.log

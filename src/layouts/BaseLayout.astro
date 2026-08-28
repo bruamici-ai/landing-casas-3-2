@@ -35,6 +35,9 @@ const previewImage = image ? new URL(image, Astro.site ?? site.url).href : '';
     <meta name="twitter:description" content={description} />
     {previewImage && <meta name="twitter:image" content={previewImage} />}
     <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     {structuredData.map((data: object) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
     {import.meta.env.PUBLIC_GA_MEASUREMENT_ID && (
       <script async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_MEASUREMENT_ID}`}></script>
@@ -55,25 +58,34 @@ const previewImage = image ? new URL(image, Astro.site ?? site.url).href : '';
     )}
     <style is:global>
       :root {
-        --bg: #f6f2eb;
-        --surface: #fffdf9;
-        --text: #211d1a;
-        --muted: #6f675f;
-        --line: rgba(33,29,26,.11);
-        --olive: #6d7552;
-        --olive-dark: #576041;
-        --sand: #d8c4ad;
-        --radius-xl: 28px;
+        /* Malbec base HSL(344, 59%, 25%); clara HSL(344, 39%, 30%); oscura HSL(344, 79%, 20%). */
+        --bg: #f5efe7;
+        --surface: #fffdfc;
+        --text: #2d2523;
+        --muted: #756762;
+        --line: rgba(45,37,35,.12);
+        --malbec: #661a30;
+        --malbec-light: #6a2f42;
+        --malbec-dark: #5b0b25;
+        --gold: #b8843d;
+        --gold-pale: #e7c98c;
+        --sage: #53675a;
+        --olive: #661a30;
+        --olive-dark: #5b0b25;
+        --sand: #e7d8c8;
+        --radius-xl: 30px;
         --radius-lg: 22px;
-        --shadow: 0 18px 44px rgba(30,22,16,.08);
+        --shadow: 0 18px 44px rgba(71,27,36,.10), 0 3px 10px rgba(71,27,36,.05);
+        --shadow-hover: 0 24px 60px rgba(71,27,36,.16), 0 6px 14px rgba(71,27,36,.08);
       }
       * { box-sizing: border-box; }
       html, body { margin: 0; padding: 0; }
       body {
-        font-family: Inter, system-ui, sans-serif;
-        background: linear-gradient(180deg, #fbf9f5 0%, var(--bg) 100%);
+        font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+        background: radial-gradient(circle at 84% 4%, rgba(231,201,140,.16), transparent 24rem), linear-gradient(180deg, #fbf9f5 0%, var(--bg) 100%);
         color: var(--text);
       }
+      h1, h2, h3, h4 { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; }
       a { color: inherit; }
       img { max-width: 100%; display: block; }
       .container { width: min(1180px, calc(100% - 28px)); margin: 0 auto; }
@@ -109,7 +121,7 @@ const previewImage = image ? new URL(image, Astro.site ?? site.url).href : '';
         top: 0;
         z-index: 40;
         backdrop-filter: blur(12px);
-        background: rgba(248,244,237,.82);
+        background: rgba(250,245,239,.84);
         border-bottom: 1px solid var(--line);
       }
       .topbar-inner {
@@ -120,7 +132,7 @@ const previewImage = image ? new URL(image, Astro.site ?? site.url).href : '';
         gap: 18px;
       }
       .brand { text-decoration: none; }
-      .brand strong { display: block; font-size: 18px; letter-spacing: -0.02em; }
+      .brand strong { display: block; color: var(--malbec-dark); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 25px; line-height: .9; letter-spacing: -.02em; }
       .brand span { display: block; font-size: 13px; color: var(--muted); }
       .main-nav { display: flex; gap: 14px; flex-wrap: wrap; }
       .main-nav a {
@@ -129,6 +141,8 @@ const previewImage = image ? new URL(image, Astro.site ?? site.url).href : '';
         font-size: 14px;
       }
       .btn {
+        position: relative;
+        overflow: hidden;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -138,7 +152,9 @@ const previewImage = image ? new URL(image, Astro.site ?? site.url).href : '';
         text-decoration: none;
         font-weight: 700;
       }
-      .btn-primary { background: linear-gradient(135deg, var(--olive), var(--olive-dark)); color: white; }
+      .btn::before { content: ''; position: absolute; inset: 1px 12% auto; height: 1px; background: rgba(255,255,255,.42); opacity: .7; }
+      .btn-primary { background: linear-gradient(135deg, var(--malbec-light), var(--malbec-dark)); color: white; box-shadow: 0 8px 18px rgba(91,11,37,.18), inset 0 1px 0 rgba(255,255,255,.22); transition: transform .2s ease, box-shadow .2s ease; }
+      .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 13px 26px rgba(91,11,37,.25), inset 0 1px 0 rgba(255,255,255,.25); }
       .btn-secondary { background: rgba(255,255,255,.8); border: 1px solid var(--line); }
       .hero-basic { padding: 72px 0 34px; }
       .hero-basic h1 { margin: 0; font-size: clamp(40px, 7vw, 72px); line-height: .98; letter-spacing: -.05em; }

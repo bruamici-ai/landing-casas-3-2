@@ -48,36 +48,66 @@ export const commonPenalties = [
 export const services = [
   {
     slug: 'traslados',
+    status: 'active',
+    statusLabel: 'Disponible a coordinar',
     title: 'Traslados',
     short: 'Aeropuerto a las casas y salidas privadas.',
     body: 'El foco principal es coordinar la llegada desde el aeropuerto directo a la casa. Tambien se pueden consultar traslados a bodegas, Valle de Uco, Potrerillos, Uspallata, rafting, cabalgatas, sunset o city tour.'
   },
   {
     slug: 'compras-previas',
+    status: 'active',
+    statusLabel: 'Disponible a coordinar',
     title: 'Compras previas',
     short: 'Llegar y tener resuelto lo importante.',
     body: 'Podemos dejar en la casa lena, hielo, agua, cerveza, vino y basicos de supermercado. Se compra en Carrefour y se cobra ticket mas 10% por coordinacion.'
   },
   {
     slug: 'degustaciones',
+    status: 'upcoming',
+    statusLabel: 'Próximamente',
     title: 'Degustaciones',
     short: 'Experiencia gratis en casa o salida a bodega.',
     body: 'Una experiencia guiada gratuita dentro del alojamiento con QR y recorrido paso a paso, o un espacio para elegir degustaciones en bodegas conocidas de Mendoza.'
   },
   {
     slug: 'parrillero',
+    status: 'active',
+    statusLabel: 'Disponible a coordinar',
     title: 'Parrillero',
     short: 'Chef al fuego en la casa.',
     body: 'Chef parrillero para carnes, vegetales y verduras. Incluye vino libre, empanadas, plato principal al fuego y postre. Valor de referencia: USD 130 por persona.'
   },
   {
     slug: 'detalles-regionales',
+    status: 'active',
+    statusLabel: 'Disponible a coordinar',
     title: 'Detalles regionales',
     short: 'Productos mendocinos para sumar a la estadia.',
     body: 'Una vidriera de productos regionales para dejar preparados en la casa: vinos, conservas, dulces, regalos y detalles locales, con valores confirmados antes de comprar.'
   },
   {
+    slug: 'mucama',
+    image: '/services/otro.jpg',
+    status: 'active',
+    statusLabel: 'Disponible a coordinar',
+    title: 'Mucama',
+    short: 'Limpieza durante la estadía, a coordinar.',
+    body: 'Servicio de limpieza para ayudar a mantener la casa en orden durante estadías largas o cuando el grupo lo necesite. Disponibilidad y frecuencia a confirmar.'
+  },
+  {
+    slug: 'sabanas-toallas-premium',
+    image: '/services/otro.jpg',
+    status: 'active',
+    statusLabel: 'Disponible a coordinar',
+    title: 'Sábanas y toallas premium',
+    short: 'Un extra de confort para el descanso.',
+    body: 'Podemos coordinar un juego premium de sábanas y toallas para sumar confort a la estadía. Consultar disponibilidad y valor según fechas y cantidad de huéspedes.'
+  },
+  {
     slug: 'otro',
+    status: 'draft',
+    statusLabel: 'A definir',
     title: 'Otros proyectos',
     short: 'Espacio abierto para lo que viene.',
     body: 'Base flexible para pedidos especiales, nuevas experiencias, alianzas y proximos proyectos vinculados a la estadia.'

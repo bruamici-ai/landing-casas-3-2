@@ -8,6 +8,10 @@ Sitio estático para presentar dos casas de alquiler temporario en Mendoza:
 También incluye información sobre servicios complementarios, normas de estadía,
 fichas de las propiedades y reseñas de huéspedes.
 
+Los portales privados de presentación se sirven desde `/portal/parque` y
+`/portal/avellaneda`. La administración de sus enlaces vive en el proyecto
+ADMCasas.
+
 ## Tecnología
 
 - Astro 5

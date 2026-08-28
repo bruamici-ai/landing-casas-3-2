@@ -43,13 +43,14 @@ const {
   }
 
   .main-nav a[aria-current='page'] {
-    color: var(--text);
+    color: var(--malbec-dark);
     font-weight: 700;
   }
 
   .main-nav { gap: 16px; }
 
-  .main-nav a { white-space: nowrap; }
+  .main-nav a { white-space: nowrap; transition: color .2s ease; }
+  .main-nav a:hover { color: var(--malbec); }
 
   @media (max-width: 900px) {
     .nav-wrap {

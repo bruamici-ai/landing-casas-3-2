@@ -6,7 +6,7 @@ export default defineConfig({
     server: {
       proxy: {
         '/estadia-api': {
-          target: 'http://127.0.0.1:8000',
+          target: process.env.ESTADIA_API_TARGET ?? 'http://127.0.0.1:8000',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/estadia-api/, '')
         }

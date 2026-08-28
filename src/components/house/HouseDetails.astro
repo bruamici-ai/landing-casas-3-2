@@ -258,7 +258,7 @@ const galleryPayload = tour.map((section) => ({
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: .12em;
-  color: var(--olive);
+  color: var(--gold);
   font-weight: 700;
 }
 
@@ -299,7 +299,7 @@ const galleryPayload = tour.map((section) => ({
   cursor: pointer;
 }
 
-.preview-card:focus-visible { outline: 3px solid var(--olive); outline-offset: 3px; }
+.preview-card:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 
 .preview-card.large {
   grid-row: span 2;
@@ -363,11 +363,13 @@ const galleryPayload = tour.map((section) => ({
 
 .gallery-button {
   margin-top: 10px;
-  background: linear-gradient(135deg, var(--olive), var(--olive-dark));
+  background: linear-gradient(135deg, var(--malbec-light), var(--malbec-dark));
   color: white;
   padding: 14px 18px;
   box-shadow: var(--shadow);
 }
+.amenity-group:nth-child(3n) .amenity-group-title > i { background: rgba(83,103,90,.14); color: var(--malbec); }
+.amenity-group:nth-child(3n+1) .amenity-group-title > i { background: rgba(184,132,61,.14); color: var(--malbec); }
 
 .gallery-dialog {
   width: min(1040px, calc(100vw - 28px));

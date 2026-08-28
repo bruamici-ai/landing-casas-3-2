@@ -1,7 +1,7 @@
 {
   "id": "normas-y-sanciones-unificadas",
   "editable": true,
-  "version": "1.0",
+  "version": "1.2",
   "idioma": "es",
   "aplica_a": [
     "Casa Avellaneda",
@@ -38,7 +38,7 @@
       "reglas": [
         "No se permiten fiestas, eventos ni reuniones que molesten a vecinos.",
         "Se debe mantener un ambiente tranquilo y evitar ruidos fuertes.",
-        "El horario de silencio de referencia es de 23:00 a 07:00."
+        "El horario de silencio es de 22:00 a 09:00."
       ]
     },
     {

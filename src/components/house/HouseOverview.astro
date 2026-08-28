@@ -49,7 +49,9 @@ const summary = house.experienceSummary ?? house.summary;
 }
 
 .overview-card {
-  background: rgba(255,255,255,.74);
+  position: relative;
+  overflow: hidden;
+  background: rgba(255,255,255,.82);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   padding: 34px;
@@ -59,6 +61,7 @@ const summary = house.experienceSummary ?? house.summary;
   gap: 42px;
   align-items: center;
 }
+.overview-card::before { content: ''; position: absolute; top: 0; left: 12%; right: 12%; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: .65; }
 
 .section-label {
   display: block;
@@ -72,7 +75,7 @@ const summary = house.experienceSummary ?? house.summary;
 
 .overview-card h2 {
   font-size: clamp(32px, 4vw, 52px);
-  line-height: .95;
+  line-height: .92;
   margin: 0 0 16px;
 }
 
@@ -90,9 +93,10 @@ const summary = house.experienceSummary ?? house.summary;
 }
 
 .overview-grid article {
-  background: #f6f0ea;
+  background: #fbf6f0;
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: 18px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
   padding: 22px;
   min-height: 112px;
   display: grid;
@@ -100,7 +104,10 @@ const summary = house.experienceSummary ?? house.summary;
   gap: 16px;
   align-items: center;
   justify-content: center;
+  min-width: 0;
 }
+
+.overview-grid article > div { min-width: 0; }
 
 .overview-grid i {
   width: 60px;
@@ -108,10 +115,12 @@ const summary = house.experienceSummary ?? house.summary;
   display: grid;
   place-items: center;
   border-radius: 18px;
-  background: rgba(109,117,82,.12);
-  color: var(--olive-dark);
+  background: rgba(184,132,61,.13);
+  color: var(--malbec-dark);
   font-style: normal;
 }
+.overview-grid article:nth-child(3) i { background: rgba(83,103,90,.14); color: var(--malbec); }
+.overview-grid article:nth-child(4) i { background: rgba(184,132,61,.18); color: var(--malbec); }
 
 .overview-grid strong {
   display: block;
@@ -120,7 +129,7 @@ const summary = house.experienceSummary ?? house.summary;
   overflow-wrap: anywhere;
 }
 
-.overview-grid article:last-child strong { font-size: clamp(18px, 1.8vw, 23px); }
+.overview-grid article:last-child strong { font-size: clamp(16px, 1.8vw, 23px); line-height: 1.08; overflow-wrap: normal; word-break: normal; hyphens: auto; }
 
 .overview-grid span {
   color: var(--muted);
@@ -131,6 +140,24 @@ const summary = house.experienceSummary ?? house.summary;
   .overview-card {
     grid-template-columns: 1fr;
     padding: 28px;
+  }
+}
+
+@media (max-width: 560px) {
+  .overview-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .overview-grid article {
+    width: 100%;
+    min-height: 96px;
+    padding: 18px;
+  }
+
+  .overview-grid article:last-child strong {
+    font-size: 19px;
   }
 }
 </style>

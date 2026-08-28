@@ -4,6 +4,7 @@ const routes = [
   '/', '/la-casa-frente-al-parque', '/casa-avellaneda', '/servicios',
   '/servicios/traslados', '/servicios/compras-previas', '/servicios/degustaciones',
   '/servicios/parrillero', '/servicios/detalles-regionales', '/servicios/otro',
+  '/servicios/mucama', '/servicios/sabanas-toallas-premium',
   '/normas-penalidades'
 ];
 
