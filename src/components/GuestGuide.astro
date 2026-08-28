@@ -35,7 +35,7 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
   </section>
 
   <nav class="quick-nav" aria-label="Secciones de la guía">
-    <a href="#esencial">Llegada</a>
+    <a href="#llegada">Llegada</a>
     <a href="#casa">La casa</a>
     <a href="#residuos">Residuos</a>
     <a href="#salida">Salida</a>
@@ -280,7 +280,11 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
 <script>
   document.querySelectorAll('[data-reveal]').forEach((button) => {
     button.addEventListener('click', () => {
-      const target = document.getElementById(button.getAttribute('data-reveal'));
+      // Mi estadía mantiene una guía de precarga y otra visible. Resolver el
+      // objetivo dentro de la misma guía evita alternar la copia oculta.
+      const guide = button.closest('.guest-guide');
+      const targetId = button.getAttribute('data-reveal');
+      const target = guide?.querySelector(`#${CSS.escape(targetId || '')}`);
       if (!target) return;
       const willShow = target.hidden;
       target.hidden = !willShow;
