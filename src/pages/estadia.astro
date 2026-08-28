@@ -3,6 +3,9 @@ import GuestGuide from '../components/GuestGuide.astro';
 import { avellanedaGuide, parqueGuide } from '../data/guest-guides';
 
 const apiBase = (import.meta.env.PUBLIC_ESTADIA_API_BASE || '/estadia-api').replace(/\/$/, '');
+const umamiScriptUrl = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL || '';
+const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || '';
+const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production';
 ---
 <!doctype html>
 <html lang="es-AR">
@@ -82,7 +85,7 @@ const apiBase = (import.meta.env.PUBLIC_ESTADIA_API_BASE || '/estadia-api').repl
       <div data-guide-wrapper="avellaneda" hidden><GuestGuide guide={avellanedaGuide} embedded /></div>
     </div>
 
-    <script define:vars={{ apiBase }}>
+    <script define:vars={{ apiBase, umamiScriptUrl, umamiWebsiteId, umamiEnvironment }}>
       const loading = document.querySelector('[data-loading]');
       const error = document.querySelector('[data-error]');
       const portal = document.querySelector('[data-portal]');
@@ -142,6 +145,70 @@ const apiBase = (import.meta.env.PUBLIC_ESTADIA_API_BASE || '/estadia-api').repl
         return ['Durante tu estadía', 'Encontrá aquí el Wi-Fi y toda la información para disfrutar la casa.'];
       };
 
+      const analyticsSections = { esencial:'essentials', llegada:'arrival', casa:'house', residuos:'waste', normas:'rules', salida:'checkout', mendoza:'recommendations', ayuda:'help' };
+      const analyticsState = { context:null, ready:false, startedAt:Date.now(), lastInteraction:Date.now(), activeSent:false };
+      const analyticsTrack = (eventName, data = {}) => {
+        try { if (analyticsState.ready && window.umami) window.umami.track(eventName, { ...analyticsState.context, ...data }); } catch {}
+      };
+      const durationBucket = (milliseconds) => {
+        const minutes = milliseconds / 60000;
+        if (minutes < 1) return 'under_1m';
+        if (minutes < 3) return '1_to_3m';
+        if (minutes < 10) return '3_to_10m';
+        return 'over_10m';
+      };
+      const setupAnalytics = (stay, stayPhase) => {
+        if (!umamiScriptUrl || !umamiWebsiteId) return;
+        const validChannels = ['airbnb','booking','direct','other','unknown'];
+        const channel = validChannels.includes(stay.channel) ? stay.channel : 'unknown';
+        analyticsState.context = { house: stay.casa, channel, stay_phase: stayPhase, environment: umamiEnvironment, ...(stay.stay_ref ? { stay_ref: stay.stay_ref } : {}) };
+        const start = () => {
+          analyticsState.ready = true;
+          try { window.umami.track({ url:'/estadia', title:'Mi estadia' }); } catch {}
+          analyticsTrack('portal_opened');
+          const markInteraction = () => { analyticsState.lastInteraction = Date.now(); };
+          ['click','keydown','touchstart','scroll'].forEach((eventName) => window.addEventListener(eventName, markInteraction, { passive:true }));
+          const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+            if (!entry.isIntersecting || entry.intersectionRatio < .5 || entry.target.dataset.analyticsSeen) {
+              if (entry.target.dataset.analyticsTimer) window.clearTimeout(Number(entry.target.dataset.analyticsTimer));
+              delete entry.target.dataset.analyticsTimer;
+              return;
+            }
+            entry.target.dataset.analyticsTimer = String(window.setTimeout(() => {
+              entry.target.dataset.analyticsSeen = 'true';
+              analyticsTrack('section_viewed', { section: analyticsSections[entry.target.id] || 'house' });
+            }, 2000));
+          }), { threshold:[.5] });
+          Object.keys(analyticsSections).forEach((id) => { const node = document.getElementById(id); if (node) observer.observe(node); });
+          document.querySelectorAll('[data-reveal]').forEach((button) => button.addEventListener('click', () => {
+            const target = button.getAttribute('data-reveal') || '';
+            const action = target.includes('wifi') ? 'wifi' : target.includes('address') ? 'address' : '';
+            if (action) analyticsTrack('private_info_revealed', { action });
+          }));
+          document.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+            const href = link.getAttribute('href') || '';
+            const action = href.includes('google.') || href.includes('maps') ? 'maps' : href.startsWith('tel:') ? 'emergency_call' : href.includes('wa.me') ? (link.closest('.help-card') ? 'backup_whatsapp' : 'host_whatsapp') : '';
+            if (action) analyticsTrack('external_action_opened', { action });
+          }));
+          companionToggle?.addEventListener('click', () => analyticsTrack('stay_companion_changed', { state: companion?.dataset.expanded === 'true' ? 'expanded' : 'collapsed' }));
+          const sendActiveTime = () => {
+            if (analyticsState.activeSent || document.visibilityState !== 'hidden' || Date.now() - analyticsState.lastInteraction > 300000) return;
+            analyticsState.activeSent = true;
+            analyticsTrack('active_time_recorded', { duration_bucket: durationBucket(Date.now() - analyticsState.startedAt) });
+          };
+          document.addEventListener('visibilitychange', sendActiveTime);
+          window.addEventListener('pagehide', sendActiveTime);
+        };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = umamiScriptUrl;
+        script.dataset.websiteId = umamiWebsiteId;
+        script.dataset.autoPageview = 'false';
+        script.dataset.excludeSearch = 'true';
+        script.addEventListener('load', start, { once:true });
+        document.head.append(script);
+      };
+
       const showError = () => { loading.hidden = true; portal.hidden = true; error.hidden = false; };
 
       if (!token || !/^[A-Za-z0-9_-]{32,160}$/.test(token)) {
@@ -175,6 +242,9 @@ const apiBase = (import.meta.env.PUBLIC_ESTADIA_API_BASE || '/estadia-api').repl
             });
             loading.hidden = true;
             portal.hidden = false;
+            const currentDay = dayNumber(localIsoDate(stay.timezone));
+            const stayPhase = currentDay < dayNumber(stay.check_in) ? 'before' : currentDay === dayNumber(stay.check_in) ? 'arrival' : currentDay === dayNumber(stay.check_out) ? 'departure' : currentDay > dayNumber(stay.check_out) ? 'after' : 'during';
+            setupAnalytics(stay, stayPhase);
           })
           .catch(showError);
       }
