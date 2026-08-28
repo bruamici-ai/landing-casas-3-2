@@ -26,8 +26,9 @@ const apiBase = (import.meta.env.PUBLIC_ESTADIA_API_BASE || '/estadia-api').repl
   <div class="portal-shell" data-portal-shell>
     <header class="portal-brand"><strong>Experiencias Mendoza</strong><span>Presentaci&oacute;n privada</span></header>
     <section class="portal-expired" data-portal-expired hidden>
-      <h1>Este portal ya no est&aacute; disponible</h1>
-      <p>El enlace privado venci&oacute;. Solicit&aacute; un nuevo acceso.</p>
+      <p class="portal-expired-label">Acceso protegido</p>
+      <h1>Este portal privado ya no est&aacute; disponible</h1>
+      <p>El enlace venci&oacute; como medida de seguridad. Solicit&aacute; un nuevo enlace a quien te comparti&oacute; esta presentaci&oacute;n.</p>
     </section>
     <div data-portal-content hidden>
       <HouseLanding house={privateHouse} reviews={reviews} reviewRatings={reviewRatings} privateMode portalName="" />
@@ -111,8 +112,9 @@ const apiBase = (import.meta.env.PUBLIC_ESTADIA_API_BASE || '/estadia-api').repl
   [hidden] { display:none !important; }
   .portal-brand strong { color:var(--malbec-dark); font-family:'Cormorant Garamond',Georgia,serif; font-size:22px; letter-spacing:0; text-transform:none; }
   .portal-expired { min-height:70vh; display:grid; place-content:center; padding:40px 20px; text-align:center; }
+  .portal-expired-label { margin:0 0 12px; color:var(--gold); font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
   .portal-expired h1 { margin:0 0 12px; font-size:clamp(38px,7vw,68px); line-height:.95; }
-  .portal-expired p { margin:0; color:var(--muted); line-height:1.6; }
+  .portal-expired p { max-width:52ch; margin:0 auto; color:var(--muted); line-height:1.6; }
   .private-portal-protection img {
     -webkit-user-drag: none;
     user-select: none;
