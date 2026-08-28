@@ -240,7 +240,10 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
               if (guide.dataset.guideWrapper === stay.casa) guide.hidden = false;
               else guide.remove();
             });
-            loading.hidden = true;
+            // Quitamos la guía de precarga para no dejar IDs duplicados. Si la
+            // precarga permanece en el DOM, los anclajes del menú pueden
+            // apuntar a la copia oculta en lugar de la guía visible.
+            loading.remove();
             portal.hidden = false;
             const currentDay = dayNumber(localIsoDate(stay.timezone));
             const stayPhase = currentDay < dayNumber(stay.check_in) ? 'before' : currentDay === dayNumber(stay.check_in) ? 'arrival' : currentDay === dayNumber(stay.check_out) ? 'departure' : currentDay > dayNumber(stay.check_out) ? 'after' : 'during';
