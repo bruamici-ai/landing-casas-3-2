@@ -1,0 +1,88 @@
+---
+import { commercialPartners, partnerCategories } from '../data/commercial-partners';
+import { site } from '../data/site';
+const { guide } = Astro.props;
+const partners = commercialPartners.filter(partner => partner.status === 'active' && partner.houses.includes(guide.slug));
+---
+
+<div class="partner-catalog" data-recommendation-catalog>
+  {partnerCategories.map(category => {
+    const entries = partners.filter(partner => partner.categoryId === category.id);
+    return entries.length ? entries.map(partner => (
+      <article class="partner-card" data-recommendation={partner.id} data-recommendation-status="active">
+        <div class="partner-card-top"><span class="partner-monogram" aria-hidden="true">{partner.initials}</span><span class="partner-category">{category.name}</span></div>
+        <h3>{partner.name}</h3>
+        <p class="partner-highlight">{partner.highlight}</p>
+        <p class="partner-summary">{partner.summary}</p>
+        <p class="partner-availability">{partner.availability}</p>
+        <button class="partner-open" type="button" data-commerce-open={partner.id} aria-haspopup="dialog">Ver propuesta y condiciones <span aria-hidden="true">↗</span></button>
+        <dialog class="partner-dialog" aria-label={`${partner.name}: propuesta y condiciones`}>
+          <div class="partner-dialog-heading"><span class="partner-category">{partner.category}</span><button type="button" class="partner-close" data-partner-close aria-label="Cerrar ficha">Cerrar ×</button></div>
+          <h3>{partner.name}</h3><p>{partner.description}</p>
+          <div class="partner-offers">
+            {partner.offers.map(offer => (
+              <section>
+                <span class="partner-category">{offer.label}</span><h4>{offer.title}</h4>
+                <p>{offer.description}</p><p class="partner-conditions">{offer.conditions}</p>
+                <a class="partner-button" href={site.whatsappUrl(`Hola ${guide.host.name}, te consulto por ${partner.name} para mi estadía en ${guide.house.name}. ${offer.message}`, guide.host.phone)} target="_blank" rel="noreferrer" data-commerce={partner.id} data-commerce-action={offer.action}>{offer.buttonLabel}</a>
+              </section>
+            ))}
+          </div>
+          <a class="partner-map" href={partner.mapsUrl} target="_blank" rel="noreferrer" data-commerce={partner.id} data-commerce-action="maps">Ver ubicación en Google Maps ↗</a>
+        </dialog>
+      </article>
+    )) : (
+      <article class="partner-card partner-upcoming" aria-label={`${category.name}: próximamente`}>
+        <div class="partner-card-top"><span class="partner-monogram" aria-hidden="true">{category.initials}</span><span class="partner-category">{category.name}</span></div>
+        <h3>{category.name}</h3><p class="partner-highlight">Próximamente</p>
+        <p class="partner-summary">{category.description}</p>
+        <p class="partner-pending">Estamos sumando comercios de este rubro.</p>
+      </article>
+    );
+  })}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-commerce-open]').forEach(button => {
+    const dialog = button.closest('[data-recommendation]')?.querySelector('dialog');
+    if (!dialog) return;
+    button.addEventListener('click', () => dialog.showModal());
+    dialog.querySelector('[data-partner-close]')?.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', event => { if (event.target === dialog) {
+      const bounds = dialog.getBoundingClientRect();
+      if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) dialog.close();
+    }});
+  });
+</script>
+
+<style>
+  .partner-catalog { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; align-items:stretch; }
+  .partner-card { min-width:0; min-height:330px; padding:25px; display:flex; flex-direction:column; align-items:flex-start; border:1px solid #ded7c9; border-radius:20px; background:#fff; color:#292c26; }
+  .partner-card-top { display:flex; align-items:center; gap:12px; margin-bottom:22px; }
+  .partner-monogram { display:grid; place-items:center; flex:0 0 44px; width:44px; height:44px; border-radius:13px; background:#e8eee2; color:#3d503b; font:800 15px 'Plus Jakarta Sans',sans-serif; }
+  .partner-category { color:#6b735e; font:750 10px/1.5 'Plus Jakarta Sans',sans-serif; letter-spacing:.06em; text-transform:uppercase; }
+  .partner-card h3 { margin:0 0 14px; font-size:25px; line-height:1.15; letter-spacing:-.035em; }
+  .partner-highlight { margin:0 0 10px; font-size:14px; line-height:1.5; font-weight:750; color:#3e5941; }
+  .partner-summary { margin:0 0 18px; font-size:13px; line-height:1.7; color:#6d665e; }
+  .partner-availability { margin:auto 0 12px; font-size:11px; color:#6d665e; }
+  .partner-open { width:100%; display:flex; justify-content:space-between; gap:8px; padding:12px 0 0; border:0; border-top:1px solid #e7e6df; background:transparent; color:#3e5941; text-align:left; font:750 12px/1.5 'Plus Jakarta Sans',sans-serif; cursor:pointer; }
+  .partner-upcoming { background:#f6f4ef; border-style:dashed; }
+  .partner-upcoming .partner-monogram { background:#ebe8e0; color:#827b6b; }
+  .partner-upcoming .partner-highlight { color:#827b6b; }
+  .partner-pending { margin:auto 0 0; padding-top:16px; border-top:1px solid #dedbd3; width:100%; font-size:11px; line-height:1.6; color:#81786b; }
+  .partner-dialog { width:min(850px,calc(100% - 32px)); max-height:calc(100dvh - 40px); box-sizing:border-box; padding:30px; border:1px solid #ded7c9; border-radius:24px; background:#fffdf9; color:#292c26; overflow:auto; box-shadow:0 24px 90px #161d2255; }
+  .partner-dialog::backdrop { background:#17211bd9; }
+  .partner-dialog-heading { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:20px; }
+  .partner-close { flex-shrink:0; padding:8px 12px; border:1px solid #dcdcd1; border-radius:8px; background:#f3f3ec; color:#354333; font:700 12px 'Plus Jakarta Sans',sans-serif; cursor:pointer; }
+  .partner-dialog h3 { font-size:34px; }
+  .partner-dialog p { line-height:1.65; font-size:14px; }
+  .partner-offers { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; margin:24px 0; }
+  .partner-offers section { min-width:0; padding:22px; border-radius:16px; background:#f3f3ec; }
+  .partner-offers h4 { margin:14px 0 10px; font-size:24px; letter-spacing:-.025em; }
+  .partner-conditions { color:#6d665e; font-size:13px!important; }
+  .partner-button { display:inline-block; margin-top:8px; padding:12px 15px; border-radius:10px; background:#3e5941; color:#fff; text-decoration:none; font:750 12px/1.5 'Plus Jakarta Sans',sans-serif; }
+  .partner-map { color:#3e5941; font-size:13px; font-weight:750; }
+  .partner-open:focus-visible,.partner-button:focus-visible,.partner-map:focus-visible,.partner-close:focus-visible { outline:3px solid #9cae80; outline-offset:4px; }
+  @media(max-width:1000px) { .partner-catalog { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media(max-width:600px) { .partner-catalog { grid-template-columns:minmax(0,1fr); gap:14px; }.partner-card { min-height:300px; padding:24px; }.partner-dialog { padding:22px; }.partner-offers { grid-template-columns:minmax(0,1fr); }.partner-dialog-heading { align-items:flex-start; } }
+</style>
