@@ -146,18 +146,20 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
         return ['Durante tu estadía', 'Encontrá aquí el Wi-Fi y toda la información para disfrutar la casa.'];
       };
 
-      const analyticsSections = { esencial:'essentials', llegada:'arrival', casa:'house', residuos:'waste', normas:'rules', salida:'checkout', mendoza:'recommendations', ayuda:'help' };
+      const analyticsSections = { esencial:'essentials', llegada:'arrival', casa:'house', residuos:'waste', normas:'rules', salida:'checkout', ayuda:'help' };
       const analyticsEventLabels = {
         portal_opened:'Abrió Mi estadía', section_viewed:'Consultó una sección',
         private_info_revealed:'Mostró dirección o Wi-Fi', external_action_opened:'Abrió Maps o un contacto',
-        stay_companion_changed:'Abrió o cerró el panel', active_time_recorded:'Tiempo activo en la guía'
+        stay_companion_changed:'Abrió o cerró el panel', active_time_recorded:'Tiempo activo en la guía',
+        commercial_section_viewed:'Vio la sección de comercios asociados'
       };
       const analyticsPropertyLabels = {
         house:['Casa', { parque:'La Casa Frente al Parque', avellaneda:'Casa Avellaneda' }],
         channel:['Canal', { airbnb:'Airbnb', booking:'Booking', direct:'Directo', other:'Otro', unknown:'Sin identificar' }],
         stay_phase:['Momento de la estadía', { before:'Antes de llegar', arrival:'Día de llegada', during:'Durante la estadía', departure:'Día de salida', after:'Después de la estadía' }],
         environment:['Entorno', { production:'Producción', audit:'Auditoría' }],
-        section:['Sección', { hero:'Bienvenida', essentials:'Lo esencial', arrival:'Llegada', house:'La casa', waste:'Residuos', rules:'Normas', checkout:'Salida', recommendations:'Recomendaciones', help:'Ayuda' }],
+        section:['Sección', { hero:'Bienvenida', essentials:'Lo esencial', arrival:'Llegada', house:'La casa', waste:'Residuos', rules:'Normas', checkout:'Salida', recommendations:'Recomendaciones', commercial_partners:'Comercios asociados', help:'Ayuda' }],
+        commerce_content:['Contenido de la sección', { upcoming:'Aviso de próxima apertura', preview:'Tarjetas de presentación', active:'Catálogo con comercios activos' }],
         action:['Acción', { address:'Mostrar dirección', wifi:'Mostrar Wi-Fi', maps:'Abrir Maps', host_whatsapp:'Abrir WhatsApp del anfitrión', backup_whatsapp:'Abrir WhatsApp de respaldo', emergency_call:'Llamar a emergencias' }],
         state:['Estado del panel', { expanded:'Abierto', collapsed:'Cerrado' }],
         duration_bucket:['Tiempo activo', { under_1m:'Menos de 1 minuto', '1_to_3m':'1 a 3 minutos', '3_to_10m':'3 a 10 minutos', over_10m:'Más de 10 minutos' }]
@@ -180,6 +182,33 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
       });
       const analyticsTrack = (eventName, data = {}) => {
         try { if (analyticsState.ready && window.umami) Promise.resolve(window.umami.track(analyticsPayload(eventName, data))).catch(() => {}); } catch {}
+      };
+      const setupCommerceAnalytics = () => {
+        const section = document.getElementById('mendoza-preview') || document.getElementById('mendoza');
+        const content = section?.querySelector('[data-recommendation-catalog], .local-card:not([hidden])');
+        if (!content || !('IntersectionObserver' in window)) return;
+        const kind = content.querySelector('[data-recommendation-status="active"]') ? 'active'
+          : content.querySelector('[data-recommendation]') ? 'preview' : 'upcoming';
+        let visible = false, sent = false, timer = null;
+        const cancel = () => { window.clearTimeout(timer); timer = null; };
+        const schedule = () => {
+          if (sent || timer !== null || !visible || document.visibilityState !== 'visible') return;
+          timer = window.setTimeout(() => {
+            timer = null;
+            if (sent || !visible || document.visibilityState !== 'visible') return;
+            sent = true;
+            analyticsTrack('commercial_section_viewed', { commerce_content:kind });
+            analyticsTrack('section_viewed', { section:'commercial_partners' });
+            observer.disconnect();
+          }, 2000);
+        };
+        const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+          visible = entry.isIntersecting && entry.boundingClientRect.height > 0 && entry.intersectionRect.width > 0
+            && entry.intersectionRect.height >= Math.min(entry.boundingClientRect.height * .5, window.innerHeight * .5);
+          if (visible) schedule(); else cancel();
+        }), { threshold:[0,.1,.2,.3,.4,.5,.6,.7,.8,.9,1] });
+        observer.observe(content);
+        document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') schedule(); else cancel(); });
       };
       const durationBucket = (milliseconds) => {
         const minutes = milliseconds / 60000;
@@ -222,6 +251,7 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
             }, 2000));
           }), { threshold:[.5] });
           Object.keys(analyticsSections).forEach((id) => { const node = document.getElementById(id); if (node) observer.observe(node); });
+          setupCommerceAnalytics();
           document.querySelectorAll('[data-reveal]').forEach((button) => button.addEventListener('click', () => {
             const target = button.getAttribute('data-reveal') || '';
             const action = target.includes('wifi') ? 'wifi' : target.includes('address') ? 'address' : '';

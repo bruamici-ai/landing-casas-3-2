@@ -6,25 +6,46 @@ import vm from 'node:vm';
 const source = readFileSync(new URL('../src/pages/estadia.astro', import.meta.url), 'utf8');
 const analytics = source.slice(source.indexOf('      const analyticsSections'), source.indexOf('      const showError'));
 const website = '6ea792cd-4df8-457d-b5ab-162e517c88b8';
-function harness(hostname = 'experiencias-mendoza.vercel.app', blocked = false, id = website) {
-  let now = 0;
+function harness(hostname = 'experiencias-mendoza.vercel.app', blocked = false, id = website, options = {}) {
+  let now = 0, timerId = 0;
   const sent = [], scripts = [], docEvents = {}, winEvents = {};
-  const document = { visibilityState:'visible', addEventListener:(name,fn) => docEvents[name] = fn,
-    getElementById:() => null, querySelectorAll:() => [],
+  const timers = new Map(), observers = [];
+  const listen = (events, name, fn) => { (events[name] ||= []).push(fn); };
+  const emit = (events, name) => (events[name] || []).forEach(fn => fn());
+  const content = {querySelector(selector) {
+    if (selector.includes('status="active"')) return options.commerce === 'active' ? {} : null;
+    return options.commerce && options.commerce !== 'upcoming' ? {} : null;
+  }};
+  const section = {querySelector:() => content};
+  const document = { visibilityState:'visible', addEventListener:(name,fn) => listen(docEvents,name,fn),
+    getElementById:name => options.commerce && name === (options.commerce === 'upcoming' ? 'mendoza' : 'mendoza-preview') ? section : null, querySelectorAll:() => [],
     createElement:() => ({ dataset:{}, addEventListener(name,fn) { this[name] = fn; } }),
     head:{append(script) { scripts.push(script); if (!blocked) script.load(); }} };
   const window = { umami:{track(payload) { sent.push(payload); return Promise.resolve(); }},
-    addEventListener:(name,fn) => winEvents[name] = fn };
+    innerHeight:800,
+    setTimeout:(fn,delay) => {const id=++timerId;timers.set(id,{fn,at:now+delay});return id;},
+    clearTimeout:id => timers.delete(id),
+    addEventListener:(name,fn) => listen(winEvents,name,fn) };
+  class IntersectionObserver {
+    constructor(callback){this.callback=callback;observers.push(this);}
+    observe(target){this.target=target;}
+    disconnect(){this.disconnected=true;}
+  }
+  window.IntersectionObserver=IntersectionObserver;
   const sandbox = {document,window,location:{hostname,href:'https://'+hostname+'/estadia/PRIVATE_TOKEN?token=PRIVATE_TOKEN'},
     navigator:{language:'es'},screen:{width:1000,height:800},Date:{now:() => now},Promise,
     umamiWebsiteId:id,umamiScriptUrl:'https://cloud.umami.is/script.js',umamiEnvironment:'production',
-    companionToggle:null,companion:null,IntersectionObserver:class {observe() {}}};
+    companionToggle:null,companion:null,IntersectionObserver};
   vm.createContext(sandbox);
   vm.runInContext(analytics + '\nsetupAnalytics({casa:"parque",channel:"direct",nombre:"PRIVATE_NAME"},"during");', sandbox);
-  return {sent,scripts,advance(ms) {now += ms;},interact() {winEvents.click();},
-    hide() { document.visibilityState = 'hidden'; docEvents.visibilitychange(); },
-    show() { document.visibilityState = 'visible'; docEvents.visibilitychange(); },
-    close() {winEvents.pagehide();}};
+  return {sent,scripts,advance(ms) {now += ms;for(const [id,timer] of [...timers])if(timer.at<=now){timers.delete(id);timer.fn();}},interact() {emit(winEvents,'click');},
+    hide() { document.visibilityState = 'hidden'; emit(docEvents,'visibilitychange'); },
+    show() { document.visibilityState = 'visible'; emit(docEvents,'visibilitychange'); },
+    close() {emit(winEvents,'pagehide');},
+    commerceVisible(visible=true,height=300,visibleHeight=200) {
+      const observer=observers.find(observer=>observer.target===content);
+      if(observer&&!observer.disconnected)observer.callback([{target:content,isIntersecting:visible,boundingClientRect:{height},intersectionRect:{width:600,height:visibleHeight}}]);
+    }};
 }
 test('all pageviews and events use the real website ID and exclude private URL and guest data', () => {
   const h = harness(); h.advance(10000); h.hide();
@@ -58,4 +79,32 @@ test('production tracking stays off on local and preview domains or malformed ID
 test('a blocked tracker does not emit or throw', () => {
   const h = harness('experiencias-mendoza.vercel.app',true);
   assert.equal(h.sent.length,0);
+});
+test('commerce views require two seconds and distinguish the upcoming notice', () => {
+  const h=harness(undefined,false,website,{commerce:'upcoming'});
+  h.commerceVisible();h.advance(1999);
+  assert.equal(h.sent.filter(x=>x.name==='Vio la sección de comercios asociados').length,0);
+  h.advance(1);
+  const event=h.sent.find(x=>x.name==='Vio la sección de comercios asociados');
+  assert.equal(event.data['Contenido de la sección'],'Aviso de próxima apertura');
+  assert.equal(event.data.Casa,'La Casa Frente al Parque');
+  assert.equal(event.url,'/estadia');
+  assert.equal(h.sent.find(x=>x.name==='Consultó una sección').data['Sección'],'Comercios asociados');
+});
+test('tall commerce catalogs are measurable on a small viewport without requiring half of the full catalog', () => {
+  for(const [kind,label] of [['preview','Tarjetas de presentación'],['active','Catálogo con comercios activos']]) {
+    const h=harness(undefined,false,website,{commerce:kind});
+    h.commerceVisible(true,2400,400);h.advance(2000);
+    assert.equal(h.sent.find(x=>x.name==='Vio la sección de comercios asociados').data['Contenido de la sección'],label);
+    assert.equal(JSON.stringify(h.sent).includes('PRIVATE_'),false);
+  }
+});
+test('brief glimpses and background time do not count commerce views; returning emits only once', () => {
+  const h=harness(undefined,false,website,{commerce:'preview'});
+  h.commerceVisible();h.advance(1000);h.commerceVisible(false);h.advance(3000);
+  assert.equal(h.sent.filter(x=>x.name==='Vio la sección de comercios asociados').length,0);
+  h.commerceVisible();h.advance(1000);h.hide();h.advance(10000);
+  assert.equal(h.sent.filter(x=>x.name==='Vio la sección de comercios asociados').length,0);
+  h.show();h.advance(2000);h.commerceVisible();h.advance(5000);h.hide();h.show();h.advance(3000);
+  assert.equal(h.sent.filter(x=>x.name==='Vio la sección de comercios asociados').length,1);
 });
