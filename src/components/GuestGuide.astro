@@ -37,11 +37,11 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
 
   <nav class="quick-nav" aria-label="Secciones de la guía">
     <a href="#llegada">Llegada</a>
+    <a href="#mendoza">Comercios y beneficios</a>
     <a href="#casa">La casa</a>
     <a href="#residuos">Residuos</a>
     <a href="#salida">Salida</a>
     <a href="#servicios">Servicios</a>
-    <a href="#mendoza">Comercios y beneficios</a>
     <a href="#ayuda">Ayuda</a>
   </nav>
 
@@ -91,6 +91,17 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
         <article class="line-card"><span class="line-icon"><UiIcon name="key" size={20} /></span><div><h3>Locker y llaves</h3><p>{guide.arrival}</p></div></article>
         <article class="line-card"><span class="line-icon"><UiIcon name="car" size={20} /></span><div><h3>Estacionamiento</h3><p>{guide.parking}</p></div></article>
       </div>
+    </div>
+  </section>
+
+  <section class="guide-section local-section" id="mendoza">
+    <div class="guide-shell">
+      <div class="section-intro">
+        <p class="guide-eyebrow">Comercios asociados</p>
+        <h2>Descubrí el barrio.</h2>
+        <p>Comercios, beneficios y experiencias para disfrutar tu estadía. Consultá la propuesta y las condiciones de cada lugar.</p>
+      </div>
+      <PartnerCatalog guide={guide} />
     </div>
   </section>
 
@@ -231,17 +242,6 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
           </label>
         ))}
       </div>
-    </div>
-  </section>
-
-  <section class="guide-section local-section" id="mendoza">
-    <div class="guide-shell">
-      <div class="section-intro">
-        <p class="guide-eyebrow">Comercios asociados</p>
-        <h2>Descubrí el barrio.</h2>
-        <p>Comercios, beneficios y experiencias para disfrutar tu estadía. Consultá la propuesta y las condiciones de cada lugar.</p>
-      </div>
-      <PartnerCatalog guide={guide} />
     </div>
   </section>
 
