@@ -57,7 +57,8 @@ const partners = commercialPartners.filter(partner => partner.status === 'active
   document.querySelectorAll<HTMLButtonElement>('[data-commerce-open]').forEach(button => {
     const dialog = button.closest('[data-recommendation]')?.querySelector('dialog');
     if (!dialog) return;
-    button.addEventListener('click', () => dialog.showModal());
+    button.addEventListener('click', () => { dialog.showModal(); document.dispatchEvent(new Event('commerce-dialog-change')); });
+    dialog.addEventListener('close', () => document.dispatchEvent(new Event('commerce-dialog-change')));
     dialog.querySelector('[data-partner-close]')?.addEventListener('click', () => dialog.close());
     dialog.addEventListener('click', event => { if (event.target === dialog) {
       const bounds = dialog.getBoundingClientRect();

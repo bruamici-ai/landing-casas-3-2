@@ -1,0 +1,33 @@
+---
+---
+<!doctype html>
+<html lang="es-AR">
+  <head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="robots" content="noindex,nofollow" /><title>Mis pruebas · Mi estadía</title></head>
+  <body>
+    <main><p>Experiencias Mendoza · Mi estadía</p><h1>Medición en este navegador</h1>
+      <p id="status" role="status">Consultando configuración…</p>
+      <p>Excluí este navegador cuando recorras la guía para revisarla. La exclusión se aplica a próximas visitas de Mi estadía en este navegador; no modifica las visitas anteriores ni las de los huéspedes.</p>
+      <button id="exclude">Excluir mis visitas de prueba</button><button id="include">Volver a registrar visitas</button>
+      <p>Después de cambiar esta opción, recargá las pestañas de Mi estadía que tengas abiertas. Repetí la exclusión si usás otro navegador o dispositivo.</p>
+      <a href="https://adm-casas.vercel.app/mi-estadia">Volver a las métricas de ADMCasas</a>
+    </main>
+    <script>
+      const key = 'mi-estadia-analytics-mode';
+      const status = document.getElementById('status')!;
+      function setMode(mode?: string) {
+        try {
+          if (mode) localStorage.setItem(key,mode);
+          const excluded = localStorage.getItem(key) === 'excluded';
+          status.textContent = excluded ? 'Tus visitas de Mi estadía están excluidas en este navegador.' : 'Las visitas de Mi estadía se están registrando en este navegador.';
+          document.getElementById('exclude')!.setAttribute('aria-pressed',String(excluded));
+          document.getElementById('include')!.setAttribute('aria-pressed',String(!excluded));
+        } catch { status.textContent = 'El navegador no permite guardar esta configuración. Habilitá el almacenamiento del sitio para poder excluir tus pruebas.'; }
+      }
+      document.getElementById('exclude')!.addEventListener('click',()=>setMode('excluded'));
+      document.getElementById('include')!.addEventListener('click',()=>setMode('included'));
+      setMode(new URLSearchParams(location.search).get('modo') === 'excluir' ? 'excluded' : undefined);
+      if (location.search) history.replaceState(null,'',location.pathname);
+    </script>
+    <style>body{margin:0;padding:24px;background:#f5efe7;color:#292c26;font-family:system-ui,sans-serif}main{max-width:650px;margin:40px auto;padding:28px;border-radius:20px;background:#fffdf9}p{line-height:1.7}h1{font-size:28px}button{margin:8px 8px 8px 0;padding:12px;border:1px solid #557255;border-radius:8px;background:#fff;color:#344b35;font:inherit;cursor:pointer}button[aria-pressed=true]{background:#3e5941;color:white}a{color:#3e5941}#status{font-weight:750}</style>
+  </body>
+</html>

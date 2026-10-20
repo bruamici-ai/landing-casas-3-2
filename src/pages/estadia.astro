@@ -1,11 +1,13 @@
 ---
 import GuestGuide from '../components/GuestGuide.astro';
 import { avellanedaGuide, parqueGuide } from '../data/guest-guides';
+import { commercialPartners } from '../data/commercial-partners';
 
 const apiBase = (import.meta.env.PUBLIC_ESTADIA_API_BASE || '/estadia-api').replace(/\/$/, '');
 const umamiScriptUrl = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL || '';
 const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || '';
 const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production';
+const analyticsCommerceNames = Object.fromEntries(commercialPartners.filter(partner => partner.status === 'active').map(partner => [partner.id, partner.name]));
 ---
 <!doctype html>
 <html lang="es-AR">
@@ -86,7 +88,7 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
       <p style="max-width:900px;margin:24px auto;padding:0 24px 100px;color:#6f675f;font-size:12px;line-height:1.6">Medimos qué secciones y botones de esta guía se usan y el tiempo activo aproximado para mejorar la experiencia. No enviamos tus datos de contacto, el contenido de tu reserva ni el enlace privado a la herramienta de medición.</p>
     </div>
 
-    <script define:vars={{ apiBase, umamiScriptUrl, umamiWebsiteId, umamiEnvironment }}>
+    <script define:vars={{ apiBase, umamiScriptUrl, umamiWebsiteId, umamiEnvironment, analyticsCommerceNames }}>
       const loading = document.querySelector('[data-loading]');
       const error = document.querySelector('[data-error]');
       const portal = document.querySelector('[data-portal]');
@@ -151,7 +153,7 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
         portal_opened:'Abrió Mi estadía', section_viewed:'Consultó una sección',
         private_info_revealed:'Mostró dirección o Wi-Fi', external_action_opened:'Abrió Maps o un contacto',
         stay_companion_changed:'Abrió o cerró el panel', active_time_recorded:'Tiempo activo en la guía',
-        commercial_section_viewed:'Vio la sección de comercios asociados', commercial_action_opened:'Abrió una opción de un comercio', commercial_card_opened:'Abrió la ficha de un comercio'
+        commercial_section_viewed:'Vio la sección de comercios asociados', commercial_action_opened:'Abrió una opción de un comercio', commercial_card_opened:'Abrió la ficha de un comercio', commercial_card_viewed:'Vio el anuncio de un comercio'
       };
       const analyticsPropertyLabels = {
         house:['Casa', { parque:'La Casa Frente al Parque', avellaneda:'Casa Avellaneda' }],
@@ -160,7 +162,7 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
         environment:['Entorno', { production:'Producción', audit:'Auditoría' }],
         section:['Sección', { hero:'Bienvenida', essentials:'Lo esencial', arrival:'Llegada', house:'La casa', waste:'Residuos', rules:'Normas', checkout:'Salida', recommendations:'Recomendaciones', commercial_partners:'Comercios asociados', help:'Ayuda' }],
         commerce_content:['Contenido de la sección', { upcoming:'Aviso de próxima apertura', preview:'Tarjetas de presentación', active:'Catálogo con comercios activos' }],
-        commerce:['Comercio', { 'almacen-de-sabores':'Almacén de Sabores' }],
+        commerce:['Comercio', analyticsCommerceNames],
         commerce_action:['Opción del comercio', { tasting:'Coordinar degustación con el anfitrión', boards:'Consultar picadas con el anfitrión', maps:'Ver ubicación en Google Maps' }],
         action:['Acción', { address:'Mostrar dirección', wifi:'Mostrar Wi-Fi', maps:'Abrir Maps', host_whatsapp:'Abrir WhatsApp del anfitrión', backup_whatsapp:'Abrir WhatsApp de respaldo', emergency_call:'Llamar a emergencias' }],
         state:['Estado del panel', { expanded:'Abierto', collapsed:'Cerrado' }],
@@ -212,6 +214,45 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
         observer.observe(content);
         document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') schedule(); else cancel(); });
       };
+      const setupCommerceCardAnalytics = () => {
+        if (!('IntersectionObserver' in window)) return;
+        const seen = new Set();
+        const states = new Map();
+        const clear = state => { window.clearTimeout(state.timer); state.timer = null; };
+        const unobstructed = () => document.visibilityState === 'visible' && !document.querySelector('dialog[open]');
+        const schedule = state => {
+          if (seen.has(state.commerce) || !state.visible || state.timer !== null || !unobstructed()) return;
+          state.timer = window.setTimeout(() => {
+            state.timer = null;
+            if (!state.visible || !unobstructed() || seen.has(state.commerce)) return;
+            seen.add(state.commerce);
+            analyticsTrack('commercial_card_viewed', { commerce:state.commerce });
+            observer.unobserve(state.card);
+          }, 2000);
+        };
+        const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+          const state = states.get(entry.target);
+          if (!state) return;
+          state.visible = entry.isIntersecting && entry.boundingClientRect.height > 0 && entry.boundingClientRect.width > 0
+            && entry.intersectionRect.height >= Math.min(entry.boundingClientRect.height * .5, window.innerHeight * .5)
+            && entry.intersectionRect.width >= entry.boundingClientRect.width * .5;
+          if (state.visible) schedule(state); else clear(state);
+        }), { threshold:Array.from({length:101}, (_, index) => index / 100) });
+        document.querySelectorAll('[data-recommendation][data-recommendation-status="active"]').forEach(card => {
+          const commerce = card.getAttribute('data-recommendation');
+          if (!Object.hasOwn(analyticsCommerceNames, commerce)) return;
+          states.set(card, {card,commerce,visible:false,timer:null});
+          observer.observe(card);
+        });
+        const refresh = () => states.forEach(state => {
+          clear(state);
+          state.visible = false;
+          if (unobstructed() && !seen.has(state.commerce)) { observer.unobserve(state.card); observer.observe(state.card); }
+        });
+        document.addEventListener('visibilitychange', refresh);
+        document.addEventListener('commerce-dialog-change', refresh);
+        window.addEventListener('pagehide', () => states.forEach(clear));
+      };
       const durationBucket = (milliseconds) => {
         const minutes = milliseconds / 60000;
         if (minutes < 1) return 'under_1m';
@@ -220,6 +261,7 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
         return 'over_10m';
       };
       const setupAnalytics = (stay, stayPhase) => {
+        try { if (localStorage.getItem('mi-estadia-analytics-mode') === 'excluded') return; } catch {}
         if (!umamiScriptUrl || !umamiWebsiteId) return;
         if (umamiEnvironment !== 'audit' && (umamiEnvironment !== 'production' || location.hostname !== 'experiencias-mendoza.vercel.app')) return;
         if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(umamiWebsiteId)) return;
@@ -254,9 +296,10 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
           }), { threshold:[.5] });
           Object.keys(analyticsSections).forEach((id) => { const node = document.getElementById(id); if (node) observer.observe(node); });
           setupCommerceAnalytics();
+          setupCommerceCardAnalytics();
           document.querySelectorAll('[data-commerce-open]').forEach(button => button.addEventListener('click', () => {
             const commerce = button.getAttribute('data-commerce-open');
-            if (commerce === 'almacen-de-sabores') analyticsTrack('commercial_card_opened', { commerce });
+            if (Object.hasOwn(analyticsCommerceNames, commerce)) analyticsTrack('commercial_card_opened', { commerce });
           }));
           document.querySelectorAll('[data-reveal]').forEach((button) => button.addEventListener('click', () => {
             const target = button.getAttribute('data-reveal') || '';
@@ -267,7 +310,7 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
             const commerce = link.getAttribute('data-commerce');
             const commerceAction = link.getAttribute('data-commerce-action');
             if (commerce) {
-              if (commerce === 'almacen-de-sabores' && ['tasting','boards','maps'].includes(commerceAction)) analyticsTrack('commercial_action_opened', { commerce, commerce_action:commerceAction });
+              if (Object.hasOwn(analyticsCommerceNames, commerce) && ['tasting','boards','maps'].includes(commerceAction)) analyticsTrack('commercial_action_opened', { commerce, commerce_action:commerceAction });
               return;
             }
             const href = link.getAttribute('href') || '';

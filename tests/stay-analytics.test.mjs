@@ -7,7 +7,7 @@ const source = readFileSync(new URL('../src/pages/estadia.astro', import.meta.ur
 const analytics = source.slice(source.indexOf('      const analyticsSections'), source.indexOf('      const showError'));
 const website = '6ea792cd-4df8-457d-b5ab-162e517c88b8';
 function harness(hostname = 'experiencias-mendoza.vercel.app', blocked = false, id = website, options = {}) {
-  let now = 0, timerId = 0;
+  let now = 0, timerId = 0, modalOpen = false;
   const sent = [], scripts = [], docEvents = {}, winEvents = {};
   const timers = new Map(), observers = [];
   const listen = (events, name, fn) => { (events[name] ||= []).push(fn); };
@@ -23,8 +23,10 @@ function harness(hostname = 'experiencias-mendoza.vercel.app', blocked = false, 
     addEventListener(name,fn){this[name]=fn;},
   }));
   const commerceOpen = {click:null,getAttribute:()=>'almacen-de-sabores',addEventListener(name,fn){this[name]=fn;}};
+  const cards = (options.cards || []).map(commerce=>({getAttribute:()=>commerce}));
   const document = { visibilityState:'visible', addEventListener:(name,fn) => listen(docEvents,name,fn),
-    getElementById:name => options.commerce && name === (options.commerce === 'upcoming' ? 'mendoza' : 'mendoza-preview') ? section : null, querySelectorAll:selector => options.links && selector === 'a' ? commerceLinks : options.links && selector === '[data-commerce-open]' ? [commerceOpen] : [],
+    querySelector:selector=>selector==='dialog[open]'&&modalOpen?{}:null,
+    getElementById:name => options.commerce && name === (options.commerce === 'upcoming' ? 'mendoza' : 'mendoza-preview') ? section : null, querySelectorAll:selector => options.links && selector === 'a' ? commerceLinks : options.links && selector === '[data-commerce-open]' ? [commerceOpen] : selector==='[data-recommendation][data-recommendation-status="active"]'?cards:[],
     createElement:() => ({ dataset:{}, addEventListener(name,fn) { this[name] = fn; } }),
     head:{append(script) { scripts.push(script); if (!blocked) script.load(); }} };
   const window = { umami:{track(payload) { sent.push(payload); return Promise.resolve(); }},
@@ -33,14 +35,17 @@ function harness(hostname = 'experiencias-mendoza.vercel.app', blocked = false, 
     clearTimeout:id => timers.delete(id),
     addEventListener:(name,fn) => listen(winEvents,name,fn) };
   class IntersectionObserver {
-    constructor(callback){this.callback=callback;observers.push(this);}
-    observe(target){this.target=target;}
+    constructor(callback){this.callback=callback;this.targets=new Set();observers.push(this);}
+    observe(target){this.target=target;this.targets.add(target);}
+    unobserve(target){this.targets.delete(target);}
     disconnect(){this.disconnected=true;}
   }
   window.IntersectionObserver=IntersectionObserver;
   const sandbox = {document,window,location:{hostname,href:'https://'+hostname+'/estadia/PRIVATE_TOKEN?token=PRIVATE_TOKEN'},
     navigator:{language:'es'},screen:{width:1000,height:800},Date:{now:() => now},Promise,
     umamiWebsiteId:id,umamiScriptUrl:'https://cloud.umami.is/script.js',umamiEnvironment:'production',
+    analyticsCommerceNames:{'almacen-de-sabores':'Almacén de Sabores','segundo-comercio':'Segundo comercio'},
+    localStorage:{getItem:()=>options.excluded?'excluded':null},
     companionToggle:null,companion:null,IntersectionObserver};
   vm.createContext(sandbox);
   vm.runInContext(analytics + '\nsetupAnalytics({casa:"parque",channel:"direct",nombre:"PRIVATE_NAME"},"during");', sandbox);
@@ -48,6 +53,12 @@ function harness(hostname = 'experiencias-mendoza.vercel.app', blocked = false, 
     hide() { document.visibilityState = 'hidden'; emit(docEvents,'visibilitychange'); },
     show() { document.visibilityState = 'visible'; emit(docEvents,'visibilitychange'); },
     close() {emit(winEvents,'pagehide');},
+    modal(open) {modalOpen=open;emit(docEvents,'commerce-dialog-change');},
+    cardVisible(index,visible=true,height=500,visibleHeight=300,visibleWidth=300) {
+      const card=cards[index];
+      const observer=observers.find(observer=>observer.targets.has(card));
+      if(observer)observer.callback([{target:card,isIntersecting:visible,boundingClientRect:{height,width:300},intersectionRect:{width:visibleWidth,height:visibleHeight}}]);
+    },
     commerceVisible(visible=true,height=300,visibleHeight=200) {
       const observer=observers.find(observer=>observer.target===content);
       if(observer&&!observer.disconnected)observer.callback([{target:content,isIntersecting:visible,boundingClientRect:{height},intersectionRect:{width:600,height:visibleHeight}}]);
@@ -130,4 +141,32 @@ test('commerce actions distinguish the local and offer without transmitting dest
   }
   assert.equal(h.sent.filter(x=>x.name==='Abrió Maps o un contacto').length,0);
   assert.equal(JSON.stringify(h.sent).includes('PRIVATE_'),false);
+});
+test('each visible active advertisement counts independently, after two seconds and only once per load',()=>{
+  const h=harness(undefined,false,website,{cards:['almacen-de-sabores','segundo-comercio','unknown']});
+  h.cardVisible(0);h.advance(1999);
+  assert.equal(h.sent.filter(x=>x.name==='Vio el anuncio de un comercio').length,0);
+  h.advance(1);h.cardVisible(0);h.advance(5000);
+  let views=h.sent.filter(x=>x.name==='Vio el anuncio de un comercio');
+  assert.equal(views.length,1);
+  assert.equal(views[0].data.Comercio,'Almacén de Sabores');
+  h.cardVisible(1);h.advance(2000);h.cardVisible(2);h.advance(3000);
+  views=h.sent.filter(x=>x.name==='Vio el anuncio de un comercio');
+  assert.deepEqual(views.map(x=>x.data.Comercio),['Almacén de Sabores','Segundo comercio']);
+  assert.equal(JSON.stringify(views).includes('PRIVATE_'),false);
+});
+test('advertisement impressions exclude glimpses, background time, occluding dialogs and insufficient width',()=>{
+  const h=harness(undefined,false,website,{cards:['almacen-de-sabores']});
+  const count=()=>h.sent.filter(x=>x.name==='Vio el anuncio de un comercio').length;
+  h.cardVisible(0);h.advance(1000);h.cardVisible(0,false);h.advance(3000);assert.equal(count(),0);
+  h.cardVisible(0);h.advance(1000);h.hide();h.advance(5000);assert.equal(count(),0);
+  h.show();h.cardVisible(0);h.advance(1000);h.modal(true);h.advance(5000);assert.equal(count(),0);
+  h.modal(false);h.cardVisible(0,true,500,300,100);h.advance(3000);assert.equal(count(),0);
+  h.cardVisible(0,true,1600,400);h.advance(2000);assert.equal(count(),1);
+  h.hide();h.show();h.cardVisible(0);h.advance(5000);assert.equal(count(),1);
+});
+test('excluded review browsers never load the tracker or send pageviews and events',()=>{
+  const h=harness(undefined,false,website,{excluded:true,cards:['almacen-de-sabores'],links:true});
+  h.cardVisible(0);h.advance(10000);h.hide();
+  assert.equal(h.scripts.length,0);assert.equal(h.sent.length,0);
 });
