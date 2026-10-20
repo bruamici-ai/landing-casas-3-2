@@ -29,7 +29,7 @@ function harness(path = '/', options = {}) {
   const window = {umami:{track(payload){sent.push(payload);return Promise.resolve();}},innerHeight:800,IntersectionObserver,
     addEventListener:(name, fn) => windowEvents[name] = fn};
   const hostname = options.hostname || 'experiencias-mendoza.vercel.app';
-  const config = {websiteId:website,stayWebsiteId:'6ea792cd-4df8-457d-b5ab-162e517c88b8',scriptUrl:'https://cloud.umami.is/script.js',environment:'production',services:{traslados:'Traslados'},...options.config};
+  const config = {websiteId:website,scriptUrl:'https://cloud.umami.is/script.js',environment:'production',services:{traslados:'Traslados'},...options.config};
   const sandbox = {document,window,Element,IntersectionObserver,setTimeout,clearTimeout,Date:{now:()=>now},URL,navigator:{language:'es'},screen:{width:1000,height:800},location:{hostname,pathname:path,origin:'https://'+hostname,href:'https://'+hostname+path+'?token=PRIVATE_TOKEN'},config};
   vm.createContext(sandbox);vm.runInContext(source+'\nstartLandingAnalytics(config);',sandbox);
   return {sent,scripts,
@@ -41,7 +41,7 @@ function harness(path = '/', options = {}) {
     close(){windowEvents.pagehide();}
   };
 }
-test('public tracking uses a dedicated site, clean paths and readable properties', () => {
+test('public tracking uses the configured site, clean paths and readable properties', () => {
   const h = harness('/la-casa-frente-al-parque');h.close();
   assert.equal(h.sent.length,3);
   for(const item of h.sent){assert.equal(item.website,website);assert.equal(item.url,'/la-casa-frente-al-parque');assert.equal(item.referrer,'');assert.equal(JSON.stringify(item).includes('PRIVATE_'),false);}
@@ -50,11 +50,11 @@ test('public tracking uses a dedicated site, clean paths and readable properties
   assert.equal(h.sent[1].data.Entorno,'Producción');
   assert.equal(h.scripts[0].dataset.autoTrack,'false');
 });
-test('private routes, previews and a reused Mi estadia site stay excluded', () => {
+test('private routes and previews stay excluded; a shared Umami site is supported', () => {
   for(const path of ['/estadia','/estadia/private-token','/portal/parque','/parque/ficha','/avellaneda/resenas','/unlisted'])assert.equal(harness(path).scripts.length,0);
   for(const hostname of ['localhost','preview.vercel.app'])assert.equal(harness('/',{hostname}).scripts.length,0);
   assert.equal(harness('/',{config:{websiteId:'invalid'}}).scripts.length,0);
-  assert.equal(harness('/',{config:{stayWebsiteId:website}}).scripts.length,0);
+  assert.equal(harness('/',{config:{websiteId:'6ea792cd-4df8-457d-b5ab-162e517c88b8'}}).scripts[0].dataset.websiteId,'6ea792cd-4df8-457d-b5ab-162e517c88b8');
 });
 test('clicks classify houses, services, gallery and WhatsApp without destinations or messages', () => {
   const h = harness();

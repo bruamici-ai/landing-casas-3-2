@@ -1,7 +1,7 @@
 // Public-page reporting: no private routes, URL parameters, form data or link destinations.
 export function startLandingAnalytics(config) {
   const uuid = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
-  if (!uuid.test(config.websiteId || '') || config.websiteId === config.stayWebsiteId || !config.scriptUrl) return;
+  if (!uuid.test(config.websiteId || '') || !config.scriptUrl) return;
   if (config.environment !== 'audit' && (config.environment !== 'production' || location.hostname !== 'experiencias-mendoza.vercel.app')) return;
   const houses = {
     '/la-casa-frente-al-parque':'La Casa Frente al Parque',

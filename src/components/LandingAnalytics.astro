@@ -2,8 +2,7 @@
 import { services } from '../data/site';
 const config = {
   scriptUrl: import.meta.env.PUBLIC_UMAMI_SCRIPT_URL || '',
-  websiteId: import.meta.env.PUBLIC_UMAMI_LANDING_WEBSITE_ID || '',
-  stayWebsiteId: import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || '',
+  websiteId: import.meta.env.PUBLIC_UMAMI_LANDING_WEBSITE_ID || import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || '',
   environment: import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production',
   services: Object.fromEntries(services.filter(service => service.status !== 'draft').map(service => [service.slug, service.title]))
 };
