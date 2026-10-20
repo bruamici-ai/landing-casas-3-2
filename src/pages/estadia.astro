@@ -147,12 +147,36 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
       };
 
       const analyticsSections = { esencial:'essentials', llegada:'arrival', casa:'house', residuos:'waste', normas:'rules', salida:'checkout', mendoza:'recommendations', ayuda:'help' };
+      const analyticsEventLabels = {
+        portal_opened:'Abrió Mi estadía', section_viewed:'Consultó una sección',
+        private_info_revealed:'Mostró dirección o Wi-Fi', external_action_opened:'Abrió Maps o un contacto',
+        stay_companion_changed:'Abrió o cerró el panel', active_time_recorded:'Tiempo activo en la guía'
+      };
+      const analyticsPropertyLabels = {
+        house:['Casa', { parque:'La Casa Frente al Parque', avellaneda:'Casa Avellaneda' }],
+        channel:['Canal', { airbnb:'Airbnb', booking:'Booking', direct:'Directo', other:'Otro', unknown:'Sin identificar' }],
+        stay_phase:['Momento de la estadía', { before:'Antes de llegar', arrival:'Día de llegada', during:'Durante la estadía', departure:'Día de salida', after:'Después de la estadía' }],
+        environment:['Entorno', { production:'Producción', audit:'Auditoría' }],
+        section:['Sección', { hero:'Bienvenida', essentials:'Lo esencial', arrival:'Llegada', house:'La casa', waste:'Residuos', rules:'Normas', checkout:'Salida', recommendations:'Recomendaciones', help:'Ayuda' }],
+        action:['Acción', { address:'Mostrar dirección', wifi:'Mostrar Wi-Fi', maps:'Abrir Maps', host_whatsapp:'Abrir WhatsApp del anfitrión', backup_whatsapp:'Abrir WhatsApp de respaldo', emergency_call:'Llamar a emergencias' }],
+        state:['Estado del panel', { expanded:'Abierto', collapsed:'Cerrado' }],
+        duration_bucket:['Tiempo activo', { under_1m:'Menos de 1 minuto', '1_to_3m':'1 a 3 minutos', '3_to_10m':'3 a 10 minutos', over_10m:'Más de 10 minutos' }]
+      };
       const analyticsState = { context:null, ready:false, lastTick:0, lastInteraction:0, activeMs:0, visible:false, activeSent:false };
+      const analyticsReadableData = (data) => {
+        const readable = {};
+        Object.entries(data).forEach(([key, value]) => {
+          const property = Object.hasOwn(analyticsPropertyLabels, key) ? analyticsPropertyLabels[key] : null;
+          if (property && Object.hasOwn(property[1], value)) readable[property[0]] = property[1][value];
+          if (key === 'stay_ref' && typeof value === 'string' && /^[a-f0-9]{32,40}$/i.test(value)) readable['Referencia de estadía'] = value;
+        });
+        return readable;
+      };
       const analyticsPayload = (eventName, data = {}) => ({
         website:umamiWebsiteId, hostname:location.hostname,
         language:navigator.language, screen:`${screen.width}x${screen.height}`,
         url:'/estadia', title:'Mi estadia', referrer:'',
-        ...(eventName ? { name:eventName, data:{ ...analyticsState.context, ...data } } : {})
+        ...(eventName ? { name:analyticsEventLabels[eventName], data:analyticsReadableData({ ...analyticsState.context, ...data }) } : {})
       });
       const analyticsTrack = (eventName, data = {}) => {
         try { if (analyticsState.ready && window.umami) Promise.resolve(window.umami.track(analyticsPayload(eventName, data))).catch(() => {}); } catch {}

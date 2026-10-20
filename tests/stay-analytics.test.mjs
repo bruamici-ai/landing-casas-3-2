@@ -33,19 +33,23 @@ test('all pageviews and events use the real website ID and exclude private URL a
     assert.equal(payload.website,website); assert.equal(payload.url,'/estadia'); assert.equal(payload.referrer,'');
     assert.equal(JSON.stringify(payload).includes('PRIVATE_'),false);
   }
-  assert.equal(h.sent[1].name,'portal_opened');
+  assert.equal(h.sent[1].name,'Abrió Mi estadía');
+  assert.equal(h.sent[1].data.Casa,'La Casa Frente al Parque');
+  assert.equal(h.sent[1].data.Canal,'Directo');
+  assert.equal(h.sent[1].data['Momento de la estadía'],'Durante la estadía');
+  assert.equal(h.sent[1].data.Entorno,'Producción');
   assert.equal(h.scripts[0].dataset.autoTrack,'false');
 });
 test('active time caps idle gaps and emits once even after returning from background', () => {
   const h = harness(); h.advance(20*60000); h.interact(); h.advance(10000); h.hide();
-  assert.equal(h.sent.at(-1).data.duration_bucket,'1_to_3m');
+  assert.equal(h.sent.at(-1).data['Tiempo activo'],'1 a 3 minutos');
   h.advance(60*60000); h.show(); h.advance(20000); h.close();
-  assert.equal(h.sent.filter(x => x.name === 'active_time_recorded').length,1);
+  assert.equal(h.sent.filter(x => x.name === 'Tiempo activo en la guía').length,1);
 });
 test('time starts after validation and includes recent visible interaction', () => {
   const h = harness();
   for(let i=0;i<4;i++){h.advance(45000);h.interact();}
-  h.close(); assert.equal(h.sent.at(-1).data.duration_bucket,'3_to_10m');
+  h.close(); assert.equal(h.sent.at(-1).data['Tiempo activo'],'3 a 10 minutos');
 });
 test('production tracking stays off on local and preview domains or malformed IDs', () => {
   for(const host of ['localhost','127.0.0.1','preview.vercel.app']) assert.equal(harness(host).scripts.length,0);
