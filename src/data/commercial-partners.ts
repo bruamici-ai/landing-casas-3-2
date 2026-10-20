@@ -27,6 +27,7 @@ export const commercialPartners = [{
   status: 'active',
   houses: ['parque', 'avellaneda'],
   mapsUrl: 'https://maps.app.goo.gl/qnYzwU6XLQ5WSJPVA',
+  address: 'Granaderos 1190, Mendoza, Argentina',
   description: 'Una propuesta para descubrir quesos y fiambres durante tu estadía.',
   offers: [{
     action: 'tasting',

@@ -1,0 +1,72 @@
+---
+import { commercialPartners } from '../data/commercial-partners';
+const { guide } = Astro.props;
+const partners = commercialPartners.filter(partner => partner.status === 'active' && partner.houses.includes(guide.slug));
+const routes = partners.map(partner => {
+  const destination = `${partner.name}, ${partner.address}`;
+  const query = new URLSearchParams({saddr:guide.address,daddr:destination,dirflg:'w',output:'embed',hl:'es'});
+  const walking = new URLSearchParams({api:'1',origin:guide.address,destination,travelmode:'walking'});
+  return { id:partner.id, name:partner.name, embed:`https://maps.google.com/maps?${query}`, directions:`https://www.google.com/maps/dir/?${walking}` };
+});
+const first = routes[0];
+---
+
+{first && <section class="neighborhood-map" aria-label="La casa y los comercios del barrio" data-neighborhood-map>
+  <div class="neighborhood-map-heading">
+    <div><p class="neighborhood-eyebrow">Ubicate en el barrio</p><h3>Desde tu casa hasta el comercio.</h3><p>La casa y el local en el mismo mapa, con el recorrido a pie.</p></div>
+    {routes.length > 1 && <label>Ver comercio<select data-neighborhood-destination>{routes.map(route => <option value={route.id} data-map-embed={route.embed} data-map-directions={route.directions}>{route.name}</option>)}</select></label>}
+  </div>
+  <div class="neighborhood-map-points"><span><b aria-hidden="true">○</b> Tu casa · {guide.house.name}</span><span data-neighborhood-label><b aria-hidden="true">●</b> {first.name}</span></div>
+  <iframe title={`Recorrido a pie desde ${guide.house.name} hasta ${first.name}`} data-map-src={first.embed} loading="lazy" referrerpolicy="no-referrer" allowfullscreen></iframe>
+  <a href={first.directions} target="_blank" rel="noreferrer" data-neighborhood-directions data-commerce={first.id} data-commerce-action="maps">Ver recorrido a pie en Google Maps ↗</a>
+</section>}
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-neighborhood-map]').forEach(block => {
+    // The loading guide can be visible before its private link is validated.
+    if (block.closest('[data-loading]')) return;
+    const frame = block.querySelector<HTMLIFrameElement>('iframe');
+    if (!frame) return;
+    const loadMap = () => {
+      const url = new URL(frame.dataset.mapSrc || '');
+      // Keep both pins visible on a narrow screen; Google's default can crop them.
+      if (frame.clientWidth < 500) url.searchParams.set('z','15');
+      if (frame.src !== url.href) frame.src = url.href;
+    };
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        loadMap();
+        observer.disconnect();
+      }
+    });
+    observer.observe(block);
+    if ('ResizeObserver' in window) new ResizeObserver(() => { if (frame.hasAttribute('src')) loadMap(); }).observe(frame);
+    block.querySelector<HTMLSelectElement>('[data-neighborhood-destination]')?.addEventListener('change', event => {
+      const selected = (event.target as HTMLSelectElement).selectedOptions[0];
+      if (!selected) return;
+      frame.dataset.mapSrc = selected.dataset.mapEmbed || '';
+      if (frame.hasAttribute('src')) loadMap();
+      const directions = block.querySelector<HTMLAnchorElement>('[data-neighborhood-directions]');
+      if (directions) { directions.href = selected.dataset.mapDirections || ''; directions.dataset.commerce = selected.value; }
+      const label = block.querySelector('[data-neighborhood-label]');
+      if (label) { const marker = document.createElement('b'); marker.textContent = '●'; marker.setAttribute('aria-hidden','true'); label.replaceChildren(marker, document.createTextNode(' ' + selected.textContent)); }
+      frame.title = 'Recorrido a pie hasta ' + selected.textContent;
+    });
+  });
+</script>
+
+<style>
+  .neighborhood-map { padding:24px; margin:0 0 28px; border:1px solid #ded7c9; border-radius:20px; background:#fffdf9; }
+  .neighborhood-map-heading { display:flex; gap:20px; align-items:center; justify-content:space-between; }
+  .neighborhood-eyebrow { margin:0 0 8px; text-transform:uppercase; letter-spacing:.08em; color:#6b735e; font-size:10px; font-weight:750; }
+  .neighborhood-map h3 { margin:0; font-size:28px; letter-spacing:-.035em; }
+  .neighborhood-map-heading p:last-child { margin:10px 0 0; color:#6d665e; font-size:13px; line-height:1.6; }
+  .neighborhood-map-points { display:flex; flex-wrap:wrap; gap:12px 24px; margin:20px 0 14px; font-size:12px; line-height:1.6; }
+  .neighborhood-map-points b { display:inline-grid; place-items:center; width:25px; height:25px; margin-right:6px; border-radius:50%; background:#e8eee2; color:#3e5941; }
+  .neighborhood-map-points [data-neighborhood-label] b { color:#c0392b; background:#fff0eb; }
+  .neighborhood-map iframe { display:block; width:100%; height:360px; border:1px solid #e6e3d9; border-radius:12px; background:#eeede5; }
+  .neighborhood-map>a { display:inline-block; margin-top:14px; color:#3e5941; font-size:13px; font-weight:750; }
+  .neighborhood-map label { display:grid; gap:8px; font-size:12px; }
+  .neighborhood-map select { max-width:100%; padding:10px; border:1px solid #ded7c9; border-radius:8px; background:#fff; color:#292c26; font:inherit; }
+  @media(max-width:600px) { .neighborhood-map { padding:20px; }.neighborhood-map-heading { display:block; }.neighborhood-map-heading label { margin-top:16px; }.neighborhood-map iframe { height:320px; }.neighborhood-map h3 { font-size:25px; } }
+</style>

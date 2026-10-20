@@ -4,6 +4,7 @@ import { site } from '../data/site';
 import { cloudinaryImage } from '../utils/cloudinary';
 import ServiceOffers from './ServiceOffers.astro';
 import PartnerCatalog from './PartnerCatalog.astro';
+import NeighborhoodMap from './NeighborhoodMap.astro';
 
 const { guide, embedded = false } = Astro.props;
 const hostWa = site.whatsappUrl(`Hola ${guide.host.name}, te escribo desde la guía de ${guide.house.name}. `, guide.host.phone);
@@ -101,6 +102,7 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
         <h2>Descubrí el barrio.</h2>
         <p>Comercios, beneficios y experiencias para disfrutar tu estadía. Consultá la propuesta y las condiciones de cada lugar.</p>
       </div>
+      <NeighborhoodMap guide={guide} />
       <PartnerCatalog guide={guide} />
     </div>
   </section>
