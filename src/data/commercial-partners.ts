@@ -14,6 +14,13 @@ export const commercialPartners = [{
   category: 'Fiambrería · Quesos y picadas',
   categoryId: 'fiambreria',
   initials: 'AS',
+  photos: [{
+    src:'/images/partners/almacen-de-sabores/fachada.jpg',
+    thumbnail:'/images/partners/almacen-de-sabores/fachada-tarjeta.jpg',
+    alt:'Cartel y frente de Almacén de Sabores, en Granaderos 1190, Mendoza',
+    author:'Lucia Scatolon',
+    sourceUrl:'https://maps.app.goo.gl/qnYzwU6XLQ5WSJPVA',
+  }],
   highlight: 'Degustación de bienvenida',
   availability: 'Con coordinación previa',
   summary: 'Cortesía de queso con coordinación previa. También podés consultar picadas por encargo.',
