@@ -83,6 +83,7 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
       </aside>
       <div data-guide-wrapper="parque" hidden><GuestGuide guide={parqueGuide} embedded /></div>
       <div data-guide-wrapper="avellaneda" hidden><GuestGuide guide={avellanedaGuide} embedded /></div>
+      <p style="max-width:900px;margin:24px auto;padding:0 24px 100px;color:#6f675f;font-size:12px;line-height:1.6">Medimos qué secciones y botones de esta guía se usan y el tiempo activo aproximado para mejorar la experiencia. No enviamos tus datos de contacto, el contenido de tu reserva ni el enlace privado a la herramienta de medición.</p>
     </div>
 
     <script define:vars={{ apiBase, umamiScriptUrl, umamiWebsiteId, umamiEnvironment }}>
@@ -146,9 +147,15 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
       };
 
       const analyticsSections = { esencial:'essentials', llegada:'arrival', casa:'house', residuos:'waste', normas:'rules', salida:'checkout', mendoza:'recommendations', ayuda:'help' };
-      const analyticsState = { context:null, ready:false, startedAt:Date.now(), lastInteraction:Date.now(), activeSent:false };
+      const analyticsState = { context:null, ready:false, lastTick:0, lastInteraction:0, activeMs:0, visible:false, activeSent:false };
+      const analyticsPayload = (eventName, data = {}) => ({
+        website:umamiWebsiteId, hostname:location.hostname,
+        language:navigator.language, screen:`${screen.width}x${screen.height}`,
+        url:'/estadia', title:'Mi estadia', referrer:'',
+        ...(eventName ? { name:eventName, data:{ ...analyticsState.context, ...data } } : {})
+      });
       const analyticsTrack = (eventName, data = {}) => {
-        try { if (analyticsState.ready && window.umami) window.umami.track(eventName, { ...analyticsState.context, ...data }); } catch {}
+        try { if (analyticsState.ready && window.umami) Promise.resolve(window.umami.track(analyticsPayload(eventName, data))).catch(() => {}); } catch {}
       };
       const durationBucket = (milliseconds) => {
         const minutes = milliseconds / 60000;
@@ -159,14 +166,24 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
       };
       const setupAnalytics = (stay, stayPhase) => {
         if (!umamiScriptUrl || !umamiWebsiteId) return;
+        if (umamiEnvironment !== 'audit' && (umamiEnvironment !== 'production' || location.hostname !== 'experiencias-mendoza.vercel.app')) return;
+        if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(umamiWebsiteId)) return;
         const validChannels = ['airbnb','booking','direct','other','unknown'];
         const channel = validChannels.includes(stay.channel) ? stay.channel : 'unknown';
         analyticsState.context = { house: stay.casa, channel, stay_phase: stayPhase, environment: umamiEnvironment, ...(stay.stay_ref ? { stay_ref: stay.stay_ref } : {}) };
         const start = () => {
+          if (!window.umami) return;
           analyticsState.ready = true;
-          try { window.umami.track({ url:'/estadia', title:'Mi estadia' }); } catch {}
+          try { Promise.resolve(window.umami.track(analyticsPayload())).catch(() => {}); } catch {}
           analyticsTrack('portal_opened');
-          const markInteraction = () => { analyticsState.lastInteraction = Date.now(); };
+          analyticsState.lastTick = analyticsState.lastInteraction = Date.now();
+          analyticsState.visible = document.visibilityState === 'visible';
+          const accumulateActiveTime = () => {
+            const now = Date.now();
+            if (analyticsState.visible) analyticsState.activeMs += Math.max(0, Math.min(now, analyticsState.lastInteraction + 60000) - analyticsState.lastTick);
+            analyticsState.lastTick = now;
+          };
+          const markInteraction = () => { accumulateActiveTime(); analyticsState.lastInteraction = Date.now(); };
           ['click','keydown','touchstart','scroll'].forEach((eventName) => window.addEventListener(eventName, markInteraction, { passive:true }));
           const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
             if (!entry.isIntersecting || entry.intersectionRatio < .5 || entry.target.dataset.analyticsSeen) {
@@ -175,6 +192,7 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
               return;
             }
             entry.target.dataset.analyticsTimer = String(window.setTimeout(() => {
+              if (document.visibilityState !== 'visible') return;
               entry.target.dataset.analyticsSeen = 'true';
               analyticsTrack('section_viewed', { section: analyticsSections[entry.target.id] || 'house' });
             }, 2000));
@@ -183,7 +201,7 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
           document.querySelectorAll('[data-reveal]').forEach((button) => button.addEventListener('click', () => {
             const target = button.getAttribute('data-reveal') || '';
             const action = target.includes('wifi') ? 'wifi' : target.includes('address') ? 'address' : '';
-            if (action) analyticsTrack('private_info_revealed', { action });
+            if (action && button.getAttribute('aria-expanded') === 'true') analyticsTrack('private_info_revealed', { action });
           }));
           document.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
             const href = link.getAttribute('href') || '';
@@ -192,17 +210,24 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
           }));
           companionToggle?.addEventListener('click', () => analyticsTrack('stay_companion_changed', { state: companion?.dataset.expanded === 'true' ? 'expanded' : 'collapsed' }));
           const sendActiveTime = () => {
-            if (analyticsState.activeSent || document.visibilityState !== 'hidden' || Date.now() - analyticsState.lastInteraction > 300000) return;
+            accumulateActiveTime();
+            if (analyticsState.activeSent) return;
             analyticsState.activeSent = true;
-            analyticsTrack('active_time_recorded', { duration_bucket: durationBucket(Date.now() - analyticsState.startedAt) });
+            analyticsTrack('active_time_recorded', { duration_bucket: durationBucket(analyticsState.activeMs) });
           };
-          document.addEventListener('visibilitychange', sendActiveTime);
+          document.addEventListener('visibilitychange', () => {
+            accumulateActiveTime();
+            analyticsState.visible = document.visibilityState === 'visible';
+            if (!analyticsState.visible) sendActiveTime();
+            else analyticsState.lastInteraction = Date.now();
+          });
           window.addEventListener('pagehide', sendActiveTime);
         };
         const script = document.createElement('script');
         script.defer = true;
         script.src = umamiScriptUrl;
         script.dataset.websiteId = umamiWebsiteId;
+        script.dataset.autoTrack = 'false';
         script.dataset.autoPageview = 'false';
         script.dataset.excludeSearch = 'true';
         script.addEventListener('load', start, { once:true });
