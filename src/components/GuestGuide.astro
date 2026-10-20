@@ -5,13 +5,10 @@ import { cloudinaryImage } from '../utils/cloudinary';
 import ServiceOffers from './ServiceOffers.astro';
 import PartnerCatalog from './PartnerCatalog.astro';
 import NeighborhoodMap from './NeighborhoodMap.astro';
-import houseRules from '../data/normas-y-sanciones-unificadas.json';
 
 const { guide, embedded = false } = Astro.props;
 const hostWa = site.whatsappUrl(`Hola ${guide.host.name}, te escribo desde la guía de ${guide.house.name}. `, guide.host.phone);
 const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped de ${guide.house.name} y necesito ayuda. `, guide.backupHost.phone);
-const wasteCleanupRule = houseRules.normas.find(rule => rule.id === 'limpieza-basica')?.reglas.find(rule => rule.includes('basura'));
-const wastePenalty = houseRules.penalizaciones.find(penalty => penalty.id === 'limpieza-extra');
 ---
 
 <main class:list={["guest-guide", { "is-embedded": embedded }]} data-guide={guide.slug}>
@@ -211,10 +208,10 @@ const wastePenalty = houseRules.penalizaciones.find(penalty => penalty.id === 'l
         <p class="collection-status" data-collection-status>Cargando el cronograma de hoy…</p>
         <div class="waste-cards">
           <article><span><UiIcon name="trash" size={16} /> Residuos habituales</span><p>{guide.wasteRegular}</p></article>
-          <article>
-            <span><UiIcon name="alert" size={16} /> Evitá multas</span>
-            <p>{guide.wasteExceptional}</p>
-            {wasteCleanupRule && wastePenalty && <p class="waste-penalty">{wasteCleanupRule}<strong>{wastePenalty.cargo_usd === 'variable' ? 'Importe variable' : `${wastePenalty.cargo_usd} USD`}, {wastePenalty.tipo}.</strong></p>}
+          <article class="waste-charge-warning">
+            <span><UiIcon name="alert" size={16} /> Evitá cargos adicionales</span>
+            <p class="waste-no-trash">NO DEBE QUEDAR BASURA.</p>
+            <p>Sé responsable: retirá todos los residuos de la propiedad antes del check-out. Organizate la noche anterior y respetá los días y horarios de recolección.</p>
           </article>
         </div>
       </div>
@@ -325,7 +322,7 @@ const wastePenalty = houseRules.penalizaciones.find(penalty => penalty.id === 'l
     status.replaceChildren(today, document.createTextNode(
       collectionDays.includes(day)
         ? ': hay recolección. Sacá las bolsas entre las 21:00 y las 00:00.'
-        : ': no hay recolección. No saques bolsas a la calle. Si mañana hacés check-out, usá el punto excepcional indicado abajo.'
+        : ': no hay recolección. No saques bolsas a la calle. Planificá el retiro de los residuos antes del check-out: no debe quedar basura en la propiedad.'
     ));
     status.classList.add(collectionDays.includes(day) ? 'is-collection' : 'no-collection');
   });
@@ -458,8 +455,8 @@ const wastePenalty = houseRules.penalizaciones.find(penalty => penalty.id === 'l
   .waste-cards article { padding:22px; border-radius:20px; background:rgba(255,255,255,.075); }
   .waste-cards span { display:flex; align-items:center; gap:7px; color:#cdd7bc; font-size:11px; text-transform:uppercase; letter-spacing:.12em; font-weight:800; }
   .waste-cards p { margin:10px 0 0; color:#e2e6de; line-height:1.65; }
-  .waste-cards .waste-penalty { margin-top:16px; padding-top:14px; border-top:1px solid rgba(229,217,177,.3); font-size:14px; }
-  .waste-penalty strong { display:block; margin-top:8px; color:#efd4a2; }
+  .waste-cards .waste-charge-warning { border:1px solid #e4bd80; background:rgba(228,189,128,.12); }
+  .waste-cards .waste-no-trash { margin:16px 0 12px; color:#fff2cf; font-size:clamp(22px,2.3vw,30px); line-height:1.15; font-weight:850; letter-spacing:-.02em; }
   .quiet-note { color:#706960; line-height:1.7; }
   .rules-list { list-style:none; padding:0; margin:0; border-top:1px solid rgba(33,29,26,.14); }
   .rules-list li { display:grid; grid-template-columns:42px 1fr; gap:15px; padding:19px 0; border-bottom:1px solid rgba(33,29,26,.14); }

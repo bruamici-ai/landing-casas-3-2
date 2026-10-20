@@ -56,7 +56,6 @@ export const parqueGuide = {
   parking: 'Estacionamiento exclusivo y sin cargo frente a la propiedad, para hasta 3 vehículos livianos. No es techado y está monitoreado por cámaras las 24 horas.',
   arrival: 'El día de la llegada recibirán por WhatsApp el código del locker. Al retirarse, deben dejar las llaves dentro del mismo locker y cerrarlo correctamente.',
   wasteRegular: 'Dejá las bolsas cerradas en el canasto metálico junto al árbol, directamente frente a la puerta de entrada.',
-  wasteExceptional: 'Si queda una pequeña cantidad de residuos de la mañana del check-out, o la noche anterior no hubo recolección, dejala en el patio junto a la churrasquera.',
   climate: 'La casa utiliza sistemas diferentes en invierno y verano. Elegí la temporada para ver cómo operar cada uno.',
   climateSeasons: [
     {
@@ -122,7 +121,6 @@ export const avellanedaGuide = {
   parking: 'La cochera es techada, doble y sin cargo. El portón del lado derecho es automático y el del lado izquierdo es manual. También se puede estacionar sin cargo frente a la propiedad.',
   arrival: 'El día de la llegada recibirán por WhatsApp el código del locker. Al retirarse, deben dejar las llaves dentro del mismo locker y cerrarlo correctamente.',
   wasteRegular: 'Dejá las bolsas cerradas junto al poste de luz frente a la propiedad.',
-  wasteExceptional: 'Si queda una pequeña cantidad de residuos de la mañana del check-out, o la noche anterior no hubo recolección, usá el contenedor especial de la entrada principal: al salir, a mano derecha, frente al gabinete de máquinas.',
   climate: 'La casa utiliza calefacción central en invierno y aire acondicionado en verano. Elegí la temporada para ver cómo operar cada sistema.',
   climateSeasons: [
     {
