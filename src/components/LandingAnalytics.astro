@@ -1,0 +1,18 @@
+---
+import { services } from '../data/site';
+const config = {
+  scriptUrl: import.meta.env.PUBLIC_UMAMI_SCRIPT_URL || '',
+  websiteId: import.meta.env.PUBLIC_UMAMI_LANDING_WEBSITE_ID || '',
+  stayWebsiteId: import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || '',
+  environment: import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production',
+  services: Object.fromEntries(services.filter(service => service.status !== 'draft').map(service => [service.slug, service.title]))
+};
+---
+<script type="application/json" id="landing-analytics-config" set:html={JSON.stringify(config).replace(/</g, '\\u003c')} />
+<script>
+  import { startLandingAnalytics } from '../client/landing-analytics.js';
+  const config = document.getElementById('landing-analytics-config');
+  if (config) {
+    try { startLandingAnalytics(JSON.parse(config.textContent || '{}')); } catch {}
+  }
+</script>
