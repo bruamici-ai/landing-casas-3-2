@@ -17,8 +17,13 @@ function harness(hostname = 'experiencias-mendoza.vercel.app', blocked = false, 
     return options.commerce && options.commerce !== 'upcoming' ? {} : null;
   }};
   const section = {querySelector:() => content};
+  const commerceLinks = ['tasting','boards','maps','unknown'].map(action => ({
+    click:null,
+    getAttribute:name => ({'data-commerce':'almacen-de-sabores','data-commerce-action':action,href:'https://example.com/PRIVATE_MESSAGE'})[name] || null,
+    addEventListener(name,fn){this[name]=fn;},
+  }));
   const document = { visibilityState:'visible', addEventListener:(name,fn) => listen(docEvents,name,fn),
-    getElementById:name => options.commerce && name === (options.commerce === 'upcoming' ? 'mendoza' : 'mendoza-preview') ? section : null, querySelectorAll:() => [],
+    getElementById:name => options.commerce && name === (options.commerce === 'upcoming' ? 'mendoza' : 'mendoza-preview') ? section : null, querySelectorAll:selector => options.links && selector === 'a' ? commerceLinks : [],
     createElement:() => ({ dataset:{}, addEventListener(name,fn) { this[name] = fn; } }),
     head:{append(script) { scripts.push(script); if (!blocked) script.load(); }} };
   const window = { umami:{track(payload) { sent.push(payload); return Promise.resolve(); }},
@@ -38,7 +43,7 @@ function harness(hostname = 'experiencias-mendoza.vercel.app', blocked = false, 
     companionToggle:null,companion:null,IntersectionObserver};
   vm.createContext(sandbox);
   vm.runInContext(analytics + '\nsetupAnalytics({casa:"parque",channel:"direct",nombre:"PRIVATE_NAME"},"during");', sandbox);
-  return {sent,scripts,advance(ms) {now += ms;for(const [id,timer] of [...timers])if(timer.at<=now){timers.delete(id);timer.fn();}},interact() {emit(winEvents,'click');},
+  return {sent,scripts,commerceClick:index => commerceLinks[index].click(),advance(ms) {now += ms;for(const [id,timer] of [...timers])if(timer.at<=now){timers.delete(id);timer.fn();}},interact() {emit(winEvents,'click');},
     hide() { document.visibilityState = 'hidden'; emit(docEvents,'visibilitychange'); },
     show() { document.visibilityState = 'visible'; emit(docEvents,'visibilitychange'); },
     close() {emit(winEvents,'pagehide');},
@@ -107,4 +112,18 @@ test('brief glimpses and background time do not count commerce views; returning 
   assert.equal(h.sent.filter(x=>x.name==='Vio la sección de comercios asociados').length,0);
   h.show();h.advance(2000);h.commerceVisible();h.advance(5000);h.hide();h.show();h.advance(3000);
   assert.equal(h.sent.filter(x=>x.name==='Vio la sección de comercios asociados').length,1);
+});
+test('commerce actions distinguish the local and offer without transmitting destinations or guest messages', () => {
+  const h=harness(undefined,false,website,{commerce:'active',links:true});
+  for(let i=0;i<4;i++)h.commerceClick(i);
+  const events=h.sent.filter(x=>x.name==='Abrió una opción de un comercio');
+  assert.equal(events.length,3);
+  assert.deepEqual(events.map(x=>x.data['Opción del comercio']),['Coordinar degustación con el anfitrión','Consultar picadas con el anfitrión','Ver ubicación en Google Maps']);
+  for(const event of events) {
+    assert.equal(event.data.Comercio,'Almacén de Sabores');
+    assert.equal(event.data.Casa,'La Casa Frente al Parque');
+    assert.equal(event.url,'/estadia');
+  }
+  assert.equal(h.sent.filter(x=>x.name==='Abrió Maps o un contacto').length,0);
+  assert.equal(JSON.stringify(h.sent).includes('PRIVATE_'),false);
 });

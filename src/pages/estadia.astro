@@ -151,7 +151,7 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
         portal_opened:'Abrió Mi estadía', section_viewed:'Consultó una sección',
         private_info_revealed:'Mostró dirección o Wi-Fi', external_action_opened:'Abrió Maps o un contacto',
         stay_companion_changed:'Abrió o cerró el panel', active_time_recorded:'Tiempo activo en la guía',
-        commercial_section_viewed:'Vio la sección de comercios asociados'
+        commercial_section_viewed:'Vio la sección de comercios asociados', commercial_action_opened:'Abrió una opción de un comercio'
       };
       const analyticsPropertyLabels = {
         house:['Casa', { parque:'La Casa Frente al Parque', avellaneda:'Casa Avellaneda' }],
@@ -160,6 +160,8 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
         environment:['Entorno', { production:'Producción', audit:'Auditoría' }],
         section:['Sección', { hero:'Bienvenida', essentials:'Lo esencial', arrival:'Llegada', house:'La casa', waste:'Residuos', rules:'Normas', checkout:'Salida', recommendations:'Recomendaciones', commercial_partners:'Comercios asociados', help:'Ayuda' }],
         commerce_content:['Contenido de la sección', { upcoming:'Aviso de próxima apertura', preview:'Tarjetas de presentación', active:'Catálogo con comercios activos' }],
+        commerce:['Comercio', { 'almacen-de-sabores':'Almacén de Sabores' }],
+        commerce_action:['Opción del comercio', { tasting:'Coordinar degustación con el anfitrión', boards:'Consultar picadas con el anfitrión', maps:'Ver ubicación en Google Maps' }],
         action:['Acción', { address:'Mostrar dirección', wifi:'Mostrar Wi-Fi', maps:'Abrir Maps', host_whatsapp:'Abrir WhatsApp del anfitrión', backup_whatsapp:'Abrir WhatsApp de respaldo', emergency_call:'Llamar a emergencias' }],
         state:['Estado del panel', { expanded:'Abierto', collapsed:'Cerrado' }],
         duration_bucket:['Tiempo activo', { under_1m:'Menos de 1 minuto', '1_to_3m':'1 a 3 minutos', '3_to_10m':'3 a 10 minutos', over_10m:'Más de 10 minutos' }]
@@ -258,6 +260,12 @@ const umamiEnvironment = import.meta.env.PUBLIC_UMAMI_ENVIRONMENT || 'production
             if (action && button.getAttribute('aria-expanded') === 'true') analyticsTrack('private_info_revealed', { action });
           }));
           document.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+            const commerce = link.getAttribute('data-commerce');
+            const commerceAction = link.getAttribute('data-commerce-action');
+            if (commerce) {
+              if (commerce === 'almacen-de-sabores' && ['tasting','boards','maps'].includes(commerceAction)) analyticsTrack('commercial_action_opened', { commerce, commerce_action:commerceAction });
+              return;
+            }
             const href = link.getAttribute('href') || '';
             const action = href.includes('google.') || href.includes('maps') ? 'maps' : href.startsWith('tel:') ? 'emergency_call' : href.includes('wa.me') ? (link.closest('.help-card') ? 'backup_whatsapp' : 'host_whatsapp') : '';
             if (action) analyticsTrack('external_action_opened', { action });

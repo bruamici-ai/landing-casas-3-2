@@ -3,10 +3,12 @@ import UiIcon from './UiIcon.astro';
 import { site } from '../data/site';
 import { cloudinaryImage } from '../utils/cloudinary';
 import ServiceOffers from './ServiceOffers.astro';
+import { commercialPartners } from '../data/commercial-partners';
 
 const { guide, embedded = false } = Astro.props;
 const hostWa = site.whatsappUrl(`Hola ${guide.host.name}, te escribo desde la guía de ${guide.house.name}. `, guide.host.phone);
 const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped de ${guide.house.name} y necesito ayuda. `, guide.backupHost.phone);
+const partners = commercialPartners.filter(partner => partner.houses.includes(guide.slug));
 ---
 
 <main class:list={["guest-guide", { "is-embedded": embedded }]} data-guide={guide.slug}>
@@ -40,6 +42,7 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
     <a href="#residuos">Residuos</a>
     <a href="#salida">Salida</a>
     <a href="#servicios">Servicios</a>
+    <a href="#mendoza">Comercios y beneficios</a>
     <a href="#ayuda">Ayuda</a>
   </nav>
 
@@ -233,11 +236,38 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
   </section>
 
   <section class="guide-section local-section" id="mendoza">
-    <div class="guide-shell local-card">
-      <p class="guide-eyebrow">Muy pronto</p>
-      <div class="section-symbol"><UiIcon name="sparkle" size={26} /></div>
-      <h2>Nuestros lugares recomendados.</h2>
-      <p>Estamos preparando una selección cercana de restaurantes, cafeterías, mercados, farmacias y experiencias con beneficios especiales para nuestros huéspedes.</p>
+    <div class="guide-shell">
+      <div class="section-intro">
+        <p class="guide-eyebrow">Comercios asociados</p>
+        <h2>Sabores del barrio, cerca tuyo.</h2>
+        <p>Conocé nuestra primera alianza y coordiná tu visita con el anfitrión.</p>
+      </div>
+      <div data-recommendation-catalog>
+        {partners.map(partner => (
+          <article class="partner-card" data-recommendation={partner.id} data-recommendation-status={partner.status}>
+            <header class="partner-heading">
+              <span class="partner-monogram" aria-hidden="true">AS</span>
+              <div><p class="guide-eyebrow">{partner.category}</p><h3>{partner.name}</h3></div>
+            </header>
+            <p>{partner.description}</p>
+            <div class="partner-offers">
+              <section>
+                <span class="partner-tag">Cortesía · con coordinación previa</span>
+                <h4>{partner.tasting.title}</h4>
+                <p>{partner.tasting.description}</p><p class="partner-conditions">{partner.tasting.conditions}</p>
+                <a class="partner-button" href={site.whatsappUrl(`Hola ${guide.host.name}, me interesa coordinar la degustación en ${partner.name} durante mi estadía en ${guide.house.name}. ¿Podés confirmarme las condiciones?`, guide.host.phone)} target="_blank" rel="noreferrer" data-commerce={partner.id} data-commerce-action="tasting">Coordinar degustación con el anfitrión</a>
+              </section>
+              <section>
+                <span class="partner-tag">Venta por encargo · un día de anticipación</span>
+                <h4>{partner.boards.title}</h4>
+                <p>{partner.boards.description}</p><p class="partner-conditions">{partner.boards.conditions}</p>
+                <a class="partner-button secondary" href={site.whatsappUrl(`Hola ${guide.host.name}, quiero consultar opciones y precios de picadas por encargo de ${partner.name} para mi estadía en ${guide.house.name}. Entiendo que requieren al menos un día de anticipación.`, guide.host.phone)} target="_blank" rel="noreferrer" data-commerce={partner.id} data-commerce-action="boards">Consultar picadas con el anfitrión</a>
+              </section>
+            </div>
+            <a class="partner-map" href={partner.mapsUrl} target="_blank" rel="noreferrer" data-commerce={partner.id} data-commerce-action="maps">Ver ubicación en Google Maps ↗</a>
+          </article>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -460,6 +490,22 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
   .check-item:focus-within { outline:3px solid rgba(63,111,99,.45); outline-offset:3px; }
   .check-item small { display:block; margin-bottom:5px; color:#8c857c; font-size:10px; letter-spacing:.12em; }
   .local-section { background:#faf8f4; }
+  .partner-card { padding:32px; border:1px solid #ded7c9; border-radius:24px; background:#fff; color:#292c26; box-shadow:0 12px 35px #4734260a; }
+  .partner-heading { display:flex; align-items:center; gap:18px; }
+  .partner-heading h3 { margin:0; font-size:32px; letter-spacing:-.035em; }
+  .partner-heading .guide-eyebrow { margin:0 0 8px; }
+  .partner-monogram { display:grid; place-items:center; flex:0 0 68px; height:68px; border-radius:20px; background:#e8eee2; color:#3d503b; font-size:24px; font-weight:800; }
+  .partner-card p { line-height:1.65; }
+  .partner-offers { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin:28px 0; }
+  .partner-offers section { padding:24px; border-radius:16px; background:#f7f6f1; }
+  .partner-tag { font-size:11px; font-weight:750; color:#526548; }
+  .partner-offers h4 { margin:14px 0 10px; font-size:23px; letter-spacing:-.025em; }
+  .partner-conditions { color:#6d665e; font-size:14px; }
+  .partner-button { display:inline-block; margin-top:8px; padding:13px 17px; border-radius:10px; background:#3e5941; color:#fff; text-decoration:none; font-size:13px; line-height:1.5; font-weight:750; }
+  .partner-button.secondary { background:#e5e9df; color:#344b35; }
+  .partner-map { color:#3e5941; font-weight:750; font-size:14px; }
+  .partner-button:focus-visible,.partner-map:focus-visible { outline:3px solid #9cae80; outline-offset:4px; }
+  @media(max-width:700px) { .partner-card { padding:22px; }.partner-offers { grid-template-columns:1fr; gap:14px; }.partner-offers section { padding:20px; }.partner-heading h3 { font-size:27px; }.partner-monogram { flex-basis:50px; height:50px; font-size:19px; } }
   .local-card { padding:70px; border-radius:30px; background:linear-gradient(135deg,#ddd4c4,#efebe3); }
   .local-card p:last-child { max-width:650px; margin:20px 0 0; color:#6d665e; font-size:17px; line-height:1.7; }
   .help-section { background:#20261f; color:#fff; }
