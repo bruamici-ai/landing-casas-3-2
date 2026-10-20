@@ -5,10 +5,13 @@ import { cloudinaryImage } from '../utils/cloudinary';
 import ServiceOffers from './ServiceOffers.astro';
 import PartnerCatalog from './PartnerCatalog.astro';
 import NeighborhoodMap from './NeighborhoodMap.astro';
+import houseRules from '../data/normas-y-sanciones-unificadas.json';
 
 const { guide, embedded = false } = Astro.props;
 const hostWa = site.whatsappUrl(`Hola ${guide.host.name}, te escribo desde la guía de ${guide.house.name}. `, guide.host.phone);
 const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped de ${guide.house.name} y necesito ayuda. `, guide.backupHost.phone);
+const wasteCleanupRule = houseRules.normas.find(rule => rule.id === 'limpieza-basica')?.reglas.find(rule => rule.includes('basura'));
+const wastePenalty = houseRules.penalizaciones.find(penalty => penalty.id === 'limpieza-extra');
 ---
 
 <main class:list={["guest-guide", { "is-embedded": embedded }]} data-guide={guide.slug}>
@@ -208,7 +211,11 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
         <p class="collection-status" data-collection-status>Cargando el cronograma de hoy…</p>
         <div class="waste-cards">
           <article><span><UiIcon name="trash" size={16} /> Residuos habituales</span><p>{guide.wasteRegular}</p></article>
-          <article><span><UiIcon name="key" size={16} /> Excepción solo al salir</span><p>{guide.wasteExceptional}</p></article>
+          <article>
+            <span><UiIcon name="alert" size={16} /> Evitá multas</span>
+            <p>{guide.wasteExceptional}</p>
+            {wasteCleanupRule && wastePenalty && <p class="waste-penalty">{wasteCleanupRule}<strong>{wastePenalty.cargo_usd === 'variable' ? 'Importe variable' : `${wastePenalty.cargo_usd} USD`}, {wastePenalty.tipo}.</strong></p>}
+          </article>
         </div>
       </div>
     </div>
@@ -451,6 +458,8 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
   .waste-cards article { padding:22px; border-radius:20px; background:rgba(255,255,255,.075); }
   .waste-cards span { display:flex; align-items:center; gap:7px; color:#cdd7bc; font-size:11px; text-transform:uppercase; letter-spacing:.12em; font-weight:800; }
   .waste-cards p { margin:10px 0 0; color:#e2e6de; line-height:1.65; }
+  .waste-cards .waste-penalty { margin-top:16px; padding-top:14px; border-top:1px solid rgba(229,217,177,.3); font-size:14px; }
+  .waste-penalty strong { display:block; margin-top:8px; color:#efd4a2; }
   .quiet-note { color:#706960; line-height:1.7; }
   .rules-list { list-style:none; padding:0; margin:0; border-top:1px solid rgba(33,29,26,.14); }
   .rules-list li { display:grid; grid-template-columns:42px 1fr; gap:15px; padding:19px 0; border-bottom:1px solid rgba(33,29,26,.14); }
