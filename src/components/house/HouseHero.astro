@@ -205,26 +205,36 @@ h1 {
   .side-image { height: 220px; }
 }
 
+@media (max-width: 840px) {
+  :global(.house-landing #experiencia) { scroll-margin-top: 120px; }
+  .hero-button { display: none; }
+  .hero-actions { margin-top: 16px; }
+}
+
 @media (max-width: 560px) {
   .hero {
     padding-top: 24px;
   }
 
   .main-image {
-    min-height: 360px;
-    height: 52vh;
+    min-height: 0;
+    height: clamp(240px, 70vw, 340px);
     border-radius: 22px;
   }
 
   .side-images {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
   .side-images img {
-    height: 240px;
+    height: 120px;
     border-radius: 22px;
   }
 
-  .side-image { height: 240px; border-radius: 22px; }
+  .side-image { height: 120px; border-radius: 18px; }
+  h1 { font-size: clamp(36px, 10vw, 50px); line-height: .98; }
+  .lead { margin-top: 16px; font-size: 16px; }
+  .mini-proof { margin-top: 16px; }
+  .host-note { margin-top: 16px; }
 }
 </style>
