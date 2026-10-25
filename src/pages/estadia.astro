@@ -148,6 +148,24 @@ const analyticsCommerceNames = Object.fromEntries(commercialPartners.filter(part
         return ['Durante tu estadía', 'Encontrá aquí el Wi-Fi y toda la información para disfrutar la casa.'];
       };
 
+      let openingRequest = null;
+      const recordPortalOpening = (stay) => {
+        if (openingRequest || stay.test_only || searchParams.get('revision') === '1') return;
+        try { if (localStorage.getItem('mi-estadia-analytics-mode') === 'excluded') return; } catch {}
+        try {
+          const body = JSON.stringify({ visita: crypto.randomUUID() });
+          const send = () => fetch(`${apiBase}/estadia/${encodeURIComponent(token)}/apertura`, {
+            method:'POST', headers:{ 'Content-Type':'application/json' },
+            credentials:'omit', cache:'no-store', keepalive:true, body,
+          }).then(response => {
+            if (!response.ok) throw new Error('opening_not_registered');
+          });
+          // One retry with the same ID cannot count the same page load twice.
+          // A registration failure must never hide a successfully loaded guide.
+          openingRequest = send().catch(send).catch(() => {});
+        } catch {}
+      };
+
       const analyticsSections = { esencial:'essentials', llegada:'arrival', casa:'house', residuos:'waste', normas:'rules', salida:'checkout', ayuda:'help' };
       const analyticsEventLabels = {
         portal_opened:'Abrió Mi estadía', section_viewed:'Consultó una sección',
@@ -379,6 +397,7 @@ const analyticsCommerceNames = Object.fromEntries(commercialPartners.filter(part
             // apuntar a la copia oculta en lugar de la guía visible.
             loading.remove();
             portal.hidden = false;
+            recordPortalOpening(stay);
             const currentDay = dayNumber(localIsoDate(stay.timezone));
             const stayPhase = currentDay < dayNumber(stay.check_in) ? 'before' : currentDay === dayNumber(stay.check_in) ? 'arrival' : currentDay === dayNumber(stay.check_out) ? 'departure' : currentDay > dayNumber(stay.check_out) ? 'after' : 'during';
             setupAnalytics(stay, stayPhase);
