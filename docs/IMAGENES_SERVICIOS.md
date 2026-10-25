@@ -2,7 +2,7 @@
 
 Generadas con la herramienta integrada image_gen. Ilustraciones fotográficas de los servicios; no representan habitaciones ni personal reales de las casas. No se modificaron precios, condiciones ni prestaciones. Se exportaron a JPEG calidad 88 sin alterar la composición, desde originales conservados en el directorio generated_images de Codex.
 
-Archivos web: public/services/mucama.jpg y public/services/sabanas-toallas-premium.jpg. Se usan en portada, catálogo y fichas. Generación e integración local autorizadas por la solicitud de completar ambas imágenes; publicación del landing pendiente de autorización específica. Cambios de marca paralelos excluidos. Build Astro aprobado y Chrome verificado en portada, catálogo y ambas fichas: imágenes cargadas, escritorio/celular sin errores ni desbordamiento. Recursos web de 1672×941 px, aproximadamente 217 KB y 273 KB.
+Archivos web: public/services/mucama.jpg y public/services/sabanas-toallas-premium.jpg. Se usan en portada, catálogo y fichas. Generación e integración local autorizadas por la solicitud de completar ambas imágenes. El usuario autorizó expresamente la publicación con «sí» el 25/10/2026. Se trasladó únicamente el commit 9c7239f sobre producción 4b6ebba verificada en Vercel; los trabajos de marca y ADM Multi quedan excluidos. Siguiente hito: build de la base productiva, push normal a main y comprobación de imágenes y fichas online. Reversión: revertir solo este cambio de imágenes, conservando los demás despliegues. Cambios de marca paralelos excluidos. Build Astro aprobado y Chrome verificado en portada, catálogo y ambas fichas: imágenes cargadas, escritorio/celular sin errores ni desbordamiento. Recursos web de 1672×941 px, aproximadamente 217 KB y 273 KB.
 
 ## Prompt final · mucama
 
