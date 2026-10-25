@@ -88,7 +88,7 @@ export const services = [
   },
   {
     slug: 'mucama',
-    image: '/services/otro.jpg',
+    image: '/services/mucama.jpg',
     status: 'active',
     statusLabel: 'Disponible a coordinar',
     title: 'Mucama',
@@ -97,7 +97,7 @@ export const services = [
   },
   {
     slug: 'sabanas-toallas-premium',
-    image: '/services/otro.jpg',
+    image: '/services/sabanas-toallas-premium.jpg',
     status: 'active',
     statusLabel: 'Disponible a coordinar',
     title: 'Sábanas y toallas premium',
