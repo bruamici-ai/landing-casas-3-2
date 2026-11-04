@@ -17,16 +17,17 @@ function harness(hostname = 'experiencias-mendoza.vercel.app', blocked = false, 
     return options.commerce && options.commerce !== 'upcoming' ? {} : null;
   }};
   const section = {querySelector:() => content};
-  const commerceLinks = ['tasting','boards','maps','unknown'].map(action => ({
+  const commerceLinks = (options.voucher ? ['voucher_enlarge','voucher_download','unknown'] : ['tasting','boards','maps','unknown']).map(action => ({
     click:null,
-    getAttribute:name => ({'data-commerce':'almacen-de-sabores','data-commerce-action':action,href:'https://example.com/PRIVATE_MESSAGE'})[name] || null,
+    getAttribute:name => ({'data-commerce':options.voucher || 'almacen-de-sabores','data-commerce-action':action,href:'https://example.com/PRIVATE_MESSAGE'})[name] || null,
     addEventListener(name,fn){this[name]=fn;},
   }));
   const commerceOpen = {click:null,getAttribute:()=>'almacen-de-sabores',addEventListener(name,fn){this[name]=fn;}};
+  const voucher = {open:false,getAttribute:()=>options.voucher,addEventListener(name,fn){this[name]=fn;}};
   const cards = (options.cards || []).map(commerce=>({getAttribute:()=>commerce}));
   const document = { visibilityState:'visible', addEventListener:(name,fn) => listen(docEvents,name,fn),
     querySelector:selector=>selector==='dialog[open]'&&modalOpen?{}:null,
-    getElementById:name => options.commerce && name === (options.commerce === 'upcoming' ? 'mendoza' : 'mendoza-preview') ? section : null, querySelectorAll:selector => options.links && selector === 'a' ? commerceLinks : options.links && selector === '[data-commerce-open]' ? [commerceOpen] : selector==='[data-recommendation][data-recommendation-status="active"]'?cards:[],
+    getElementById:name => options.commerce && name === (options.commerce === 'upcoming' ? 'mendoza' : 'mendoza-preview') ? section : null, querySelectorAll:selector => selector === '[data-voucher]' && options.voucher ? [voucher] : options.links && selector === 'a' ? commerceLinks : options.links && selector === '[data-commerce-open]' ? [commerceOpen] : selector==='[data-recommendation][data-recommendation-status="active"]'?cards:[],
     createElement:() => ({ dataset:{}, addEventListener(name,fn) { this[name] = fn; } }),
     head:{append(script) { scripts.push(script); if (!blocked) script.load(); }} };
   const window = { umami:{track(payload) { sent.push(payload); return Promise.resolve(); }},
@@ -44,12 +45,12 @@ function harness(hostname = 'experiencias-mendoza.vercel.app', blocked = false, 
   const sandbox = {document,window,location:{hostname,href:'https://'+hostname+'/estadia/PRIVATE_TOKEN?token=PRIVATE_TOKEN'},
     navigator:{language:'es'},screen:{width:1000,height:800},Date:{now:() => now},Promise,
     umamiWebsiteId:id,umamiScriptUrl:'https://cloud.umami.is/script.js',umamiEnvironment:'production',
-    analyticsCommerceNames:{'almacen-de-sabores':'Almacén de Sabores','segundo-comercio':'Segundo comercio'},
+    analyticsCommerceNames:{'almacen-de-sabores':'Almacén de Sabores','segundo-comercio':'Segundo comercio','la-vene':'La Vene','al-fuego':'Al Fuego'},
     localStorage:{getItem:()=>options.excluded?'excluded':null},
     companionToggle:null,companion:null,IntersectionObserver};
   vm.createContext(sandbox);
   vm.runInContext(analytics + '\nsetupAnalytics({casa:"parque",channel:"direct",nombre:"PRIVATE_NAME"},"during");', sandbox);
-  return {sent,scripts,openCommerce:()=>commerceOpen.click(),commerceClick:index => commerceLinks[index].click(),advance(ms) {now += ms;for(const [id,timer] of [...timers])if(timer.at<=now){timers.delete(id);timer.fn();}},interact() {emit(winEvents,'click');},
+  return {sent,scripts,toggleVoucher(open){voucher.open=open;voucher.toggle?.();},openCommerce:()=>commerceOpen.click(),commerceClick:index => commerceLinks[index].click(),advance(ms) {now += ms;for(const [id,timer] of [...timers])if(timer.at<=now){timers.delete(id);timer.fn();}},interact() {emit(winEvents,'click');},
     hide() { document.visibilityState = 'hidden'; emit(docEvents,'visibilitychange'); },
     show() { document.visibilityState = 'visible'; emit(docEvents,'visibilitychange'); },
     close() {emit(winEvents,'pagehide');},
@@ -169,4 +170,35 @@ test('excluded review browsers never load the tracker or send pageviews and even
   const h=harness(undefined,false,website,{excluded:true,cards:['almacen-de-sabores'],links:true});
   h.cardVisible(0);h.advance(10000);h.hide();
   assert.equal(h.scripts.length,0);assert.equal(h.sent.length,0);
+});
+
+test('official vouchers record show, enlarge and download intent per commerce without private data', () => {
+  for (const [id,name] of [['la-vene','La Vene'],['al-fuego','Al Fuego']]) {
+    const h=harness(undefined,false,website,{links:true,voucher:id,cards:[id]});
+    h.cardVisible(0); h.advance(2000);
+    h.toggleVoucher(true); h.toggleVoucher(false); h.toggleVoucher(true);
+    const shown=h.sent.filter(x=>x.name==='Mostró el voucher de un comercio');
+    assert.equal(shown.length,2);
+    h.commerceClick(0); h.commerceClick(1); h.commerceClick(2);
+    const downloads=h.sent.filter(x=>x.name==='Solicitó descargar el voucher de un comercio');
+    assert.equal(downloads.length,1);
+    const actions=h.sent.filter(x=>x.name==='Abrió una opción de un comercio');
+    assert.deepEqual(actions.map(x=>x.data['Opción del comercio']),['Ampliar voucher','Descargar voucher']);
+    for(const event of [...shown,...downloads,...actions]) {
+      assert.equal(event.data.Comercio,name);
+      assert.equal(event.data.Casa,'La Casa Frente al Parque');
+      assert.equal(event.data.Entorno,'Producción');
+      assert.equal(event.url,'/estadia');
+      assert.equal(JSON.stringify(event).includes('PRIVATE_'),false);
+    }
+    assert.equal(h.sent.filter(x=>x.name==='Vio el anuncio de un comercio').length,1);
+    assert.equal(h.sent.filter(x=>x.name==='Abrió Maps o un contacto').length,0);
+  }
+});
+test('excluded visits and blocked Umami do not register voucher actions', () => {
+  for (const options of [{excluded:true}, {blocked:true}]) {
+    const h=harness(undefined,Boolean(options.blocked),website,{...options,links:true,voucher:'la-vene'});
+    h.toggleVoucher(true);
+    assert.equal(h.sent.length,0);
+  }
 });

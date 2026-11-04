@@ -2,14 +2,14 @@
 import { commercialPartners, partnerCategories } from '../data/commercial-partners';
 import { site } from '../data/site';
 const { guide } = Astro.props;
-const partners = commercialPartners.filter(partner => partner.status === 'active' && partner.houses.includes(guide.slug));
+const partners = commercialPartners.filter(partner => partner.status === 'active' && (partner.scope === 'platform' || partner.houses.includes(guide.slug)));
 ---
 
 <div class="partner-catalog" data-recommendation-catalog>
   {partnerCategories.map(category => {
     const entries = partners.filter(partner => partner.categoryId === category.id);
     return entries.length ? entries.map(partner => (
-      <article class="partner-card" data-recommendation={partner.id} data-recommendation-status="active">
+      <article class="partner-card" data-recommendation={partner.id} data-recommendation-status="active" data-voucher-expires={partner.expiresAt}>
         <div class="partner-media">
           {partner.photos?.[0] ? <img src={partner.photos[0].thumbnail} alt={partner.photos[0].alt} width="600" height="800" loading="lazy" decoding="async" /> : <span class="partner-monogram" aria-hidden="true">{partner.initials}</span>}
           {partner.photos?.[0] && <a class="partner-cover-credit" href={partner.photos[0].sourceUrl} target="_blank" rel="noreferrer" data-commerce={partner.id} data-commerce-action="maps">{partner.photos[0].author} · Google Maps</a>}
@@ -29,7 +29,20 @@ const partners = commercialPartners.filter(partner => partner.status === 'active
               <figcaption><a href={photo.sourceUrl} target="_blank" rel="noreferrer" data-commerce={partner.id} data-commerce-action="maps">Foto: {photo.author} · Google Maps ↗</a></figcaption>
             </figure>)}
           </div>}
-          <div class="partner-offers">
+          {partner.voucher && <section class="partner-voucher">
+            <p class="partner-highlight">Beneficio para huéspedes de Experiencias Mendoza</p>
+            <p class="partner-conditions">{partner.voucher.conditions}</p>
+            <details class="voucher-display" data-voucher={partner.id}>
+              <summary class="partner-button">Mostrar voucher</summary>
+              <p>Presentá esta imagen en el comercio para acceder al descuento.</p>
+              <a href={partner.voucher.src} target="_blank" rel="noreferrer" data-commerce={partner.id} data-commerce-action="voucher_enlarge" aria-label={`Ampliar voucher de ${partner.name}`}>
+                <img class="voucher-image" src={partner.voucher.src} alt={partner.voucher.alt} loading="lazy" decoding="async" />
+              </a>
+              <p class="partner-conditions">El voucher fue emitido con el nombre La Casa del Parque y es válido para huéspedes de toda la plataforma.</p>
+              <a class="partner-button" href={partner.voucher.src} download={`voucher-${partner.id}.jpg`} data-commerce={partner.id} data-commerce-action="voucher_download">Descargar voucher</a>
+            </details>
+          </section>}
+          {partner.offers.length > 0 && <div class="partner-offers">
             {partner.offers.map(offer => (
               <section>
                 <span class="partner-category">{offer.label}</span><h4>{offer.title}</h4>
@@ -37,8 +50,8 @@ const partners = commercialPartners.filter(partner => partner.status === 'active
                 <a class="partner-button" href={site.whatsappUrl(`Hola ${guide.host.name}, te consulto por ${partner.name} para mi estadía en ${guide.house.name}. ${offer.message}`, guide.host.phone)} target="_blank" rel="noreferrer" data-commerce={partner.id} data-commerce-action={offer.action}>{offer.buttonLabel}</a>
               </section>
             ))}
-          </div>
-          <a class="partner-map" href={partner.mapsUrl} target="_blank" rel="noreferrer" data-commerce={partner.id} data-commerce-action="maps">Ver ubicación en Google Maps ↗</a>
+          </div>}
+          {partner.mapsUrl && <a class="partner-map" href={partner.mapsUrl} target="_blank" rel="noreferrer" data-commerce={partner.id} data-commerce-action="maps">Ver ubicación en Google Maps ↗</a>}
         </dialog>
       </article>
     )) : (
@@ -54,6 +67,12 @@ const partners = commercialPartners.filter(partner => partner.status === 'active
 </div>
 
 <script>
+  import { expireVouchers } from '../utils/voucherAvailability.mjs';
+  const refreshVouchers = () => expireVouchers(document);
+  refreshVouchers();
+  window.addEventListener('pageshow', refreshVouchers);
+  document.addEventListener('visibilitychange', refreshVouchers);
+  window.setInterval(refreshVouchers, 60000);
   document.querySelectorAll<HTMLButtonElement>('[data-commerce-open]').forEach(button => {
     const dialog = button.closest('[data-recommendation]')?.querySelector('dialog');
     if (!dialog) return;
@@ -101,6 +120,10 @@ const partners = commercialPartners.filter(partner => partner.status === 'active
   .partner-offers h4 { margin:14px 0 10px; font-size:24px; letter-spacing:-.025em; }
   .partner-conditions { color:#6d665e; font-size:13px!important; }
   .partner-button { display:inline-block; margin-top:8px; padding:12px 15px; border-radius:10px; background:#3e5941; color:#fff; text-decoration:none; font:750 12px/1.5 'Plus Jakarta Sans',sans-serif; }
+  .partner-voucher { margin:24px 0; padding:22px; border-radius:16px; background:#f3f3ec; }
+  .voucher-display summary { cursor:pointer; }
+  .voucher-display summary:focus-visible { outline:3px solid #9cae80; outline-offset:4px; }
+  .voucher-image { display:block; width:100%; max-width:591px; height:auto; margin:18px auto; border-radius:8px; }
   .partner-map { color:#3e5941; font-size:13px; font-weight:750; }
   .partner-open:focus-visible,.partner-button:focus-visible,.partner-map:focus-visible,.partner-close:focus-visible { outline:3px solid #9cae80; outline-offset:4px; }
   @media(max-width:1000px) { .partner-catalog { grid-template-columns:repeat(2,minmax(0,1fr)); } }
