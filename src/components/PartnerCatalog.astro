@@ -13,7 +13,7 @@ const partners = commercialPartners.filter(partner => partner.status === 'active
         <div class:list={["partner-media", { "partner-brand-media":partner.brandLogo }]} style={partner.brandLogo ? `--partner-brand-background:${partner.brandLogo.background}` : undefined}>
           {partner.brandLogo && partner.voucher ? <>
             <svg class:list={["partner-brand-logo", { "partner-brand-logo-compact":partner.id === 'al-fuego' }]} viewBox={partner.brandLogo.viewBox} role="img" aria-label={`Logo oficial de ${partner.name}`}>
-              <image href={partner.voucher.src} width="591" height="1280" />
+              <image href={partner.voucher.src} width={partner.voucher.width} height={partner.voucher.height} />
             </svg>
             <div class="partner-discount"><strong>{partner.discount}<span>%</span></strong><span>de descuento</span></div>
           </> : partner.photos?.[0] ? <img src={partner.photos[0].thumbnail} alt={partner.photos[0].alt} width="600" height="800" loading="lazy" decoding="async" /> : <span class="partner-monogram" aria-hidden="true">{partner.initials}</span>}
@@ -28,7 +28,7 @@ const partners = commercialPartners.filter(partner => partner.status === 'active
         <dialog class="partner-dialog" aria-label={`${partner.name}: propuesta y condiciones`}>
           <div class="partner-dialog-heading"><span class="partner-category">{partner.category}</span><button type="button" class="partner-close" data-partner-close aria-label="Cerrar ficha">Cerrar ×</button></div>
           {partner.brandLogo && partner.voucher && <div class="partner-dialog-brand" style={`--partner-brand-background:${partner.brandLogo.background}`}>
-            <svg viewBox={partner.brandLogo.viewBox} role="img" aria-label={`Logo oficial de ${partner.name}`}><image href={partner.voucher.src} width="591" height="1280" /></svg>
+            <svg viewBox={partner.brandLogo.viewBox} role="img" aria-label={`Logo oficial de ${partner.name}`}><image href={partner.voucher.src} width={partner.voucher.width} height={partner.voucher.height} /></svg>
             <span>{partner.discount} % de descuento</span>
           </div>}
           <h3>{partner.name}</h3><p>{partner.description}</p>
@@ -45,10 +45,10 @@ const partners = commercialPartners.filter(partner => partner.status === 'active
               <summary class="partner-button">Mostrar voucher</summary>
               <p>Presentá esta imagen en el comercio para acceder al descuento.</p>
               <a href={partner.voucher.src} target="_blank" rel="noreferrer" data-commerce={partner.id} data-commerce-action="voucher_enlarge" aria-label={`Ampliar voucher de ${partner.name}`}>
-                <img class="voucher-image" src={partner.voucher.src} alt={partner.voucher.alt} loading="lazy" decoding="async" />
+                <img class="voucher-image" src={partner.voucher.src} alt={partner.voucher.alt} width={partner.voucher.width} height={partner.voucher.height} loading="lazy" decoding="async" />
               </a>
               <p class="partner-conditions">El voucher fue emitido con el nombre La Casa del Parque y es válido para huéspedes de toda la plataforma.</p>
-              <a class="partner-button" href={partner.voucher.src} download={`voucher-${partner.id}.jpg`} data-commerce={partner.id} data-commerce-action="voucher_download">Descargar voucher</a>
+              <a class="partner-button" href={partner.voucher.src} download={`voucher-${partner.id}.png`} data-commerce={partner.id} data-commerce-action="voucher_download">Descargar voucher</a>
             </details>
           </section>}
           {partner.offers.length > 0 && <div class="partner-offers">
