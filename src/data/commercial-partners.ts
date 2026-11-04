@@ -47,7 +47,7 @@ export const commercialPartners = [{
     conditions: 'Encargá con al menos un día de anticipación. La picada se vende por separado de la degustación; precio y disponibilidad a confirmar.',
   }],
 }, {
-  id: 'la-vene', name: 'La Vene', category: 'Cafetería', categoryId: 'cafeteria', initials: 'LV', photos: [],
+  id: 'la-vene', brandLogo: { viewBox:'58 532 270 110', background:'#b32227' }, discount:'15', name: 'La Vene', category: 'Cafetería', categoryId: 'cafeteria', initials: 'LV', photos: [],
   highlight: '15 % de descuento en todas tus compras',
   availability: 'Hasta el 31/12/2026 · sucursal Avellaneda',
   summary: 'Un beneficio para huéspedes de Experiencias Mendoza. Presentá el voucher en la sucursal Avellaneda.',
@@ -56,7 +56,7 @@ export const commercialPartners = [{
   offers: [],
   voucher: { src:'/images/partners/vouchers/la-vene.jpg', alt:'Voucher oficial de La Vene: 15 % en todas tus compras, sucursal Avellaneda, válido hasta el 31/12/2026. Emitido con el nombre La Casa del Parque.', conditions:'Válido únicamente en la sucursal Avellaneda hasta el 31/12/2026. Presentá este voucher.' },
 }, {
-  id: 'al-fuego', name: 'Al Fuego', category: 'Carnicería · Tienda de carnes', categoryId: 'carniceria', initials: 'AF', photos: [],
+  id: 'al-fuego', brandLogo: { viewBox:'40 499 110 100', background:'#000000' }, discount:'8', name: 'Al Fuego', category: 'Carnicería · Tienda de carnes', categoryId: 'carniceria', initials: 'AF', photos: [],
   highlight: '8 % de descuento Cliente Premium',
   availability: 'Hasta el 31/12/2026 · todos sus locales',
   summary: 'Sin límite de compra, las veces que quieras. Presentá el voucher y tu DNI.',
