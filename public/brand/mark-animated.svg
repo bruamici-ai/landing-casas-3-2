@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 0 80 52" style="color:#173d34" role="img" aria-label="Experiencias Mendoza"><style>/* Architectural reveal: synchronized 12-second loop, with a complete-logo hold. */
+:is(.villa-roof,.villa-facade,.villa-glass,.villa-andes,.villa-pool,.vineyard-rows,.vineyard-posts) {stroke-dasharray:1;animation-duration:12s;animation-timing-function:linear;animation-iteration-count:infinite;animation-fill-mode:both}
+.villa-roof {animation-name:em-villa-roof}
+@keyframes em-villa-roof {0%{stroke-dashoffset:1;opacity:0} 10.00%,92%{stroke-dashoffset:0;opacity:1} 100%{stroke-dashoffset:0;opacity:0}}
+.villa-facade {animation-name:em-villa-facade}
+@keyframes em-villa-facade {0%,2.92%{stroke-dashoffset:1;opacity:0} 13.33%,92%{stroke-dashoffset:0;opacity:1} 100%{stroke-dashoffset:0;opacity:0}}
+.villa-glass {animation-name:em-villa-glass}
+@keyframes em-villa-glass {0%,7.08%{stroke-dashoffset:1;opacity:0} 14.58%,92%{stroke-dashoffset:0;opacity:1} 100%{stroke-dashoffset:0;opacity:0}}
+.villa-andes {animation-name:em-villa-andes}
+@keyframes em-villa-andes {0%,17.50%{stroke-dashoffset:1;opacity:0} 25.00%,92%{stroke-dashoffset:0;opacity:1} 100%{stroke-dashoffset:0;opacity:0}}
+.villa-pool {animation-name:em-villa-pool}
+@keyframes em-villa-pool {0%,20.00%{stroke-dashoffset:1;opacity:0} 25.83%,92%{stroke-dashoffset:0;opacity:1} 100%{stroke-dashoffset:0;opacity:0}}
+.vineyard-rows {animation-name:em-vineyard-rows}
+@keyframes em-vineyard-rows {0%,23.33%{stroke-dashoffset:1;opacity:0} 31.67%,92%{stroke-dashoffset:0;opacity:1} 100%{stroke-dashoffset:0;opacity:0}}
+.vineyard-posts {animation-name:em-vineyard-posts}
+@keyframes em-vineyard-posts {0%,27.92%{stroke-dashoffset:1;opacity:0} 34.17%,92%{stroke-dashoffset:0;opacity:1} 100%{stroke-dashoffset:0;opacity:0}}
+.villa-sun{transform-box:fill-box;transform-origin:center;animation:em-sunrise 12s linear infinite both}
+.villa-birds{animation:em-birds 12s linear infinite both}
+.villa-water-surface{animation:em-water-reveal 12s linear infinite both}
+.villa-water{animation:em-water-reveal 12s linear infinite both}
+@keyframes em-sunrise{0%,25.8%{opacity:0;transform:translateY(14px)}26%{opacity:1;transform:translateY(14px)}47.5%,92%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(0)}}
+@keyframes em-birds{0%,40%{opacity:0;transform:translate(-4px,2px)}47%,68%{opacity:.85}77%,100%{opacity:0;transform:translate(3px,-2px)}}
+@keyframes em-water-reveal{0%,26%{opacity:0}33%,92%{opacity:1}100%{opacity:0}}
+.em-brand[data-paused="true"] :is(path,circle,g){animation-play-state:paused!important}
+.em-brand .em-brand__motion{border:1px solid currentColor;border-radius:6px;background:transparent;color:inherit;padding:8px 12px;font:500 11px/1.4 system-ui;cursor:pointer;min-height:36px}
+.em-brand .em-brand__motion:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.em-brand .em-brand__motion:disabled{opacity:.65;cursor:default}
+@media(prefers-reduced-motion:reduce){
+ :is(path,circle,g){animation:none!important;stroke-dasharray:none;stroke-dashoffset:0;opacity:1}
+ :is(.villa-sun,.villa-birds){transform:none}
+ .villa-birds{opacity:.85}
+}
+
+.em-brand .em-brand__art{display:block;width:100%;line-height:0}
+</style><g class="brand-vineyard" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><g class="brand-villa" transform="translate(22 4) scale(.8)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+<defs><clipPath id="brand-sun-horizon" clipPathUnits="userSpaceOnUse"><path fill="#fff" stroke="none" d="M0-20H64V22L55 11 46 2 39 9 29 13 21 11 16 6 3 19 0 22Z"/></clipPath></defs>
+<g class="villa-sun-horizon" clip-path="url(#brand-sun-horizon)"><circle class="villa-sun" cx="35" cy="3" r="4.5" fill="var(--brand-sun, #c99d4e)" stroke="none"/></g>
+<path class="villa-andes" pathLength="1" stroke="var(--brand-mountain, #9aa99e)" stroke-width="1.1" d="M3 19 16 6l5 5M39 9l7-7 9 9"/>
+<path class="villa-roof" pathLength="1" stroke-width="2" d="M5 25h54M25 14h31M28 25V14h25v11"/>
+<path class="villa-facade" pathLength="1" stroke-width="2" d="M9 25v15h46V25"/>
+<path class="villa-glass" pathLength="1" stroke-width="1.35" d="M16 40V29h31v11M26 29v11M37 29v11M34 25V19h12v6M40 19v6"/>
+<path class="villa-pool" pathLength="1" stroke-width="1.3" d="M9 44h52l-12 10H-3L9 44Z"/>
+<path class="villa-water-surface" pathLength="1" stroke-width=".65" fill="var(--brand-water, #c4dfda)" d="M10.8 46h43.6l-7.2 6H3.6l7.2-6Z"/>
+<path class="villa-water" pathLength="1" stroke-width=".85" d="M17 48q3-1.2 6 0t6 0M29 50q3-1.2 6 0t6 0"/>
+</g>
+<g class="villa-birds" opacity="0" stroke="var(--brand-mountain, #9aa99e)" stroke-width="1.1"><path d="M17 9q2-2 4 0 2-2 4 0M22 15q1.5-1.5 3 0 1.5-1.5 3 0"/></g>
+<g class="vineyard-trellis" transform="translate(-4 -6)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+<path class="vineyard-rows" pathLength="1" stroke-width="1.15" d="M-2.5 49 21.5 29M3.5 49 23.9 32M9.5 49 25.1 36"/>
+<path class="vineyard-posts" pathLength="1" stroke-width=".95" d="M-2.5 50v-3M3.5 45v-3M9.5 40v-3M15.5 35v-3M21.5 30v-3M3.5 50v-3M9.5 45v-3M15.5 40v-3M23.9 33v-3M9.5 50v-3M15.5 45v-3M21.5 40v-3M25.1 37v-3"/>
+</g></g></svg>

@@ -1,4 +1,5 @@
 ---
+import BrandLogo from '../../components/BrandLogo.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import HouseLanding from '../../components/HouseLanding.astro';
 import { parqueHouse } from '../../data/parque/house';
@@ -24,7 +25,7 @@ const apiBase = (import.meta.env.PUBLIC_ESTADIA_API_BASE || '/estadia-api').repl
   noindex
 >
   <div class="portal-shell" data-portal-shell>
-    <header class="portal-brand"><strong>Experiencias Mendoza</strong><span>Presentaci&oacute;n privada</span></header>
+    <header class="portal-brand"><BrandLogo showTagline={false}/><span>Presentaci&oacute;n privada</span></header>
     <section class="portal-expired" data-portal-expired hidden>
       <p class="portal-expired-label">Acceso protegido</p>
       <h1>Este portal privado ya no est&aacute; disponible</h1>

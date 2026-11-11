@@ -1,0 +1,3 @@
+# Aplicación de marca (11/11/2026)
+
+Solicitud: logo existente en landing, Mi estadía y portales de comisionistas, y muestra en loop en el manual. Se parte de 3c82942, se reutiliza public/brand del checkout mi-estadia y se conservan los recorridos publicados. Sin dependencias nuevas ni cambios de datos. Ver punto de recuperación coordinado en docs/PLAN_ACCION.md de ADMCasas, checkout em-brand-rollout. Implementación verificada: build con Astro 5.18.1, 25 pruebas y revisión de las superficies a 1440/390 (evidencia en .local/em-brand-surfaces de ADMCasas); publicación pendiente de autorización específica para este alcance.

@@ -24,7 +24,7 @@ const previewImage = image ? new URL(image, Astro.site ?? site.url).href : '';
     <meta name="description" content={description} />
     <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
     <link rel="canonical" href={canonicalUrl} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/brand/favicon.svg" type="image/svg+xml" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {previewImage && <>
@@ -142,7 +142,7 @@ const previewImage = image ? new URL(image, Astro.site ?? site.url).href : '';
       }
       .brand { text-decoration: none; }
       .brand strong { display: block; color: var(--malbec-dark); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 25px; line-height: .9; letter-spacing: -.02em; }
-      .brand span { display: block; font-size: 13px; color: var(--muted); }
+      .brand > span:not(.em-brand) { display: block; font-size: 13px; color: var(--muted); }
       .main-nav { display: flex; gap: 14px; flex-wrap: wrap; }
       .main-nav a {
         text-decoration: none;

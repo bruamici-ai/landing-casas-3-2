@@ -1,0 +1,93 @@
+/* Canonical identity tokens. Preserve each page's existing editorial palette. */
+:root {
+  --brand-forest: #173d34;
+  --brand-cream: #f6f3eb;
+  --brand-gold: #c99d4e;
+  --brand-wine: #661a30;
+  --brand-water-soft: #c4dfda;
+  --brand-mountain-light: #9aa99e;
+  --brand-font: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --brand-editorial-font: 'Cormorant Garamond', Georgia, serif;
+  --brand-width-sm: 180px;
+  --brand-width-md: 224px;
+  --brand-width-lg: 258px;
+  --brand-clearspace: 8px;
+  --brand-gap: 12px;
+}
+.em-brand {
+  display: inline-flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+  flex-shrink: 0;
+  vertical-align: middle;
+  width: var(--brand-width-md);
+  max-width: 100%;
+  color: var(--brand-forest);
+  line-height: 1;
+}
+.em-brand .em-brand__art > svg { display: block; width: 100%; height: auto; overflow: visible; }
+.em-brand[data-size="sm"] { width: var(--brand-width-sm); }
+.em-brand[data-size="lg"] { width: var(--brand-width-lg); }
+.em-brand[data-variant="compact"] { width: 44px; }
+.em-brand[data-variant="compact"][data-size="sm"] { width: 32px; }
+.em-brand[data-variant="compact"][data-size="lg"] { width: 64px; }
+.em-brand[data-tone="light"] { color: var(--brand-cream); }
+.em-brand[data-tone="mono"] { color: inherit; }
+@media (max-width: 480px) {
+  .em-brand:not([data-variant="compact"]) { width: min(var(--brand-width-sm), 100%); }
+}
+
+.em-brand .em-brand__tagline {
+  display: block;
+  width: 100%;
+  color: inherit;
+  font: 400 11px/1.5 var(--brand-font);
+  letter-spacing: 0;
+  text-transform: none;
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* Wine is a secondary detail on light surfaces; inverse/mono stay single-color. */
+.em-brand[data-tone="dark"] .em-brand__tagline { color: var(--brand-wine); }
+
+/* Scene colors keep the house in front; mono remains a single ink. */
+.em-brand[data-tone="dark"] { --brand-mountain: var(--brand-mountain-light); --brand-sun: var(--brand-gold); --brand-water: var(--brand-water-soft); }
+.em-brand[data-tone="light"] { --brand-mountain: #aab8ab; --brand-sun: currentColor; --brand-water: none; }
+.em-brand[data-tone="mono"] { --brand-mountain: currentColor; --brand-sun: currentColor; --brand-water: none; }
+
+/* Architectural reveal: synchronized 12-second loop, with a complete-logo hold. */
+.em-brand[data-animated="true"] :is(.villa-roof,.villa-facade,.villa-glass,.villa-andes,.villa-pool,.vineyard-rows,.vineyard-posts) {stroke-dasharray:1;animation-duration:12s;animation-timing-function:linear;animation-iteration-count:infinite;animation-fill-mode:both}
+.em-brand[data-animated="true"] .villa-roof {animation-name:em-villa-roof}
+@keyframes em-villa-roof {0%{stroke-dashoffset:1;opacity:0} 10.00%,92%{stroke-dashoffset:0;opacity:1} 100%{stroke-dashoffset:0;opacity:0}}
+.em-brand[data-animated="true"] .villa-facade {animation-name:em-villa-facade}
+@keyframes em-villa-facade {0%,2.92%{stroke-dashoffset:1;opacity:0} 13.33%,92%{stroke-dashoffset:0;opacity:1} 100%{stroke-dashoffset:0;opacity:0}}
+.em-brand[data-animated="true"] .villa-glass {animation-name:em-villa-glass}
+@keyframes em-villa-glass {0%,7.08%{stroke-dashoffset:1;opacity:0} 14.58%,92%{stroke-dashoffset:0;opacity:1} 100%{stroke-dashoffset:0;opacity:0}}
+.em-brand[data-animated="true"] .villa-andes {animation-name:em-villa-andes}
+@keyframes em-villa-andes {0%,17.50%{stroke-dashoffset:1;opacity:0} 25.00%,92%{stroke-dashoffset:0;opacity:1} 100%{stroke-dashoffset:0;opacity:0}}
+.em-brand[data-animated="true"] .villa-pool {animation-name:em-villa-pool}
+@keyframes em-villa-pool {0%,20.00%{stroke-dashoffset:1;opacity:0} 25.83%,92%{stroke-dashoffset:0;opacity:1} 100%{stroke-dashoffset:0;opacity:0}}
+.em-brand[data-animated="true"] .vineyard-rows {animation-name:em-vineyard-rows}
+@keyframes em-vineyard-rows {0%,23.33%{stroke-dashoffset:1;opacity:0} 31.67%,92%{stroke-dashoffset:0;opacity:1} 100%{stroke-dashoffset:0;opacity:0}}
+.em-brand[data-animated="true"] .vineyard-posts {animation-name:em-vineyard-posts}
+@keyframes em-vineyard-posts {0%,27.92%{stroke-dashoffset:1;opacity:0} 34.17%,92%{stroke-dashoffset:0;opacity:1} 100%{stroke-dashoffset:0;opacity:0}}
+.em-brand[data-animated="true"] .villa-sun{transform-box:fill-box;transform-origin:center;animation:em-sunrise 12s linear infinite both}
+.em-brand[data-animated="true"] .villa-birds{animation:em-birds 12s linear infinite both}
+.em-brand[data-animated="true"] .villa-water-surface{animation:em-water-reveal 12s linear infinite both}
+.em-brand[data-animated="true"] .villa-water{animation:em-water-reveal 12s linear infinite both}
+@keyframes em-sunrise{0%,25.8%{opacity:0;transform:translateY(14px)}26%{opacity:1;transform:translateY(14px)}47.5%,92%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(0)}}
+@keyframes em-birds{0%,40%{opacity:0;transform:translate(-4px,2px)}47%,68%{opacity:.85}77%,100%{opacity:0;transform:translate(3px,-2px)}}
+@keyframes em-water-reveal{0%,26%{opacity:0}33%,92%{opacity:1}100%{opacity:0}}
+.em-brand[data-paused="true"] :is(path,circle,g){animation-play-state:paused!important}
+.em-brand .em-brand__motion{border:1px solid currentColor;border-radius:6px;background:transparent;color:inherit;padding:8px 12px;font:500 11px/1.4 system-ui;cursor:pointer;min-height:36px}
+.em-brand .em-brand__motion:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.em-brand .em-brand__motion:disabled{opacity:.65;cursor:default}
+@media(prefers-reduced-motion:reduce){
+ .em-brand[data-animated="true"]:not([data-motion-approved="true"]) :is(path,circle,g){animation:none!important;stroke-dasharray:none;stroke-dashoffset:0;opacity:1}
+ .em-brand[data-animated="true"]:not([data-motion-approved="true"]) :is(.villa-sun,.villa-birds){transform:none}
+ .em-brand[data-animated="true"]:not([data-motion-approved="true"]) .villa-birds{opacity:.85}
+}
+
+.em-brand .em-brand__art{display:block;width:100%;line-height:0}

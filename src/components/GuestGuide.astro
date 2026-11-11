@@ -1,4 +1,5 @@
 ---
+import BrandLogo from './BrandLogo.astro';
 import UiIcon from './UiIcon.astro';
 import { site } from '../data/site';
 import { cloudinaryImage } from '../utils/cloudinary';
@@ -15,7 +16,7 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
   {!embedded && (
     <header class="guide-topbar">
       <a class="guide-brand" href="#inicio" aria-label="Ir al inicio">
-        <span>Experiencias Mendoza</span>
+        <BrandLogo size="sm" showTagline={false}/>
         <strong>{guide.house.name}</strong>
       </a>
       <a class="host-pill" href={hostWa} target="_blank" rel="noreferrer" data-analytics-event="guest_guide_whatsapp">
@@ -282,7 +283,7 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
 
   <footer class="guide-footer">
     <p>Esperamos que disfrutes Mendoza y que esta casa también sea parte del viaje.</p>
-    <span>Experiencias Mendoza · {guide.house.name}</span>
+    <BrandLogo tone="light" size="sm"/><p>{guide.house.name}</p>
   </footer>
 
 </main>
@@ -346,7 +347,7 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
   .guide-topbar { min-height:72px; padding:11px max(17px, calc((100vw - 1120px)/2)); display:flex; align-items:center; justify-content:space-between; gap:20px; background:rgba(250,248,244,.9); backdrop-filter:blur(16px); position:fixed; inset:0 0 auto; z-index:50; border-bottom:1px solid rgba(33,29,26,.09); }
   .guest-guide.is-embedded .guide-topbar { position:sticky; }
   .guide-brand { text-decoration:none; display:grid; gap:2px; }
-  .guide-brand span { color:#777066; font-size:11px; text-transform:uppercase; letter-spacing:.12em; }
+  .guide-brand > span:not(.em-brand) { color:#777066; font-size:11px; text-transform:uppercase; letter-spacing:.12em; }
   .guide-brand strong { font-size:16px; }
   .host-pill,.card-button { text-decoration:none; border-radius:999px; background:linear-gradient(135deg,#6a2f42,#5b0b25); color:#fff; font-size:13px; font-weight:750; padding:12px 17px; box-shadow:0 8px 18px rgba(91,11,37,.18),inset 0 1px 0 rgba(255,255,255,.22); }
   .guide-hero { min-height:min(900px, 100svh); position:relative; display:flex; align-items:flex-end; color:#fff; }
@@ -487,10 +488,10 @@ const backupWa = site.whatsappUrl(`Hola ${guide.backupHost.name}, soy huésped d
   .review-note span { color:#bdc3b9; line-height:1.7; }
   .guide-footer { padding:52px 20px 110px; text-align:center; background:#20261f; color:#fff; border-top:1px solid rgba(255,255,255,.08); }
   .guide-footer p { max-width:600px; margin:0 auto 12px; font-size:22px; }
-  .guide-footer span { color:#959c92; font-size:12px; }
+  .guide-footer > span:not(.em-brand) { color:#959c92; font-size:12px; }
   @media (max-width:800px) {
     .guide-topbar { min-height:64px; }
-    .guide-brand span { display:none; }
+    .guide-brand > span:not(.em-brand) { display:none; }
     .guide-brand strong { font-size:14px; }
     .host-pill { padding:10px 13px; font-size:11px; }
     .quick-nav { top:64px; justify-content:flex-start; }

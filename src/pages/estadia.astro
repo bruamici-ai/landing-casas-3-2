@@ -1,4 +1,5 @@
 ---
+import BrandLogo from '../components/BrandLogo.astro';
 import GuestGuide from '../components/GuestGuide.astro';
 import { avellanedaGuide, parqueGuide } from '../data/guest-guides';
 import { commercialPartners } from '../data/commercial-partners';
@@ -47,9 +48,9 @@ const analyticsCommerceNames = Object.fromEntries(commercialPartners.filter(part
       .loading-brand { padding:18px 16px; border-bottom:1px solid rgba(33,29,26,.1); background:#fffdf9; }
       .loading-brand-inner { width:min(100%,1120px); margin:auto; display:flex; justify-content:space-between; align-items:center; gap:18px; }
       .loading-brand strong { font-size:17px; }
-      .loading-brand span { color:#756d65; font-size:13px; font-weight:700; }
+      .loading-brand-inner > span:not(.em-brand) { color:#756d65; font-size:13px; font-weight:700; }
       @media(max-width:700px){
-        .loading-brand span{display:none}
+        .loading-brand-inner > span:not(.em-brand){display:none}
         .stay-companion { right:12px; bottom:max(12px,env(safe-area-inset-bottom)); width:calc(100vw - 24px); border-radius:18px; }
         .companion-toggle { padding:14px 16px; }
         .companion-name { font-size:17px; }
@@ -61,7 +62,7 @@ const analyticsCommerceNames = Object.fromEntries(commercialPartners.filter(part
   <body data-api-base={apiBase}>
     <div data-loading aria-live="polite" aria-busy="true">
       <div class="loading-brand">
-        <div class="loading-brand-inner"><strong>Experiencias Mendoza</strong><span>Mi estadía</span></div>
+        <div class="loading-brand-inner"><BrandLogo size="sm" showTagline={false}/><span>Mi estadía</span></div>
       </div>
       <div data-loading-guide-wrapper="parque" hidden><GuestGuide guide={parqueGuide} embedded /></div>
       <div data-loading-guide-wrapper="avellaneda" hidden><GuestGuide guide={avellanedaGuide} embedded /></div>
@@ -72,6 +73,7 @@ const analyticsCommerceNames = Object.fromEntries(commercialPartners.filter(part
     </section>
 
     <div data-portal hidden>
+      <header class="loading-brand"><div class="loading-brand-inner"><BrandLogo size="sm" showTagline={false}/><span>Mi estadía</span></div></header>
       <aside class="stay-companion" data-stay-companion data-expanded="false" aria-label="Información de tu estadía">
         <button class="companion-toggle" type="button" data-companion-toggle aria-expanded="false">
           <span class="companion-copy"><span class="companion-label" data-phase-label>Tu estadía</span><strong class="companion-name" data-greeting></strong></span>
