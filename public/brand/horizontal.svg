@@ -1,12 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 0 266 52" role="img" aria-label="Experiencias Mendoza"><g class="brand-vineyard" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><g class="brand-villa" transform="translate(22 4) scale(.8)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
 <defs><clipPath id="brand-sun-horizon" clipPathUnits="userSpaceOnUse"><path fill="#fff" stroke="none" d="M0-20H64V22L55 11 46 2 39 9 29 13 21 11 16 6 3 19 0 22Z"/></clipPath></defs>
-<g class="villa-sun-horizon" clip-path="url(#brand-sun-horizon)"><circle class="villa-sun" cx="35" cy="3" r="4.5" fill="var(--brand-sun, #c99d4e)" stroke="none"/></g>
+<g class="villa-sun-horizon" clip-path="url(#brand-sun-horizon)"><path class="villa-night-sky" opacity="0" fill="var(--brand-night-sky, #172b3a)" stroke="none" d="M2 22V8C12-4 52-4 62 8V22Z"/><circle class="villa-sun" cx="35" cy="3" r="4.5" fill="var(--brand-sun, #c99d4e)" stroke="none"/><path class="villa-moon" opacity="0" fill="var(--brand-moon, #f7eed0)" stroke="none" d="M37-1A4.5 4.5 0 1 0 37 7A3.5 3.5 0 0 1 37-1Z"/></g>
 <path class="villa-andes" pathLength="1" stroke="var(--brand-mountain, #9aa99e)" stroke-width="1.1" d="M3 19 16 6l5 5M39 9l7-7 9 9"/>
+<path class="villa-night-body" opacity="0" fill="var(--brand-night-body, #244339)" stroke="none" d="M9 25H55V40H9ZM28 14H53V25H28Z"/><path class="villa-window-lights" opacity="0" fill="var(--brand-light, #ffe4a0)" stroke="none" d="M17 30h8v9h-8ZM27 30h9v9h-9ZM38 30h8v9h-8ZM35 20h4v4h-4ZM41 20h4v4h-4Z"/>
 <path class="villa-roof" pathLength="1" stroke-width="2" d="M5 25h54M25 14h31M28 25V14h25v11"/>
 <path class="villa-facade" pathLength="1" stroke-width="2" d="M9 25v15h46V25"/>
 <path class="villa-glass" pathLength="1" stroke-width="1.35" d="M16 40V29h31v11M26 29v11M37 29v11M34 25V19h12v6M40 19v6"/>
 <path class="villa-pool" pathLength="1" stroke-width="1.3" d="M9 44h52l-12 10H-3L9 44Z"/>
 <path class="villa-water-surface" pathLength="1" stroke-width=".65" fill="var(--brand-water, #c4dfda)" d="M10.8 46h43.6l-7.2 6H3.6l7.2-6Z"/>
+<path class="villa-pool-lights" opacity="0" stroke="none" fill="var(--brand-pool-light, #76dce1)" d="M10.8 46h43.6l-7.2 6H3.6l7.2-6Z"/><path class="villa-pool-lamps" opacity="0" stroke="var(--brand-pool-lamp, #e4ffff)" stroke-width="1" d="M15 46.8h4M28 46.8h4M41 46.8h4"/>
 <path class="villa-water" pathLength="1" stroke-width=".85" d="M17 48q3-1.2 6 0t6 0M29 50q3-1.2 6 0t6 0"/>
 </g>
 <g class="villa-birds" opacity="0" stroke="var(--brand-mountain, #9aa99e)" stroke-width="1.1"><path d="M17 9q2-2 4 0 2-2 4 0M22 15q1.5-1.5 3 0 1.5-1.5 3 0"/></g>

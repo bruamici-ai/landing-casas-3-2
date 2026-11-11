@@ -1,6 +1,6 @@
 # Experiencias Mendoza — Manual de marca y sistema de diseño
 
-Versión 0.7 · 11 de noviembre de 2026 · Aplicación de la firma existente y muestra animada en loop.
+Versión 0.8 · 11 de noviembre de 2026 · Aplicación de la firma existente y muestra animada con dibujo inicial y ciclo día/noche.
 
 Documento de referencia para el sitio, Mi estadía y la propuesta para comercios. Conserva las decisiones del usuario y las reglas de implementación existentes. El 11/11/2026 el usuario solicitó aplicar la firma existente a la landing, Mi estadía y los portales de comisionistas, y agregar su muestra animada en loop al manual. Esta aprobación de aplicación no autoriza rediseños adicionales ni constituye por sí sola un despliegue. El panel administrativo mantiene su identidad ADMCasas.
 
@@ -73,7 +73,7 @@ El favicon del sitio usa el mismo símbolo de casa con montaña detrás. El pane
 
 ### Aplicación y animación solicitadas el 11/11/2026
 
-Se reutilizan los SVG canónicos horizontal y compacto, con la bajada existente. El manual incluye una muestra en loop de 12 segundos: casa, paisaje, sol y viñedos, pausa de lectura y reinicio. El nombre permanece legible durante el ciclo. Se puede pausar/reanudar; con movimiento reducido se muestra la firma completa sin animación automática y el botón permite iniciarla expresamente. Las cabeceras y pies utilizan por defecto la firma estática para acompañar la navegación.
+Se reutilizan los SVG canónicos horizontal y compacto, con la bajada existente. El manual incluye un dibujo inicial de la casa, paisaje y viñedos que se realiza una sola vez (4,2 segundos). Después se repite un ciclo de día/noche de 24 segundos: el sol recorre el cielo y se oculta; asciende la luna y se encienden los ventanales y la piscina; al amanecer las luces se apagan. La arquitectura permanece dibujada durante todos los ciclos. El nombre permanece legible durante el ciclo. Se puede pausar/reanudar; con movimiento reducido se muestra la firma completa sin animación automática y el botón permite iniciarla expresamente. Las cabeceras y pies utilizan por defecto la firma estática para acompañar la navegación.
 
 Aplicaciones: cabecera y pie del sitio, casas y servicios; Mi estadía durante carga y estadía activa, guía y pie inverso; portales de comisionistas, generador de enlaces, medición y propuesta de comercios; formulario público de huéspedes. ADMCasas conserva su propia marca en gestión. No sustituir logos de comercios, fotografías ni las marcas de agua de los portales.
 
@@ -152,7 +152,7 @@ No amontonar la bajada debajo de MENDOZA, incrustarla como letras minúsculas en
 
 ### Versión animada en loop
 
-La muestra de `/identidad` y del manual privado comparte la secuencia de 12 segundos descrita en Logotipo, con controles de pausa/reanudación y firma completa sin animación ante `prefers-reduced-motion`. Las exportaciones `horizontal-animated.svg` y `mark-animated.svg` usan la misma secuencia. En la navegación y los adaptadores HTML se usa la firma estática; `animated` activa la muestra de movimiento. La aplicación del dibujo existente fue solicitada el 11/11/2026; su publicación se registra por separado.
+La muestra de `/identidad` y del manual privado comparte el dibujo inicial único y el ciclo día/noche descritos en Logotipo, con controles de pausa/reanudación y firma completa sin animación ante `prefers-reduced-motion`. Las exportaciones `horizontal-animated.svg` y `mark-animated.svg` usan la misma secuencia. En la navegación y los adaptadores HTML se usa la firma estática; `animated` activa la muestra de movimiento. La aplicación del dibujo existente fue solicitada el 11/11/2026; su publicación se registra por separado.
 
 ### Composición conjunta vigente: casa, montaña y viñedo
 
@@ -163,7 +163,7 @@ Casa, piscina e hileras de viñedo son verde profundo. La montaña usa verde gri
 Los mismos SVG y el mismo componente sirven para todas las aplicaciones. La versión animada dibuja primero la casa (0–1.75 s); después la cordillera (desde 2.1 s), piscina (2.4 s), hileras de viñedo (desde 2.8 s), salida del sol detrás de la montaña (3.1–5.7 s) y postes (desde 3.35 s). Dos aves hacen un único paso entre 4.8 y 9.2 s y desaparecen; después sólo continúa el movimiento suave del agua. Se mantienen pausa, repetición y reproducción voluntaria cuando el dispositivo prefiere movimiento reducido. La composición visual sigue en revisión y no autoriza publicación.
 
 
-El sol es un acento dorado en la versión a color, de radio 4.5 unidades (antes: 2.5). Asciende 14 unidades desde detrás de un recorte con el perfil de la montaña: primero asoma una porción del disco y luego se ve completo. No simular la salida sólo con opacidad ni hacerlo atravesar el techo. Los recortes SVG reciben IDs únicos por instancia en Astro para evitar interferencias entre logotipos de una misma página. Las aves son exclusivas de la versión animada: no recargan el logotipo estático y repiten su paso en cada ciclo de la muestra. Las variantes monocromáticas mantienen una sola tinta y conservan los espacios entre casa y montaña.
+El sol es un acento dorado en la versión a color, de radio 4.5 unidades (antes: 2.5). Asciende hasta 16 unidades y recorre el cielo horizontalmente desde detrás de un recorte con el perfil de la montaña: primero asoma una porción del disco y luego se ve completo antes de ocultarse. No simular la salida sólo con opacidad ni hacerlo atravesar el techo. Los recortes SVG reciben IDs únicos por instancia en Astro para evitar interferencias entre logotipos de una misma página. Las aves son exclusivas de la versión animada: no recargan el logotipo estático y repiten su paso en cada ciclo de la muestra. Las variantes monocromáticas mantienen una sola tinta y conservan los espacios entre casa y montaña.
 
 
 Perspectiva del viñedo: mantener las hileras a la izquierda, con el mismo eje de profundidad que los laterales de la piscina (vector proporcional a +12, −10). Los extremos delanteros se alinean horizontalmente; los posteriores se escalonan junto al lateral de la casa. Los postes permanecen verticales y bajos (3 unidades), dejando separación respecto de la casa y la piscina. No reflejar sólo las hileras ni inclinar sus postes para moverlas de lado.

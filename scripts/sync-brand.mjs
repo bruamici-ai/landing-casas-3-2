@@ -8,6 +8,7 @@ const tokens = await readFile(join(source, 'tokens.css'), 'utf8');
 const motionStart = tokens.indexOf('/* Architectural reveal');
 if (motionStart < 0) throw new Error('Missing canonical brand motion styles.');
 const motionCss = tokens.slice(motionStart)
+  .replace(/\.em-brand\s*\{/g,'svg{')
   .replaceAll('.em-brand[data-animated="true"]:not([data-motion-approved="true"]) ', '')
   .replaceAll('.em-brand[data-animated="true"] ', '');
 // Rebuild standalone exports from the two canonical vector drawings.
