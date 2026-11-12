@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 0 80 52" style="color:#173d34" role="img" aria-label="Experiencias Mendoza"><style>/* Architectural reveal: draw once, then alternate daylight and night. */
 svg{--brand-cycle:24s;--brand-cycle-delay:4.2s}
-.em-brand[data-tone="mono"]{--brand-night-sky:transparent;--brand-night-body:transparent;--brand-moon:currentColor;--brand-light:currentColor;--brand-pool-light:currentColor;--brand-pool-lamp:currentColor;--brand-night-line:currentColor}
+.em-brand[data-tone="mono"]{--brand-night-body:transparent;--brand-moon:currentColor;--brand-light:currentColor;--brand-pool-light:currentColor;--brand-pool-lamp:currentColor;--brand-night-line:currentColor}
 :is(.villa-roof,.villa-facade,.villa-glass,.villa-andes,.villa-pool,.vineyard-rows,.vineyard-posts){stroke-dasharray:1}
 @keyframes em-draw{from{stroke-dashoffset:1;opacity:0}to{stroke-dashoffset:0;opacity:1}}
-.villa-roof{animation:em-draw 1.2s cubic-bezier(.22,.61,.36,1) 0s 1 both,em-house-night var(--brand-cycle) linear var(--brand-cycle-delay) infinite}
+.villa-roof{animation:em-draw 1.2s cubic-bezier(.22,.61,.36,1) 0s 1 both}
 .villa-facade{animation:em-draw 1.25s cubic-bezier(.22,.61,.36,1) 0.35s 1 both,em-house-night var(--brand-cycle) linear var(--brand-cycle-delay) infinite}
 .villa-glass{animation:em-draw 0.9s cubic-bezier(.22,.61,.36,1) 0.85s 1 both,em-house-night var(--brand-cycle) linear var(--brand-cycle-delay) infinite}
 .villa-andes{animation:em-draw 0.9s cubic-bezier(.22,.61,.36,1) 2.1s 1 both}
@@ -12,7 +12,7 @@ svg{--brand-cycle:24s;--brand-cycle-delay:4.2s}
 .vineyard-posts{animation:em-draw 0.75s cubic-bezier(.22,.61,.36,1) 3.35s 1 both}
 .villa-sun{animation:em-day-sun var(--brand-cycle) linear var(--brand-cycle-delay) infinite both}
 .villa-moon{animation:em-night-moon var(--brand-cycle) linear var(--brand-cycle-delay) infinite both}
-:is(.villa-night-sky,.villa-night-body){animation:em-night-scene var(--brand-cycle) ease-in-out var(--brand-cycle-delay) infinite both}
+.villa-night-body{animation:em-night-scene var(--brand-cycle) ease-in-out var(--brand-cycle-delay) infinite both}
 :is(.villa-window-lights,.villa-pool-lights,.villa-pool-lamps){animation:em-night-lights var(--brand-cycle) ease-in-out var(--brand-cycle-delay) infinite both}
 .villa-birds{animation:em-day-birds var(--brand-cycle) linear var(--brand-cycle-delay) infinite both}
 :is(.villa-water,.villa-water-surface){animation:em-water-reveal .8s ease 3.1s 1 both}
@@ -34,7 +34,7 @@ svg{--brand-cycle:24s;--brand-cycle-delay:4.2s}
 .em-brand .em-brand__art{display:block;width:100%;line-height:0}
 </style><g class="brand-vineyard" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><g class="brand-villa" transform="translate(22 4) scale(.8)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
 <defs><clipPath id="brand-sun-horizon" clipPathUnits="userSpaceOnUse"><path fill="#fff" stroke="none" d="M0-20H64V22L55 11 46 2 39 9 29 13 21 11 16 6 3 19 0 22Z"/></clipPath></defs>
-<g class="villa-sun-horizon" clip-path="url(#brand-sun-horizon)"><path class="villa-night-sky" opacity="0" fill="var(--brand-night-sky, #172b3a)" stroke="none" d="M2 22V8C12-4 52-4 62 8V22Z"/><circle class="villa-sun" cx="35" cy="3" r="4.5" fill="var(--brand-sun, #c99d4e)" stroke="none"/><path class="villa-moon" opacity="0" fill="var(--brand-moon, #f7eed0)" stroke="none" d="M37-1A4.5 4.5 0 1 0 37 7A3.5 3.5 0 0 1 37-1Z"/></g>
+<g class="villa-sun-horizon" clip-path="url(#brand-sun-horizon)"><circle class="villa-sun" cx="35" cy="3" r="4.5" fill="var(--brand-sun, #c99d4e)" stroke="none"/><path class="villa-moon" opacity="0" fill="var(--brand-moon, #718581)" stroke="none" d="M37-1A4.5 4.5 0 1 0 37 7A3.5 3.5 0 0 1 37-1Z"/></g>
 <path class="villa-andes" pathLength="1" stroke="var(--brand-mountain, #9aa99e)" stroke-width="1.1" d="M3 19 16 6l5 5M39 9l7-7 9 9"/>
 <path class="villa-night-body" opacity="0" fill="var(--brand-night-body, #244339)" stroke="none" d="M9 25H55V40H9ZM28 14H53V25H28Z"/><path class="villa-window-lights" opacity="0" fill="var(--brand-light, #ffe4a0)" stroke="none" d="M17 30h8v9h-8ZM27 30h9v9h-9ZM38 30h8v9h-8ZM35 20h4v4h-4ZM41 20h4v4h-4Z"/>
 <path class="villa-roof" pathLength="1" stroke-width="2" d="M5 25h54M25 14h31M28 25V14h25v11"/>
