@@ -21,12 +21,12 @@ for (const name of ['horizontal', 'mark']) {
       .replaceAll('var(--brand-water, #c4dfda)', tone === 'dark' ? '#c4dfda' : 'none')
       .replaceAll('currentColor', color));
   }
-  const animated = svg.replace('role="img"', `style="color:#173d34" role="img"`)
+  const animated = svg.replace(/viewBox="-8 0 (266|80) 52"/,'viewBox="-8 -6 $1 58"').replace('role="img"', `style="color:#173d34" role="img"`)
     .replace('><g', `><style>${motionCss}</style><g`);
   await writeFile(join(source, `${name}-animated.svg`), animated);
   const malbec = svg.replace('role="img"', 'style="color:#173d34;--brand-house:#661a30" role="img"');
   await writeFile(join(source, `${name}-malbec.svg`), malbec);
-  await writeFile(join(source, `${name}-malbec-animated.svg`), malbec.replace('><g', `><style>${motionCss}</style><g`));
+  await writeFile(join(source, `${name}-malbec-animated.svg`), malbec.replace(/viewBox="-8 0 (266|80) 52"/,'viewBox="-8 -6 $1 58"').replace('><g', `><style>${motionCss}</style><g`));
 
 }
 const faviconMark=await readFile(join(source,'mark.svg'),'utf8');

@@ -69,13 +69,14 @@
 .em-brand[data-animated="true"] .villa-pool{animation:em-draw .25s cubic-bezier(.22,.61,.36,1) .6s 1 both}
 .em-brand[data-animated="true"] .vineyard-rows{animation:em-draw .32s cubic-bezier(.22,.61,.36,1) .74s 1 both}
 .em-brand[data-animated="true"] .vineyard-posts{animation:em-draw .25s cubic-bezier(.22,.61,.36,1) .94s 1 both}
+.em-brand[data-animated="true"] :is(.villa-sun,.villa-moon){offset-path:path('M-31 29 A46.5 46.5 0 0 1 58 29');offset-rotate:0deg;offset-anchor:35px 3px}
 .em-brand[data-animated="true"] .villa-sun{animation:em-day-sun var(--brand-cycle) linear var(--brand-cycle-delay) infinite both}
 .em-brand[data-animated="true"] .villa-moon{animation:em-night-moon var(--brand-cycle) linear var(--brand-cycle-delay) infinite both}
 .em-brand[data-animated="true"] :is(.villa-window-lights,.villa-pool-lights,.villa-pool-lamps){animation:em-night-lights var(--brand-cycle) ease-in-out var(--brand-cycle-delay) infinite both}
 .em-brand[data-animated="true"] .villa-birds{animation:em-day-birds var(--brand-cycle) linear var(--brand-cycle-delay) infinite both}
 .em-brand[data-animated="true"] :is(.villa-water,.villa-water-surface){animation:em-water-reveal .25s ease .78s 1 both}
-@keyframes em-day-sun{0%{opacity:0;transform:translate(-66px,26px)}4%{opacity:1;transform:translate(-62px,18px)}14%{opacity:1;transform:translate(-43px,0)}25%{opacity:1;transform:translate(-12px,0)}32%{opacity:1;transform:translate(10px,3px)}40%{opacity:1;transform:translate(23px,26px)}42%,100%{opacity:0;transform:translate(23px,26px)}}
-@keyframes em-night-moon{0%,45%{opacity:0;transform:translate(-66px,26px)}48%{opacity:1;transform:translate(-62px,18px)}58%{opacity:1;transform:translate(-43px,0)}70%{opacity:1;transform:translate(-12px,0)}82%{opacity:1;transform:translate(10px,3px)}90%{opacity:1;transform:translate(23px,26px)}92%,100%{opacity:0;transform:translate(23px,26px)}}
+@keyframes em-day-sun{0%{opacity:0;offset-distance:0%}1%,44%{opacity:1}45%,100%{opacity:0;offset-distance:100%}}
+@keyframes em-night-moon{0%,50%{opacity:0;offset-distance:0%}51%,94%{opacity:1}95%,100%{opacity:0;offset-distance:100%}}
 @keyframes em-night-lights{0%,35%{opacity:0}48%,84%{opacity:1}96%,100%{opacity:0}}
 @keyframes em-day-birds{0%,10%{opacity:0;transform:translate(-4px,2px)}15%,26%{opacity:.85}32%,100%{opacity:0;transform:translate(3px,-2px)}}
 @keyframes em-water-reveal{from{opacity:0}to{opacity:1}}
@@ -94,3 +95,5 @@
 
 .em-brand[data-animated="true"] .villa-stars{animation:em-night-stars var(--brand-cycle) ease-in-out var(--brand-cycle-delay) infinite both}
 @keyframes em-night-stars{0%,40%{opacity:0}49%{opacity:.8}58%{opacity:1}66%{opacity:.65}74%{opacity:.95}84%{opacity:.8}95%,100%{opacity:0}}
+
+@media(prefers-reduced-motion:reduce){.em-brand[data-animated="true"]:not([data-motion-approved="true"]) :is(.villa-sun,.villa-moon){offset-path:none;offset-distance:0%}}

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 0 266 52" style="color:#173d34" role="img" aria-label="Experiencias Mendoza"><style>/* Architectural reveal: draw once, then alternate daylight and night. */
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -6 266 58" style="color:#173d34" role="img" aria-label="Experiencias Mendoza"><style>/* Architectural reveal: draw once, then alternate daylight and night. */
 svg{--brand-cycle:24s;--brand-cycle-delay:1.2s}
 .em-brand[data-tone="mono"]{--brand-moon:currentColor;--brand-light:currentColor;--brand-pool-light:currentColor;--brand-pool-lamp:currentColor;--brand-night-line:currentColor}
 :is(.villa-roof,.villa-facade,.villa-glass,.villa-andes,.villa-pool,.vineyard-rows,.vineyard-posts){stroke-dasharray:1}
@@ -10,13 +10,14 @@ svg{--brand-cycle:24s;--brand-cycle-delay:1.2s}
 .villa-pool{animation:em-draw .25s cubic-bezier(.22,.61,.36,1) .6s 1 both}
 .vineyard-rows{animation:em-draw .32s cubic-bezier(.22,.61,.36,1) .74s 1 both}
 .vineyard-posts{animation:em-draw .25s cubic-bezier(.22,.61,.36,1) .94s 1 both}
+:is(.villa-sun,.villa-moon){offset-path:path('M-31 29 A46.5 46.5 0 0 1 58 29');offset-rotate:0deg;offset-anchor:35px 3px}
 .villa-sun{animation:em-day-sun var(--brand-cycle) linear var(--brand-cycle-delay) infinite both}
 .villa-moon{animation:em-night-moon var(--brand-cycle) linear var(--brand-cycle-delay) infinite both}
 :is(.villa-window-lights,.villa-pool-lights,.villa-pool-lamps){animation:em-night-lights var(--brand-cycle) ease-in-out var(--brand-cycle-delay) infinite both}
 .villa-birds{animation:em-day-birds var(--brand-cycle) linear var(--brand-cycle-delay) infinite both}
 :is(.villa-water,.villa-water-surface){animation:em-water-reveal .25s ease .78s 1 both}
-@keyframes em-day-sun{0%{opacity:0;transform:translate(-66px,26px)}4%{opacity:1;transform:translate(-62px,18px)}14%{opacity:1;transform:translate(-43px,0)}25%{opacity:1;transform:translate(-12px,0)}32%{opacity:1;transform:translate(10px,3px)}40%{opacity:1;transform:translate(23px,26px)}42%,100%{opacity:0;transform:translate(23px,26px)}}
-@keyframes em-night-moon{0%,45%{opacity:0;transform:translate(-66px,26px)}48%{opacity:1;transform:translate(-62px,18px)}58%{opacity:1;transform:translate(-43px,0)}70%{opacity:1;transform:translate(-12px,0)}82%{opacity:1;transform:translate(10px,3px)}90%{opacity:1;transform:translate(23px,26px)}92%,100%{opacity:0;transform:translate(23px,26px)}}
+@keyframes em-day-sun{0%{opacity:0;offset-distance:0%}1%,44%{opacity:1}45%,100%{opacity:0;offset-distance:100%}}
+@keyframes em-night-moon{0%,50%{opacity:0;offset-distance:0%}51%,94%{opacity:1}95%,100%{opacity:0;offset-distance:100%}}
 @keyframes em-night-lights{0%,35%{opacity:0}48%,84%{opacity:1}96%,100%{opacity:0}}
 @keyframes em-day-birds{0%,10%{opacity:0;transform:translate(-4px,2px)}15%,26%{opacity:.85}32%,100%{opacity:0;transform:translate(3px,-2px)}}
 @keyframes em-water-reveal{from{opacity:0}to{opacity:1}}
@@ -35,6 +36,8 @@ svg{--brand-cycle:24s;--brand-cycle-delay:1.2s}
 
 .villa-stars{animation:em-night-stars var(--brand-cycle) ease-in-out var(--brand-cycle-delay) infinite both}
 @keyframes em-night-stars{0%,40%{opacity:0}49%{opacity:.8}58%{opacity:1}66%{opacity:.65}74%{opacity:.95}84%{opacity:.8}95%,100%{opacity:0}}
+
+@media(prefers-reduced-motion:reduce){:is(.villa-sun,.villa-moon){offset-path:none;offset-distance:0%}}
 </style><g class="brand-vineyard" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><g class="brand-villa" transform="translate(22 4) scale(.8)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
 <defs><clipPath id="brand-sun-horizon" clipPathUnits="userSpaceOnUse"><path fill="#fff" stroke="none" d="M-40-20H72V30L64 20 55 11 46 2 39 9 29 13 21 11 16 6 6 18-3 10-14 21-23 17-34 28-40 30Z"/></clipPath></defs>
 <g class="villa-sun-horizon" clip-path="url(#brand-sun-horizon)"><circle class="villa-sun" cx="35" cy="3" r="4.5" fill="var(--brand-sun, #c99d4e)" stroke="none"/><path class="villa-moon" opacity="0" fill="var(--brand-moon, #718581)" stroke="none" d="M37-1A4.5 4.5 0 1 0 37 7A3.5 3.5 0 0 1 37-1Z"/></g>
