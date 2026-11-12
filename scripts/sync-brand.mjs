@@ -16,7 +16,7 @@ for (const name of ['horizontal', 'mark']) {
   const svg = await readFile(join(source, `${name}.svg`), 'utf8');
   for (const [tone, color] of Object.entries({ dark: '#173d34', light: '#f6f3eb', mono: '#000000' })) {
     await writeFile(join(source, `${name}-${tone}.svg`), svg
-      .replaceAll('var(--brand-mountain, #9aa99e)', tone === 'dark' ? '#9aa99e' : tone === 'light' ? '#aab8ab' : color)
+      .replaceAll('var(--brand-mountain, #7e9186)', tone === 'dark' ? '#7e9186' : tone === 'light' ? '#aab8ab' : color)
       .replaceAll('var(--brand-sun, #c99d4e)', tone === 'dark' ? '#c99d4e' : color)
       .replaceAll('var(--brand-water, #c4dfda)', tone === 'dark' ? '#c4dfda' : 'none')
       .replaceAll('currentColor', color));
@@ -24,7 +24,14 @@ for (const name of ['horizontal', 'mark']) {
   const animated = svg.replace('role="img"', `style="color:#173d34" role="img"`)
     .replace('><g', `><style>${motionCss}</style><g`);
   await writeFile(join(source, `${name}-animated.svg`), animated);
+  const malbec = svg.replace('role="img"', 'style="color:#173d34;--brand-house:#661a30;--brand-night-body:#4d1f31;--brand-night-line:#ae7c8b" role="img"');
+  await writeFile(join(source, `${name}-malbec.svg`), malbec);
+  await writeFile(join(source, `${name}-malbec-animated.svg`), malbec.replace('><g', `><style>${motionCss}</style><g`));
+
 }
+const faviconMark=await readFile(join(source,'mark.svg'),'utf8');
+const faviconStyle='svg{color:#173d34;--brand-mountain:#7e9186;--brand-sun:#c99d4e;--brand-water:#c4dfda}@media(prefers-color-scheme:dark){svg{color:#f6f3eb;--brand-mountain:#aab8ab;--brand-sun:#f6f3eb;--brand-water:none}}';
+await writeFile(join(source,'favicon.svg'),faviconMark.replace('role="img" aria-label="Experiencias Mendoza"','').replace('><g',`><style>${faviconStyle}</style><g`));
 const checkout = process.argv[2];
 if (!checkout) { console.log('Generated canonical brand SVG exports.'); process.exit(0); }
 const pkg = JSON.parse(await readFile(resolve(checkout, 'frontend/package.json'), 'utf8'));

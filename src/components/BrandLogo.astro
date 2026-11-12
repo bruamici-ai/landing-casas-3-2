@@ -3,11 +3,11 @@ import { tagline } from '../../public/brand/identity.json';
 import horizontal from '../../public/brand/horizontal.svg?raw';
 import compact from '../../public/brand/mark.svg?raw';
 import '../../public/brand/tokens.css';
-interface Props {variant?: 'horizontal'|'compact';tone?: 'dark'|'light'|'mono';size?: 'sm'|'md'|'lg';decorative?:boolean;showTagline?:boolean;animated?:boolean}
-const {variant='horizontal',tone='dark',size='md',decorative=false,showTagline=true,animated=false}=Astro.props;
+interface Props {variant?: 'horizontal'|'compact';tone?: 'dark'|'light'|'mono';size?: 'sm'|'md'|'lg';decorative?:boolean;showTagline?:boolean;animated?:boolean;houseColor?:'forest'|'malbec'}
+const {variant='horizontal',tone='dark',size='md',decorative=false,showTagline=true,animated=false,houseColor='forest'}=Astro.props;
 const artwork=(variant==='compact'?compact:horizontal).replaceAll('brand-sun-horizon',`em-sun-${crypto.randomUUID()}`);
 ---
-<span class="em-brand" data-variant={variant} data-tone={tone} data-size={size} data-animated={animated?'true':undefined} data-paused="false" data-em-motion={animated?'':undefined} role={decorative?'presentation':undefined}>
+<span class="em-brand" data-house-color={houseColor} data-variant={variant} data-tone={tone} data-size={size} data-animated={animated?'true':undefined} data-paused="false" data-em-motion={animated?'':undefined} role={decorative?'presentation':undefined}>
  <span class="em-brand__art" role={decorative?undefined:'img'} aria-label={decorative?undefined:'Experiencias Mendoza'} aria-hidden={decorative?'true':undefined}><Fragment set:html={artwork.replace('role="img" aria-label="Experiencias Mendoza"','aria-hidden="true" focusable="false"')}/></span>
  {variant!=='compact'&&showTagline&&<span class="em-brand__tagline">{tagline}</span>}
  {animated&&<button type="button" class="em-brand__motion" aria-pressed="false">Pausar animación</button>}

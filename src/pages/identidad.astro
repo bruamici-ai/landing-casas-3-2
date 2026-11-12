@@ -2,6 +2,13 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import BrandLogo from '../components/BrandLogo.astro';
 ---
-<BaseLayout title="Identidad visual | Experiencias Mendoza" description="Firma y animación de Experiencias Mendoza" noindex>
- <main class="container" style="padding:36px 24px"><a href="/">Volver al sitio</a><h1>Experiencias Mendoza</h1><h2>Del día a la noche</h2><p>La casa se dibuja una sola vez. Después, el sol da paso a la luna y se encienden las luces de la casa y la piscina. Ciclo de 24 segundos con pausa.</p><section style="padding:40px;background:#f6f3eb;color:#173d34;text-align:center"><BrandLogo animated size="lg"/></section></main>
+<BaseLayout title="Identidad visual | Experiencias Mendoza" description="Comparación de firmas de Experiencias Mendoza" noindex>
+ <main class="container identity-review"><a href="/">Volver al sitio</a><h1>Experiencias Mendoza</h1><h2>Del día a la noche</h2><p>La cordillera se extiende detrás de los viñedos, con un trazo un poco más oscuro. Compará la casa verde con la alternativa malbec.</p><p>La casa se dibuja una sola vez. Después alternan el sol, la luna y las luces en un ciclo de 24 segundos.</p>
+ <div class="brand-comparison">
+  <section class="brand-option" aria-labelledby="forest-title"><h3 id="forest-title">Casa verde</h3><BrandLogo animated size="lg"/></section>
+  <section class="brand-option" aria-labelledby="malbec-title"><h3 id="malbec-title">Casa malbec</h3><BrandLogo animated size="lg" houseColor="malbec"/></section>
+ </div></main>
 </BaseLayout>
+<style>
+.identity-review{padding:36px 24px}.brand-comparison{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin:28px 0}.brand-option{padding:30px 20px 36px;border:1px solid #d9ded3;border-radius:12px;background:#f6f3eb;color:#173d34;text-align:center;min-width:0}.brand-option h3{font:500 20px Georgia,serif;margin:0 0 32px}.brand-option :global(.em-brand){width:400px;max-width:100%}@media(max-width:700px){.brand-comparison{grid-template-columns:1fr}.brand-option{padding:26px 18px}}
+</style>

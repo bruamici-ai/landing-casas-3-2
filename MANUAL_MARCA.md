@@ -1,6 +1,6 @@
 # Experiencias Mendoza — Manual de marca y sistema de diseño
 
-Versión 0.9 · 11 de noviembre de 2026 · Aplicación de la firma existente y muestra animada con dibujo inicial y ciclo día/noche.
+Versión 0.10 · 11 de noviembre de 2026 · Aplicación de la firma existente y muestra animada con dibujo inicial y ciclo día/noche.
 
 Documento de referencia para el sitio, Mi estadía y la propuesta para comercios. Conserva las decisiones del usuario y las reglas de implementación existentes. El 11/11/2026 el usuario solicitó aplicar la firma existente a la landing, Mi estadía y los portales de comisionistas, y agregar su muestra animada en loop al manual. Esta aprobación de aplicación no autoriza rediseños adicionales ni constituye por sí sola un despliegue. El panel administrativo mantiene su identidad ADMCasas.
 
@@ -73,7 +73,7 @@ El favicon del sitio usa el mismo símbolo de casa con montaña detrás. El pane
 
 ### Aplicación y animación solicitadas el 11/11/2026
 
-Se reutilizan los SVG canónicos horizontal y compacto, con la bajada existente. El manual incluye un dibujo inicial de la casa, paisaje y viñedos que se realiza una sola vez (4,2 segundos). Después se repite un ciclo de día/noche de 24 segundos: el sol recorre el cielo y se oculta; asciende la luna y se encienden los ventanales y la piscina; al amanecer las luces se apagan. La arquitectura permanece dibujada durante todos los ciclos. El cielo mantiene el fondo transparente, sin bloques oscuros; la luna usa un verde grisáceo visible sobre crema y las luces sugieren la noche. El nombre permanece legible durante el ciclo. Se puede pausar/reanudar; con movimiento reducido se muestra la firma completa sin animación automática y el botón permite iniciarla expresamente. Las cabeceras y pies utilizan por defecto la firma estática para acompañar la navegación.
+Se reutilizan los SVG canónicos horizontal y compacto, con la bajada existente. El manual incluye un dibujo inicial de la casa, paisaje y viñedos que se realiza una sola vez (4,2 segundos). Después se repite un ciclo de día/noche de 24 segundos: el sol recorre el cielo y se oculta; asciende la luna y se encienden los ventanales y la piscina; al amanecer las luces se apagan. La arquitectura permanece dibujada durante todos los ciclos. La cordillera se extiende hasta detrás de los viñedos y utiliza #7E9186, un verde grisáceo más oscuro. La vista de comparación incluye una alternativa con la casa malbec (#661A30), conservando verdes en viñedos, piscina y nombre. La casa verde sigue siendo la variante por defecto hasta elegir entre ambas. El cielo mantiene el fondo transparente, sin bloques oscuros; la luna usa un verde grisáceo visible sobre crema y las luces sugieren la noche. El nombre permanece legible durante el ciclo. Se puede pausar/reanudar; con movimiento reducido se muestra la firma completa sin animación automática y el botón permite iniciarla expresamente. Las cabeceras y pies utilizan por defecto la firma estática para acompañar la navegación.
 
 Aplicaciones: cabecera y pie del sitio, casas y servicios; Mi estadía durante carga y estadía activa, guía y pie inverso; portales de comisionistas, generador de enlaces, medición y propuesta de comercios; formulario público de huéspedes. ADMCasas conserva su propia marca en gestión. No sustituir logos de comercios, fotografías ni las marcas de agua de los portales.
 
@@ -86,7 +86,7 @@ Fuente: `public/brand`, componente `BrandLogo.astro` y generador `scripts/sync-b
 | Color | Valor | Token | Uso |
 | --- | --- | --- | --- |
 | Agua suave | `#C4DFDA` | `--brand-water-soft` | Relleno interior de la pileta sobre fondos claros |
-| Montaña clara | `#9AA99E` | `--brand-mountain-light` | Cordillera secundaria con espacio respecto del techo |
+| Montaña clara | `#7E9186` | `--brand-mountain-light` | Cordillera secundaria con espacio respecto del techo |
 | Verde profundo | `#173D34` | `--brand-forest` | Firma sobre fondos claros y superficies oscuras de marca |
 | Crema | `#F6F3EB` | `--brand-cream` | Fondos claros y firma sobre verde |
 | Vinotinto / malbec | `#661A30` | `--brand-wine` | Bajada y detalles pequeños sobre fondos claros |
@@ -158,7 +158,7 @@ La muestra de `/identidad` y del manual privado comparte el dibujo inicial únic
 
 El usuario aclara expresamente que solicita los tres elementos en un solo símbolo. La casa amplia con piscina continúa en primer plano y ocupa la mayor parte del isotipo. Los Andes quedan detrás y hileras de vides en espaldera se sitúan a la izquierda de la casa: líneas paralelas en perspectiva, con postes y alambres sencillos. No utilizar un racimo colgante. No reemplazar la casa por una marca de viñedo.
 
-Casa, piscina e hileras de viñedo son verde profundo. La montaña usa verde grisáceo claro #9AA99E (sobre fondo oscuro: #AAB8AB), con trazos abiertos que terminan antes de tocar el techo. En la vista original de 64 unidades, la separación vertical más corta entre montaña y cubierta es de unas 2.4 unidades, antes de descontar el grosor de línea. El vinotinto se conserva en la bajada y los detalles de presentación. En las versiones clara y monocromática, todos los elementos conservan una sola tinta. La bajada sigue siendo «Casas grandes para alquiler temporario».
+Casa, piscina e hileras de viñedo son verde profundo. La montaña usa verde grisáceo claro #7E9186 (sobre fondo oscuro: #AAB8AB), con trazos abiertos que terminan antes de tocar el techo. En la vista original de 64 unidades, la separación vertical más corta entre montaña y cubierta es de unas 2.4 unidades, antes de descontar el grosor de línea. El vinotinto se conserva en la bajada y los detalles de presentación. En las versiones clara y monocromática, todos los elementos conservan una sola tinta. La bajada sigue siendo «Casas grandes para alquiler temporario».
 
 Los mismos SVG y el mismo componente sirven para todas las aplicaciones. La versión animada dibuja primero la casa (0–1.75 s); después la cordillera (desde 2.1 s), piscina (2.4 s), hileras de viñedo (desde 2.8 s), salida del sol detrás de la montaña (3.1–5.7 s) y postes (desde 3.35 s). Dos aves hacen un único paso entre 4.8 y 9.2 s y desaparecen; después sólo continúa el movimiento suave del agua. Se mantienen pausa, repetición y reproducción voluntaria cuando el dispositivo prefiere movimiento reducido. La composición visual sigue en revisión y no autoriza publicación.
 
