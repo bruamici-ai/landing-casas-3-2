@@ -1,5 +1,7 @@
 # Aplicación de marca (11/11/2026)
 
+Publicación autorizada explícitamente el 12/11: logo aprobado en sus aplicaciones, muestra reproducible en el manual y «Alquiler» con mayúscula. Quedan reemplazados los pendientes de autorización anteriores. Corregida también la segunda línea en el adaptador HTML de comercios; siguiente: validación final, push a main y comprobación de revisión y superficies publicadas.
+
 Bajada actualizada a pedido: «Casas grandes - alquiler temporario», seguida por «información & servicios» en una segunda línea menor. Identidad compartida y manual sincronizados con ADMCasas. Verificados ambos textos, jerarquía y ausencia de desbordes en manual y landing a 1440/390; tipos Vue y build Astro aprobados. Publicación pendiente; siguiente: revisión visual.
 
 Último ajuste del 12/11: sol y luna comparten un arco circular más alto con velocidad constante; margen superior reservado en las muestras animadas. Verificados geometría y velocidad en ambas interfaces a 1440/390, sin recortes, pausa y movimiento reducido; tipos y builds aprobados. Evidencia en .local/check-em-even-orbit.mjs y .local/em-even-orbit de ADMCasas. Siguiente: revisión visual del usuario; publicación pendiente, sin bloqueos técnicos.

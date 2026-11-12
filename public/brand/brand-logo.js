@@ -1,4 +1,4 @@
-const { tagline } = await (await fetch(new URL('./identity.json', import.meta.url))).json();
+const { tagline, descriptor } = await (await fetch(new URL('./identity.json', import.meta.url))).json();
 // Native HTML adapter. Canonical assets are maintained by Experiencias Mendoza.
 class BrandLogo extends HTMLElement {
   static observedAttributes = ['variant', 'tone', 'size'];
@@ -19,6 +19,7 @@ class BrandLogo extends HTMLElement {
       .symbol{display:block;width:100%;aspect-ratio:${compact ? '80/52' : '266/52'};background:currentColor;mask:url('/brand/${compact ? 'mark' : 'horizontal'}-mono.svg') center/contain no-repeat}
       @media(max-width:480px){:host(:not([variant="compact"])){width:var(--brand-width-sm,180px)}}
       .tagline{color:var(--brand-wine,#661a30);display:block;width:100%;font:400 11px/1.5 var(--brand-font,system-ui,sans-serif);letter-spacing:0;text-transform:none;text-align:center;text-wrap:balance}
+      .descriptor{display:block;margin-top:3px;font-size:10px}
       :host([tone="light"]) .tagline,:host([tone="mono"]) .tagline{color:inherit}
       .colored{display:block;width:100%;height:auto}
       :host(:not([tone="mono"])) .symbol{background:none;mask:none}
@@ -28,6 +29,10 @@ class BrandLogo extends HTMLElement {
       const caption = document.createElement('span');
       caption.className = 'tagline';
       caption.textContent = tagline;
+      const detail = document.createElement('span');
+      detail.className = 'descriptor';
+      detail.textContent = descriptor;
+      caption.append(detail);
       root.append(caption);
     }
   }
