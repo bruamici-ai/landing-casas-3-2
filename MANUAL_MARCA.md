@@ -1,6 +1,6 @@
 # Experiencias Mendoza — Manual de marca y sistema de diseño
 
-Versión 0.13 · 12 de noviembre de 2026 · Aplicación de la firma existente y muestra animada con dibujo inicial y ciclo día/noche.
+Versión 0.14 · 12 de noviembre de 2026 · Aplicación de la firma existente y muestra animada con dibujo inicial y ciclo día/noche.
 
 Documento de referencia para el sitio, Mi estadía y la propuesta para comercios. Conserva las decisiones del usuario y las reglas de implementación existentes. El 11/11/2026 el usuario solicitó aplicar la firma existente a la landing, Mi estadía y los portales de comisionistas, y agregar su muestra animada en loop al manual. Esta aprobación de aplicación no autoriza rediseños adicionales ni constituye por sí sola un despliegue. El panel administrativo mantiene su identidad ADMCasas.
 
@@ -28,7 +28,7 @@ Los acuerdos explícitos conservan su alcance. Aprobar una bajada no aprueba tod
 
 **Nombre:** Experiencias Mendoza.
 
-**Bajada exacta:** Casas grandes para alquiler temporario.
+**Bajada exacta:** Casas grandes - alquiler temporario. Debajo, en una segunda línea de menor tamaño: «información & servicios».
 
 La propuesta se centra en alojarse en casas grandes en Mendoza. El paisaje, la naturaleza y las experiencias acompañan al alojamiento. La comunicación debe mostrar las casas y explicar con claridad qué ofrecen.
 
@@ -40,7 +40,7 @@ Escribir el nombre con mayúsculas iniciales en los textos. Mantener la bajada e
 | --- | --- | --- |
 | Casa | Elemento principal del isotipo: volúmenes amplios, ventanales y piscina | Dirección solicitada por el usuario |
 | Montaña | Referencia secundaria a Mendoza detrás de la casa | Acompañamiento del alojamiento |
-| Bajada | «Casas grandes para alquiler temporario» | Texto solicitado por el usuario |
+| Bajada | «Casas grandes - alquiler temporario» | Texto solicitado por el usuario |
 | Última composición | Residencia de volúmenes escalonados y piscina con montaña detrás, nombre y bajada separada | Aplicación solicitada por el usuario el 11/11/2026 |
 | Casa diminuta dentro de montañas dominantes, sendero y bajada de letras diminutas | No reutilizar esa jerarquía | Propuestas anteriores reemplazadas |
 
@@ -52,7 +52,7 @@ Mostrar fotografías reales de las casas: amplitud de los ambientes, espacios co
 
 Usar un tono cercano, claro y cuidado, coherente con el voseo del sitio. Describir características verificables. Evitar promesas absolutas y no atribuir servicios, capacidad, beneficios o condiciones que no estén confirmados en la información de cada casa.
 
-Ejemplos de redacción compatibles: «Casas grandes para alquiler temporario» y «Conocé los espacios y elegí tu casa en Mendoza».
+Ejemplos de redacción compatibles: «Casas grandes - alquiler temporario» y «Conocé los espacios y elegí tu casa en Mendoza».
 
 ## 02. Logotipo
 
@@ -158,7 +158,7 @@ La muestra de `/identidad` y del manual privado comparte el dibujo inicial únic
 
 El usuario aclara expresamente que solicita los tres elementos en un solo símbolo. La casa amplia con piscina continúa en primer plano y ocupa la mayor parte del isotipo. Los Andes quedan detrás y hileras de vides en espaldera se sitúan a la izquierda de la casa: líneas paralelas en perspectiva, con postes y alambres sencillos. No utilizar un racimo colgante. No reemplazar la casa por una marca de viñedo.
 
-Casa, piscina e hileras de viñedo son verde profundo. La montaña usa verde grisáceo claro #7E9186 (sobre fondo oscuro: #AAB8AB), con trazos abiertos que terminan antes de tocar el techo. En la vista original de 64 unidades, la separación vertical más corta entre montaña y cubierta es de unas 2.4 unidades, antes de descontar el grosor de línea. El vinotinto se conserva en la bajada y los detalles de presentación. En las versiones clara y monocromática, todos los elementos conservan una sola tinta. La bajada sigue siendo «Casas grandes para alquiler temporario».
+Casa, piscina e hileras de viñedo son verde profundo. La montaña usa verde grisáceo claro #7E9186 (sobre fondo oscuro: #AAB8AB), con trazos abiertos que terminan antes de tocar el techo. En la vista original de 64 unidades, la separación vertical más corta entre montaña y cubierta es de unas 2.4 unidades, antes de descontar el grosor de línea. El vinotinto se conserva en la bajada y los detalles de presentación. En las versiones clara y monocromática, todos los elementos conservan una sola tinta. La bajada sigue siendo «Casas grandes - alquiler temporario».
 
 Los mismos SVG y el mismo componente sirven para todas las aplicaciones. La versión animada dibuja primero la casa (0–1.75 s); después la cordillera (desde 2.1 s), piscina (2.4 s), hileras de viñedo (desde 2.8 s), salida del sol detrás de la montaña (3.1–5.7 s) y postes (desde 3.35 s). Dos aves hacen un único paso entre 4.8 y 9.2 s y desaparecen; después sólo continúa el movimiento suave del agua. Se mantienen pausa, repetición y reproducción voluntaria cuando el dispositivo prefiere movimiento reducido. La composición visual sigue en revisión y no autoriza publicación.
 

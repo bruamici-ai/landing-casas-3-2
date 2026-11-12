@@ -38,6 +38,7 @@
   .em-brand:not([data-variant="compact"]) { width: min(var(--brand-width-sm), 100%); }
 }
 
+.em-brand .em-brand__descriptor { display: block; margin-top: 3px; font-size: 10px; }
 .em-brand .em-brand__tagline {
   display: block;
   width: 100%;
