@@ -24,7 +24,7 @@ for (const name of ['horizontal', 'mark']) {
   const animated = svg.replace('role="img"', `style="color:#173d34" role="img"`)
     .replace('><g', `><style>${motionCss}</style><g`);
   await writeFile(join(source, `${name}-animated.svg`), animated);
-  const malbec = svg.replace('role="img"', 'style="color:#173d34;--brand-house:#661a30;--brand-night-body:#4d1f31;--brand-night-line:#ae7c8b" role="img"');
+  const malbec = svg.replace('role="img"', 'style="color:#173d34;--brand-house:#661a30" role="img"');
   await writeFile(join(source, `${name}-malbec.svg`), malbec);
   await writeFile(join(source, `${name}-malbec-animated.svg`), malbec.replace('><g', `><style>${motionCss}</style><g`));
 
@@ -51,6 +51,6 @@ const registryPath=resolve(checkout,'backend/app/resources/brand_manuals.json');
 const registry=JSON.parse(await readFile(registryPath,'utf8'));
 const entry=registry.manuals.find(item=>item.id==='experiencias-mendoza');
 if(!entry)throw new Error('Existing Experiencias Mendoza manual entry is required.');
-Object.assign(entry,{version:manual.match(/^Versión ([\d.]+)/m)[1],snapshot_date:'2026-11-11',status:'Aplicación autorizada',description:'Firma existente solicitada para landing, Mi estadía y portales; muestra en loop con pausa. Implementación y publicación se verifican por separado.',sha256:createHash('sha256').update(manual).digest('hex')});
+Object.assign(entry,{version:manual.match(/^Versión ([\d.]+)/m)[1],snapshot_date:'2026-11-12',status:'Aplicación autorizada',description:'Firma existente solicitada para landing, Mi estadía y portales; muestra en loop con pausa. Implementación y publicación se verifican por separado.',sha256:createHash('sha256').update(manual).digest('hex')});
 await writeFile(resolve(checkout,'backend/app/resources/manual_experiencias_mendoza.md'),manual);
 await writeFile(registryPath,JSON.stringify(registry,null,2)+'\n');
