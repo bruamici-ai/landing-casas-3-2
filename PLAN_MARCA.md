@@ -1,5 +1,7 @@
 # Aplicación de marca (11/11/2026)
 
+Corrección autorizada tras revisar producción: cabecera animada con pausa accesible y firma sin bajada para conservar su altura; menú móvil de dos filas con WhatsApp y enlaces existentes. Manual y vista de identidad incorporan reproducción desde el inicio. Siguiente: validar móvil, integrar cambios recientes y publicar bajo la autorización vigente. Sin datos ni dependencias nuevas.
+
 Publicación completada el 12/11: eb6f163 Ready en experiencias-mendoza.vercel.app, junto con ADMCasas 25f66d5 (frontend y backend saludables). Recursos publicados idénticos; firma comprobada en 12 superficies, comercios y muestra del manual con pausa y movimiento reducido a 1440/390 (APIs sintéticas para el manual privado). Evidencia coordinada: .local/em-production-logo de ADMCasas. Sin pendientes de este alcance. Los apartados siguientes conservan antecedentes previos a la publicación.
 
 Publicación autorizada explícitamente el 12/11: logo aprobado en sus aplicaciones, muestra reproducible en el manual y «Alquiler» con mayúscula. Quedan reemplazados los pendientes de autorización anteriores. Corregida también la segunda línea en el adaptador HTML de comercios; siguiente: validación final, push a main y comprobación de revisión y superficies publicadas.

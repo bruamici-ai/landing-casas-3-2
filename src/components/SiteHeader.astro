@@ -10,9 +10,10 @@ const {
 
 <header class:list={['topbar', { 'house-header': Astro.props.central || current === 'parque' || current === 'avellaneda' }]}>
   <div class="container topbar-inner">
-    <a href="/" class="brand">
-      <BrandLogo />
-    </a>
+    <div class="header-brand" data-brand-navigation>
+      <a href="/" class="brand" aria-label="Experiencias Mendoza, inicio"><BrandLogo animated showTagline={false} motionControls={false}/></a>
+      <button type="button" class="brand-toggle" data-brand-toggle aria-label="Pausar animación del logo" aria-pressed="false" title="Pausar animación del logo"><svg viewBox="0 0 20 20" width="14" height="14" aria-hidden="true"><path class="pause-icon" d="M6 4v12M14 4v12" fill="none" stroke="currentColor" stroke-width="2"/><path class="play-icon" d="m6 3 10 7-10 7z" fill="currentColor"/></svg></button>
+    </div>
 
     <div class="nav-wrap">
       <nav class="main-nav" aria-label="Navegación principal">
@@ -30,6 +31,9 @@ const {
 </header>
 
 <style>
+  .header-brand{display:flex;align-items:center;gap:4px;min-width:0}
+  .brand-toggle{display:grid;place-items:center;width:28px;height:32px;padding:0;flex:none;border:0;border-radius:5px;color:var(--brand-forest);background:transparent;cursor:pointer}
+  .brand-toggle:hover{background:#173d340c}.brand-toggle:focus-visible{outline:2px solid currentColor;outline-offset:2px}.brand-toggle .play-icon{display:none}.brand-toggle[data-play='true'] .pause-icon{display:none}.brand-toggle[data-play='true'] .play-icon{display:block}
   .nav-wrap {
     display: flex;
     align-items: center;
@@ -53,32 +57,20 @@ const {
   .main-nav a:hover { color: var(--malbec); }
 
   @media (max-width: 900px) {
-    .nav-wrap {
-      width: 100%;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .whatsapp-top {
-      width: 100%;
-      justify-content: center;
-    }
-  }
-
-  @media (max-width: 840px) {
-    .house-header .topbar-inner {
+    .topbar .topbar-inner {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 4px 12px;
       padding: 10px 0 4px;
       min-height: 64px;
     }
-    .house-header .brand { min-width: 0; }
-    .house-header .brand strong { font-size: 21px; line-height: 1.05; overflow-wrap: anywhere; }
-    .house-header .brand > span:not(.em-brand) { display: none; }
-    .house-header .nav-wrap { display: contents; }
-    .house-header .whatsapp-top { grid-column: 2; grid-row: 1; width: auto; min-height: 44px; padding: 0 14px; font-size: 13px; }
-    .house-header .main-nav {
+    .topbar .brand { min-width: 0; }
+    .topbar .brand :global(.em-brand){width:148px;max-width:100%}
+    .topbar .brand strong { font-size: 21px; line-height: 1.05; overflow-wrap: anywhere; }
+    .topbar .brand > span:not(.em-brand) { display: none; }
+    .topbar .nav-wrap { display: contents; }
+    .topbar .whatsapp-top { grid-column: 2; grid-row: 1; width: auto; min-height: 44px; padding: 0 14px; font-size: 13px; }
+    .topbar .main-nav {
       grid-column: 1 / -1;
       grid-row: 2;
       flex-wrap: nowrap;
@@ -86,6 +78,6 @@ const {
       gap: 18px;
       min-width: 0;
     }
-    .house-header .main-nav a { flex-shrink: 0; display: inline-flex; align-items: center; min-height: 40px; font-size: 12px; }
+    .topbar .main-nav a { flex-shrink: 0; display: inline-flex; align-items: center; min-height: 40px; font-size: 12px; }
   }
 </style>

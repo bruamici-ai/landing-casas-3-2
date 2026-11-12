@@ -3,25 +3,26 @@ import { tagline, descriptor } from '../../public/brand/identity.json';
 import horizontal from '../../public/brand/horizontal.svg?raw';
 import compact from '../../public/brand/mark.svg?raw';
 import '../../public/brand/tokens.css';
-interface Props {variant?: 'horizontal'|'compact';tone?: 'dark'|'light'|'mono';size?: 'sm'|'md'|'lg';decorative?:boolean;showTagline?:boolean;animated?:boolean;houseColor?:'forest'|'malbec'}
-const {variant='horizontal',tone='dark',size='md',decorative=false,showTagline=true,animated=false,houseColor='forest'}=Astro.props;
+interface Props {variant?: 'horizontal'|'compact';tone?: 'dark'|'light'|'mono';size?: 'sm'|'md'|'lg';decorative?:boolean;showTagline?:boolean;animated?:boolean;motionControls?:boolean;houseColor?:'forest'|'malbec'}
+const {variant='horizontal',tone='dark',size='md',decorative=false,showTagline=true,animated=false,motionControls=true,houseColor='forest'}=Astro.props;
 const artwork=(variant==='compact'?compact:horizontal).replaceAll('brand-sun-horizon',`em-sun-${crypto.randomUUID()}`).replace(/viewBox="-8 0 (266|80) 52"/,(_,width)=>`viewBox="-8 ${animated?-6:0} ${width} ${animated?58:52}"`);
 ---
 <span class="em-brand" data-house-color={houseColor} data-variant={variant} data-tone={tone} data-size={size} data-animated={animated?'true':undefined} data-paused="false" data-em-motion={animated?'':undefined} role={decorative?'presentation':undefined}>
  <span class="em-brand__art" role={decorative?undefined:'img'} aria-label={decorative?undefined:'Experiencias Mendoza'} aria-hidden={decorative?'true':undefined}><Fragment set:html={artwork.replace('role="img" aria-label="Experiencias Mendoza"','aria-hidden="true" focusable="false"')}/></span>
  {variant!=='compact'&&showTagline&&<span class="em-brand__tagline">{tagline}<span class="em-brand__descriptor">{descriptor}</span></span>}
- {animated&&<button type="button" class="em-brand__motion" aria-pressed="false">Pausar animación</button>}
+ {animated&&motionControls&&<span class="em-brand__controls"><button type="button" class="em-brand__motion" aria-pressed="false">Pausar animación</button><button type="button" class="em-brand__motion" data-motion-restart>Reproducir desde el inicio</button></span>}
 </span>
 <script>
  const preference=matchMedia('(prefers-reduced-motion: reduce)');
  document.querySelectorAll<HTMLElement>('[data-em-motion]').forEach(logo=>{
-  const button=logo.querySelector<HTMLButtonElement>('button');if(!button)return;
-  const update=()=>{button.textContent=preference.matches&&logo.dataset.motionApproved!=='true'?'Reproducir animación':logo.dataset.paused==='true'?'Reanudar animación':'Pausar animación'};
+  const button=logo.querySelector<HTMLButtonElement>('button')||logo.closest('[data-brand-navigation]')?.querySelector<HTMLButtonElement>('[data-brand-toggle]');if(!button)return;
+  const update=()=>{const label=preference.matches&&logo.dataset.motionApproved!=='true'?'Reproducir animación':logo.dataset.paused==='true'?'Reanudar animación':'Pausar animación';if(button.hasAttribute('data-brand-toggle')){button.setAttribute('aria-label',label+' del logo');button.title=label+' del logo';button.dataset.play=String(label!=='Pausar animación')}else button.textContent=label;button.setAttribute('aria-pressed',logo.dataset.paused||'false')};
   update();preference.addEventListener('change',()=>{delete logo.dataset.motionApproved;update()});
   button.addEventListener('click',()=>{
    if(preference.matches&&logo.dataset.motionApproved!=='true'){logo.dataset.motionApproved='true';logo.dataset.paused='false'}
    else logo.dataset.paused=String(logo.dataset.paused!=='true');
    button.setAttribute('aria-pressed',logo.dataset.paused||'false');update()
   });
+  logo.querySelector('[data-motion-restart]')?.addEventListener('click',()=>{logo.dataset.motionApproved='true';logo.dataset.paused='false';requestAnimationFrame(()=>{logo.getAnimations({subtree:true}).forEach(animation=>{animation.currentTime=0;animation.play()});update()})});
  });
 </script>
