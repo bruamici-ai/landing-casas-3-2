@@ -134,7 +134,7 @@ test('commerce actions distinguish the local and offer without transmitting dest
   for(let i=0;i<4;i++)h.commerceClick(i);
   const events=h.sent.filter(x=>x.name==='Abrió una opción de un comercio');
   assert.equal(events.length,3);
-  assert.deepEqual(events.map(x=>x.data['Opción del comercio']),['Coordinar degustación con el anfitrión','Consultar picadas con el anfitrión','Ver ubicación en Google Maps']);
+  assert.deepEqual(events.map(x=>x.data['Opción del comercio']),['Consultar sobre la degustación','Consultar picadas con el anfitrión','Ver ubicación en Google Maps']);
   for(const event of events) {
     assert.equal(event.data.Comercio,'Almacén de Sabores');
     assert.equal(event.data.Casa,'La Casa Frente al Parque');

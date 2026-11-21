@@ -1,6 +1,7 @@
 // Public guest-facing information only. Negotiation history lives in ADMCasas.
 export const partnerCategories = [
   { id:'fiambreria', name:'Fiambrerías', initials:'FI', description:'Quesos, fiambres y propuestas para compartir.' },
+  { id:'pastas', name:'Tiendas de pastas', initials:'PA', description:'Pastas y sabores para disfrutar una comida en casa.' },
   { id:'cafeteria', name:'Cafeterías', initials:'CA', description:'Pausas de café y sabores para empezar el día.' },
   { id:'heladeria', name:'Heladerías', initials:'HE', description:'Una pausa dulce para disfrutar el barrio.' },
   { id:'vinoteca', name:'Vinotecas', initials:'VI', description:'Vinos y propuestas para descubrir Mendoza.' },
@@ -21,9 +22,9 @@ export const commercialPartners = [{
     author:'Lucia Scatolon',
     sourceUrl:'https://maps.app.goo.gl/qnYzwU6XLQ5WSJPVA',
   }],
-  highlight: 'Degustación de bienvenida',
-  availability: 'Con coordinación previa',
-  summary: 'Cortesía de queso con coordinación previa. También podés consultar picadas por encargo.',
+  highlight: 'Degustación de queso gratis',
+  availability: 'Sin coordinación previa',
+  summary: '50 g de queso de regalo por reserva. También podés consultar picadas por encargo.',
   status: 'active',
   houses: ['parque', 'avellaneda'],
   mapsUrl: 'https://maps.app.goo.gl/qnYzwU6XLQ5WSJPVA',
@@ -31,12 +32,12 @@ export const commercialPartners = [{
   description: 'Una propuesta para descubrir quesos y fiambres durante tu estadía.',
   offers: [{
     action: 'tasting',
-    label: 'Cortesía · con coordinación previa',
-    buttonLabel: 'Coordinar degustación con el anfitrión',
-    message: 'Me interesa coordinar la degustación. ¿Podés confirmarme las condiciones?',
-    title: 'Degustación de bienvenida',
-    description: 'Una degustación gratuita de queso, con selección a cargo del local según disponibilidad.',
-    conditions: 'Coordiná con tu anfitrión antes de ir. Te confirmaremos la visita, la cantidad y las condiciones para tu grupo. La cortesía requiere confirmación previa.',
+    label: 'Cortesía gratuita · por reserva',
+    buttonLabel: 'Consultar sobre la degustación',
+    message: 'Tengo una consulta sobre la degustación gratuita de 50 g de queso por reserva en Almacén de Sabores.',
+    title: '50 g de queso de regalo',
+    description: 'Una degustación gratuita de 50 g de queso por reserva, con selección a cargo del local según disponibilidad.',
+    conditions: 'No requiere coordinación previa. La cortesía es por reserva. Si tenés alguna duda, podés consultar al anfitrión.',
   }, {
     action: 'boards',
     label: 'Venta por encargo · un día de anticipación',
@@ -47,7 +48,7 @@ export const commercialPartners = [{
     conditions: 'Encargá con al menos un día de anticipación. La picada se vende por separado de la degustación; precio y disponibilidad a confirmar.',
   }],
 }, {
-  id: 'la-vene', brandLogo: { viewBox:'51 75 270 110', background:'#b32227' }, discount:'15', name: 'La Vene', category: 'Cafetería', categoryId: 'cafeteria', initials: 'LV', photos: [],
+  id: 'la-vene', brandLogo: { viewBox:'51 75 270 110', background:'#b32227' }, discount:'15', name: 'La Vene', category: 'Tienda de pastas', categoryId: 'pastas', initials: 'LV', photos: [],
   highlight: '15 % de descuento en todas tus compras',
   availability: 'Hasta el 31/12/2026 · sucursal Avellaneda',
   summary: 'Un beneficio para huéspedes de Experiencias Mendoza. Presentá el voucher en la sucursal Avellaneda.',
