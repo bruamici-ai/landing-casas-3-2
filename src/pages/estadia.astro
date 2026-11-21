@@ -1,6 +1,7 @@
 ---
 import BrandLogo from '../components/BrandLogo.astro';
 import GuestGuide from '../components/GuestGuide.astro';
+import StayInstall from '../components/StayInstall.astro';
 import { avellanedaGuide, parqueGuide } from '../data/guest-guides';
 import { commercialPartners } from '../data/commercial-partners';
 
@@ -17,6 +18,8 @@ const analyticsCommerceNames = Object.fromEntries(commercialPartners.filter(part
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow" />
     <meta name="referrer" content="no-referrer" />
+    <meta name="theme-color" content="#661a30" />
+    <link rel="apple-touch-icon" href="/stay-icons/icon-192.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -90,6 +93,7 @@ const analyticsCommerceNames = Object.fromEntries(commercialPartners.filter(part
       <p style="max-width:900px;margin:24px auto;padding:0 24px 100px;color:#6f675f;font-size:12px;line-height:1.6">Medimos qué secciones y botones de esta guía se usan y el tiempo activo aproximado para mejorar la experiencia. No enviamos tus datos de contacto, el contenido de tu reserva ni el enlace privado a la herramienta de medición.</p>
     </div>
 
+    <StayInstall />
     <script define:vars={{ apiBase, umamiScriptUrl, umamiWebsiteId, umamiEnvironment, analyticsCommerceNames }}>
       const loading = document.querySelector('[data-loading]');
       const error = document.querySelector('[data-error]');
