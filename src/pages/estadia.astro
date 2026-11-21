@@ -5,6 +5,10 @@ import StayInstall from '../components/StayInstall.astro';
 import { avellanedaGuide, parqueGuide } from '../data/guest-guides';
 import { commercialPartners } from '../data/commercial-partners';
 
+const previewTitle = 'Mi estadía | Experiencias Mendoza';
+const previewDescription = 'Información de tu casa y beneficios para disfrutar Mendoza.';
+const previewImage = new URL('/brand/mi-estadia-preview-v1.png', Astro.site ?? 'https://experiencias-mendoza.vercel.app').href;
+
 const apiBase = (import.meta.env.PUBLIC_ESTADIA_API_BASE || '/estadia-api').replace(/\/$/, '');
 const umamiScriptUrl = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL || '';
 const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || '';
@@ -23,7 +27,23 @@ const analyticsCommerceNames = Object.fromEntries(commercialPartners.filter(part
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <title>Mi estadía | Experiencias Mendoza</title>
+    <title>{previewTitle}</title>
+    <meta name="description" content={previewDescription} />
+    <meta property="og:title" content={previewTitle} />
+    <meta property="og:description" content={previewDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Experiencias Mendoza" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:image" content={previewImage} />
+    <meta property="og:image:secure_url" content={previewImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Experiencias Mendoza · Mi estadía" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={previewTitle} />
+    <meta name="twitter:description" content={previewDescription} />
+    <meta name="twitter:image" content={previewImage} />
     <style>
       :root { --malbec:#661a30; --malbec-light:#6a2f42; --malbec-dark:#5b0b25; --gold:#b8843d; --gold-pale:#e7c98c; --sage:#53675a; --cream:#f5efe7; --text:#2d2523; }
       * { box-sizing:border-box; }
