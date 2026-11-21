@@ -8,7 +8,7 @@ const partners = commercialPartners.filter(partner => partner.status === 'active
 <div class="partner-catalog" data-recommendation-catalog>
   {partnerCategories.map(category => {
     const entries = partners.filter(partner => partner.categoryId === category.id);
-    return entries.length ? entries.map(partner => (
+    return entries.map(partner => (
       <article class:list={["partner-card", { "partner-benefit-card":partner.voucher }]} data-recommendation={partner.id} data-recommendation-status="active" data-voucher-expires={partner.expiresAt}>
         <div class:list={["partner-media", { "partner-brand-media":partner.brandLogo }]} style={partner.brandLogo ? `--partner-brand-background:${partner.brandLogo.background}` : undefined}>
           {partner.brandLogo && partner.voucher ? <>
@@ -63,15 +63,7 @@ const partners = commercialPartners.filter(partner => partner.status === 'active
           {partner.mapsUrl && <a class="partner-map" href={partner.mapsUrl} target="_blank" rel="noreferrer" data-commerce={partner.id} data-commerce-action="maps">Ver ubicación en Google Maps ↗</a>}
         </dialog>
       </article>
-    )) : (
-      <article class="partner-card partner-upcoming" aria-label={`${category.name}: próximamente`}>
-        <div class="partner-media"><span class="partner-monogram" aria-hidden="true">{category.initials}</span></div>
-        <div class="partner-card-top"><span class="partner-category">{category.name}</span></div>
-        <h3>{category.name}</h3><p class="partner-highlight">Próximamente</p>
-        <p class="partner-summary">{category.description}</p>
-        <p class="partner-pending">Estamos sumando comercios de este rubro.</p>
-      </article>
-    );
+    ));
   })}
 </div>
 
@@ -124,10 +116,6 @@ const partners = commercialPartners.filter(partner => partner.status === 'active
   .partner-summary { margin:0 0 18px; font-size:13px; line-height:1.7; color:#6d665e; }
   .partner-availability { margin:auto 0 12px; font-size:11px; color:#6d665e; }
   .partner-open { width:100%; display:flex; justify-content:space-between; gap:8px; padding:12px 0 0; border:0; border-top:1px solid #e7e6df; background:transparent; color:#3e5941; text-align:left; font:750 12px/1.5 'Plus Jakarta Sans',sans-serif; cursor:pointer; }
-  .partner-upcoming { background:#f6f4ef; border-style:dashed; }
-  .partner-upcoming .partner-monogram { background:#ebe8e0; color:#827b6b; }
-  .partner-upcoming .partner-highlight { color:#827b6b; }
-  .partner-pending { margin:auto 0 0; padding-top:16px; border-top:1px solid #dedbd3; width:100%; font-size:11px; line-height:1.6; color:#81786b; }
   .partner-dialog { width:min(850px,calc(100% - 32px)); max-height:calc(100dvh - 40px); box-sizing:border-box; padding:30px; border:1px solid #ded7c9; border-radius:24px; background:#fffdf9; color:#292c26; overflow:auto; box-shadow:0 24px 90px #161d2255; }
   .partner-dialog::backdrop { background:#17211bd9; }
   .partner-dialog-heading { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:20px; }
