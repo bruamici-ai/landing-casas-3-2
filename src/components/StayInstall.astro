@@ -1,7 +1,7 @@
 <button class="stay-save" data-stay-save type="button" hidden>Guardar acceso a Mi estadía</button>
 <dialog class="stay-install" data-stay-install aria-labelledby="stay-install-title" aria-describedby="stay-install-description">
   <button class="stay-install-close" type="button" data-stay-install-close aria-label="Cerrar">×</button>
-  <img src="/stay-icons/icon-192.png" alt="" width="64" height="64" />
+  <img src="/brand/horizontal-dark.svg" alt="Experiencias Mendoza" width="266" height="52" />
   <h2 id="stay-install-title">Tu estadía, a un toque</h2>
   <p id="stay-install-description">Guardá un acceso directo en tu celular o PC para volver a la información de tu estadía.</p>
   <p class="stay-install-help" data-stay-install-help></p>
@@ -19,7 +19,7 @@
   .stay-save{position:fixed;top:max(12px,env(safe-area-inset-top));right:12px;z-index:95;border:1px solid #e7c98c;border-radius:24px;background:#661a30;color:#fffdf9;padding:12px 18px;font:700 12px 'Plus Jakarta Sans',sans-serif;box-shadow:0 4px 18px #2d252326;cursor:pointer}
   .stay-install{box-sizing:border-box;width:min(440px,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow:auto;padding:30px;border:1px solid #e7c98c;border-radius:24px;background:#fffdf9;color:#2d2523;box-shadow:0 24px 80px #2d25234d;font-family:'Plus Jakarta Sans',sans-serif}
   .stay-install::backdrop{background:#2d17226b;backdrop-filter:blur(3px)}
-  .stay-install img{border-radius:16px}.stay-install h2{margin:16px 0 10px;font-family:'Cormorant Garamond',Georgia,serif;font-size:36px;line-height:1.1}.stay-install p{font-size:14px;line-height:1.65}.stay-install .stay-install-help{padding:14px;background:#f5efe7;border-radius:12px}.stay-install .stay-install-private{font-size:12px;color:#6f675f}
+  .stay-install img{display:block;width:min(266px,100%);height:auto}.stay-install h2{margin:16px 0 10px;font-family:'Cormorant Garamond',Georgia,serif;font-size:36px;line-height:1.1}.stay-install p{font-size:14px;line-height:1.65}.stay-install .stay-install-help{padding:14px;background:#f5efe7;border-radius:12px}.stay-install .stay-install-private{font-size:12px;color:#6f675f}
   .stay-install-close{position:absolute;right:12px;top:12px;border:0;background:transparent;color:#661a30;width:40px;height:40px;font-size:28px;cursor:pointer}.stay-install-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.stay-install-actions button{flex:1;padding:12px;border:1px solid #661a30;border-radius:12px;background:#fffdf9;color:#661a30;font:700 13px 'Plus Jakarta Sans',sans-serif;cursor:pointer}.stay-install-actions [data-stay-install-native]{background:#661a30;color:#fffdf9}
   .stay-save:focus-visible,.stay-install button:focus-visible{outline:3px solid #b8843d;outline-offset:3px}
 </style>

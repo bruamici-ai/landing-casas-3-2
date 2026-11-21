@@ -34,7 +34,7 @@ export function mountStayInstall() {
   // This page has its own identity and launch URL; guest responses are not cached.
   const manifest = document.createElement('link');
   manifest.rel = 'manifest';
-  manifest.href = '/estadia.webmanifest?' + new URLSearchParams({ token });
+  manifest.href = '/api/estadia-manifest?' + new URLSearchParams({ token });
   document.head.append(manifest);
   const open = () => { update(); if (!trigger.hidden && !dialog.open) dialog.showModal(); };
   trigger.addEventListener('click', open);

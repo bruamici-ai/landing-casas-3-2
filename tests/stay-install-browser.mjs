@@ -40,7 +40,7 @@ async function capture(page,name){const {data}=await page.command('Page.captureS
 
 
 
-const base='http://127.0.0.1:5248', token='s'.repeat(43);
+const base=process.env.STAY_INSTALL_URL||'http://127.0.0.1:5248', token='s'.repeat(43);
 const intercept = request => request.url.includes('/estadia-api/estadia/') ? {body:JSON.stringify({casa:'parque',nombre:'Huésped de prueba',check_in:'2026-11-20',check_out:'2026-11-25',timezone:'America/Argentina/Mendoza'})} : null;
 let page=await browserPage(base+'/estadia?token='+token,intercept);
 try {
@@ -49,6 +49,7 @@ try {
   assert.equal(manifest.errors.length,0);
   const parsed=JSON.parse(manifest.data);
   assert.equal(parsed.start_url,'/estadia?token='+token);
+  assert.equal(await page.evaluate("document.querySelector('[data-stay-install] img').getAttribute('src')"),'/brand/horizontal-dark.svg');
   for (const width of [1366,390]) {
     await page.command('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:width<500});
     assert.equal(await page.evaluate("document.documentElement.scrollWidth<=innerWidth+1"),true);
